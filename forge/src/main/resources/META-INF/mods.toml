@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+#issueTrackerURL = ""
+license = "Insert License Here"
+
+[[mods]]
+modId = "mineplanetplus"
+version = "${version}"
+displayName = "MineplanetPlus"
+authors = "Me!"
+description = '''
+This is an example description! Tell everyone what your mod is about!
+'''
+credits="◆던전헬퍼◆:${dungeonhelperCredits}\n◆스킬타이머◆:${skilltimerCredits}\n◆피시헬퍼◆:${fishhelperCredits}"
+#logoFile = ""
+
+[[dependencies.mineplanetplus]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mineplanetplus]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"

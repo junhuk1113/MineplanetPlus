@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "net.pmkjun.mineplanetplus.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "client": [
+  ],
+  "mixins": [
+    "BossBarHudAccessor",
+    "bossbarMixin",
+    "bossHealthOverlayMixin",
+    "ChatMixin",
+    "ClientPacketListenerMixin",
+    "ConnectionMixin",
+    "FishingMixin",
+    "ItemPickupMixin",
+    "DownloadedPackSourceMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
