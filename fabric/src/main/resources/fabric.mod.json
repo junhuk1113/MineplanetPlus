@@ -3,7 +3,7 @@
   "id": "mineplanetplus",
   "version": "${version}",
   "name": "MineplanetPlus",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "마인플래닛 서버를 더욱 편리하게 플레이 해보세요!",
   "authors": [
     "${modAuthor}"
   ],

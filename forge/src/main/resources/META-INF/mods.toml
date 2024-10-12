@@ -7,9 +7,9 @@ license = "Insert License Here"
 modId = "mineplanetplus"
 version = "${version}"
 displayName = "MineplanetPlus"
-authors = "Me!"
+authors = ""${modAuthor}""
 description = '''
-This is an example description! Tell everyone what your mod is about!
+마인플래닛 서버를 더욱 편리하게 플레이 해보세요!
 '''
 credits="◆던전헬퍼◆:${dungeonhelperCredits}\n◆스킬타이머◆:${skilltimerCredits}\n◆피시헬퍼◆:${fishhelperCredits}"
 #logoFile = ""
