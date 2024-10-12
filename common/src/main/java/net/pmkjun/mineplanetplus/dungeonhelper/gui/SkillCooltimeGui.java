@@ -32,7 +32,7 @@ public class SkillCooltimeGui {
     private static final float BLADE_SPIN_SKILL_COOLTIME = 7.3f;
     private static final float DRAGON_SMASH_COOLTIME = 6.4f;
     private static final float MARTIAL_DRIVE_COOLTIME = 7.9f;
-    private static final float INFERNO_CHAIN_COOLTIME = 7.9f;
+    private static final float INFERNO_CHAIN_COOLTIME = 8.4f;
 
     private static final float BLADE_DANCE_COOLTIME = 30f;
     private static final float DRAGON_FURY_COOLTIME = 27.5f;
