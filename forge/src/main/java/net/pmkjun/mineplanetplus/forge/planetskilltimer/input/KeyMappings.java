@@ -9,7 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.pmkjun.mineplanetplus.planetskilltimer.config.ConfigScreen;
+import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.input.IKeyMappings;
 
 public class KeyMappings implements IKeyMappings {
@@ -32,7 +32,7 @@ public class KeyMappings implements IKeyMappings {
 
         if(event.phase == TickEvent.Phase.END) {
             while(openSettingScreen.consumeClick()) {
-                mc.setScreen(new ConfigScreen(mc.screen));
+                mc.setScreen(new SkillTimerConfigScreen(mc.screen));
             }
         }
     }

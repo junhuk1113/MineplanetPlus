@@ -13,8 +13,8 @@
     "◆피시헬퍼◆:${fishhelperCredits}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/junhuk1113/MineplanetPlus",
+    "sources": "https://github.com/junhuk1113/MineplanetPlus"
   },
   "license": "CC0-1.0",
   "icon": "assets/mineplanetplus/logo3.png",
@@ -22,7 +22,8 @@
   "entrypoints": {
     "main": [
       "net.pmkjun.mineplanetplus.fabric.MineplanetPlusFabric"
-    ]
+    ],
+    "modmenu": ["net.pmkjun.mineplanetplus.fabric.config.MineplanetPlusModMenu"]
   },
   "mixins": [
     "mineplanetplus-common.mixins.json",

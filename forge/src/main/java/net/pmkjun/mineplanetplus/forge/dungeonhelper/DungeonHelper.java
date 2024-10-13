@@ -1,7 +1,7 @@
 package net.pmkjun.mineplanetplus.forge.dungeonhelper;
 
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.SettingsScreen;
+import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.forge.dungeonhelper.sound.SoundManager;
 import net.pmkjun.mineplanetplus.forge.dungeonhelper.input.KeyMappings;
 import net.pmkjun.mineplanetplus.forge.dungeonhelper.item.DungeonItems;
@@ -36,6 +36,6 @@ public class DungeonHelper {
     }
 
     private void setup(final FMLCommonSetupEvent event){
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new SettingsScreen(screen)));
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new DungeonHelperSettingsScreen(screen)));
     }
 }

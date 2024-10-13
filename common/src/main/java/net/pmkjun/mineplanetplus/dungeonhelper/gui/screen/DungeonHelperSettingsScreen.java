@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
-public class SettingsScreen extends Screen {
+public class DungeonHelperSettingsScreen extends Screen {
     private Minecraft mc;
     private DungeonHelperClient client;
 
@@ -25,7 +25,7 @@ public class SettingsScreen extends Screen {
 
     private Button toggleVanillaLevelViewButton;
 
-    public SettingsScreen() {
+    public DungeonHelperSettingsScreen() {
         super(Component.literal("DungeonHelperSettingScreen"));
 
         mc = Minecraft.getInstance();
@@ -36,7 +36,7 @@ public class SettingsScreen extends Screen {
         height = 96;
     }
 
-    public SettingsScreen(Screen parentScreen) {
+    public DungeonHelperSettingsScreen(Screen parentScreen) {
         super(Component.literal("DungeonHelperSettingScreen"));
 
         mc = Minecraft.getInstance();

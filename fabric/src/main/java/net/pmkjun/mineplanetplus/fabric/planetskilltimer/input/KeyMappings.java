@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.pmkjun.mineplanetplus.planetskilltimer.config.ConfigScreen;
+import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.input.IKeyMappings;
 
 public class KeyMappings implements IKeyMappings {
@@ -14,7 +14,7 @@ public class KeyMappings implements IKeyMappings {
 
     public void register() {
         Minecraft mc = Minecraft.getInstance();
-        register(openSettingScreen, () -> mc.setScreen(new ConfigScreen(mc.screen)));
+        register(openSettingScreen, () -> mc.setScreen(new SkillTimerConfigScreen(mc.screen)));
     }
 
     private void register(KeyMapping keyMapping, KeyBehavior behavior) {

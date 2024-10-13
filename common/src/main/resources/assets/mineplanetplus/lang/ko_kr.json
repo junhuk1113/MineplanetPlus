@@ -76,7 +76,7 @@
   "fishhelper.config.fishcounter_setting.mode.count" : "표시 값 : 개수",
   "fishhelper.config.fishcounter_setting.mode.all" : "표시 값 : 확률(개수)",
 
-  "fishhelper.key.category" : "Pyro Fishing Helper",
+  "fishhelper.key.category" : "피시 헬퍼",
   "fishhelper.key.open_settings" : "피시 헬퍼 설정열기",
 
 
@@ -90,6 +90,7 @@
   "planetskilltimer.config.digging" : "지형 수정 : ",
   "planetskilltimer.config.exit" : "완료",
   "planetskilltimer.config.tpscorrection" : "TPS 보정 : ",
+  "planetskilltimer.key.category" : "스킬 타이머",
   "planetskilltimer.key.open_settings" : "스킬 타이머 설정열기",
 
   "mineplanetplus.key.category" : "마인플래닛+",

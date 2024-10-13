@@ -90,6 +90,7 @@
 	"planetskilltimer.config.digging" : "지형 수정 : ",
 	"planetskilltimer.config.exit" : "Complete",
 	"planetskilltimer.config.tpscorrection" : "TPS Correction : ",
+	"planetskilltimer.key.category" : "Skilltimer",
 	"planetskilltimer.key.open_settings" : "PlanetSkillTimer Setting",
 
 	"mineplanetplus.key.category" : "Mineplanet+",

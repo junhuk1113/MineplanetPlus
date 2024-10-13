@@ -7,7 +7,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.pmkjun.mineplanetplus.forge.planetskilltimer.input.KeyMappings;
-import net.pmkjun.mineplanetplus.planetskilltimer.config.ConfigScreen;
+import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
 
 public class PlanetSkillTimerForge {
     public PlanetSkillTimerForge() {
@@ -20,6 +20,6 @@ public class PlanetSkillTimerForge {
         PlanetSkillTimer.init();
     }
     private void setup(final FMLCommonSetupEvent event){
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new ConfigScreen(screen)));
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new SkillTimerConfigScreen(screen)));
     }
 }

@@ -8,7 +8,7 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.pmkjun.mineplanetplus.fishhelper.gui.screen.ConfigScreen;
+import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
 import net.pmkjun.mineplanetplus.fishhelper.input.IKeyMappings;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -32,7 +32,7 @@ public class KeyMappings implements IKeyMappings {
 
         if(event.phase == TickEvent.Phase.END) {
             while(openSettingScreen.consumeClick()) {
-                mc.setScreen(new ConfigScreen(mc.screen));
+                mc.setScreen(new FishHelperConfigScreen(mc.screen));
             }
         }
     }

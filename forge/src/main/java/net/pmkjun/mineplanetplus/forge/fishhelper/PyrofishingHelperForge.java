@@ -9,7 +9,7 @@ import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.minecraftforge.fml.common.Mod;
 import net.pmkjun.mineplanetplus.forge.fishhelper.input.KeyMappings;
 import net.pmkjun.mineplanetplus.forge.fishhelper.item.FishItems;
-import net.pmkjun.mineplanetplus.fishhelper.gui.screen.ConfigScreen;
+import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
 
 @Mod(FishHelperMod.MOD_ID)
 public class PyrofishingHelperForge {
@@ -25,6 +25,6 @@ public class PyrofishingHelperForge {
     }
 
     private void setup(final FMLCommonSetupEvent event){
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new ConfigScreen(screen)));
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new FishHelperConfigScreen(screen)));
     }
 }

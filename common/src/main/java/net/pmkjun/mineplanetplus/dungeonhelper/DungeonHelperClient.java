@@ -4,7 +4,7 @@ import net.pmkjun.mineplanetplus.dungeonhelper.file.Data;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Settings;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.DungeonCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.SkillCooltimeGui;
-import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.SettingsScreen;
+import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
 import net.pmkjun.mineplanetplus.dungeonhelper.sound.ISoundManager;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
@@ -24,7 +24,7 @@ public class DungeonHelperClient {
     private DungeonCooltimeGui dungeonCooltimeGui;
     private SkillCooltimeGui skillCooltimeGui;
 
-    private SettingsScreen settingsScreen;
+    private DungeonHelperSettingsScreen settingsScreen;
 
     private Timer timer = new Timer();
 
@@ -44,7 +44,7 @@ public class DungeonHelperClient {
 
         dungeonCooltimeGui = new DungeonCooltimeGui();
         skillCooltimeGui = new SkillCooltimeGui();
-        settingsScreen = new SettingsScreen();
+        settingsScreen = new DungeonHelperSettingsScreen();
     }
 
     public void init() {
@@ -74,7 +74,7 @@ public class DungeonHelperClient {
         skillCooltimeGui.resetLastComboSkillTime();
     }
 
-    public SettingsScreen getSettingsScreen() {
+    public DungeonHelperSettingsScreen getSettingsScreen() {
         return settingsScreen;
     }
 

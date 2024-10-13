@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.gui.widget.Slider;
 
-public class ConfigScreen extends Screen{
+public class SkillTimerConfigScreen extends Screen{
 
     private Minecraft mc;
     private PlanetSkillTimerClient client;
@@ -25,7 +25,7 @@ public class ConfigScreen extends Screen{
     private Slider YPosSlider;
     private int width, height;
 
-    public ConfigScreen(Screen parentScreen) {
+    public SkillTimerConfigScreen(Screen parentScreen) {
         super(Component.literal("스킬 타이머 설정"));
         this.parentScreen = parentScreen;
         this.mc = Minecraft.getInstance();
@@ -200,5 +200,10 @@ public class ConfigScreen extends Screen{
 
     int getRegularY() {
         return mc.getWindow().getGuiScaledHeight() / 2 - height / 2;
+    }
+    
+    @Override
+    public void onClose() {
+        this.mc.setScreen(parentScreen);
     }
 }

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 
-public class ConfigScreen extends Screen{
+public class FishHelperConfigScreen extends Screen{
     Screen parentScreen;
     Minecraft mc;
     FishHelperClient client;
@@ -15,7 +15,7 @@ public class ConfigScreen extends Screen{
     private final int height;
     private Button toggleCustomTextureButton;
 
-    public ConfigScreen(Screen parentScreen){
+    public FishHelperConfigScreen(Screen parentScreen){
         super(Component.translatable("fishhelper.config.title"));
         this.parentScreen = parentScreen;
         this.mc = Minecraft.getInstance();
