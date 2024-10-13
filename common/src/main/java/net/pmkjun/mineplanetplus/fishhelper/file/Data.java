@@ -30,9 +30,9 @@ public class Data implements Serializable{
     public boolean toggleLog = false;
     public FishCounterMode toggleCounterMode = FishCounterMode.PERCENTAGE;
 
-    public int Timer_xpos = 1;
+    public int Timer_xpos = 1000;
     public int Timer_ypos = 1;
     public int Counter_xpos = 1000;
-    public int Counter_ypos = 1;
+    public int Counter_ypos = 100;
     public int[] fish_Count = {0,0,0,0,0,0};
 }
