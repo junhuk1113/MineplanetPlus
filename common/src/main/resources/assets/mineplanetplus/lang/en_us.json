@@ -93,6 +93,12 @@
 	"planetskilltimer.key.category" : "Skilltimer",
 	"planetskilltimer.key.open_settings" : "PlanetSkillTimer Setting",
 
+	"megaphonetimer.key.category" : "MegaphoneTimer",
+	"megaphonetimer.config.enable" : "ON",
+	"megaphonetimer.config.disable" : "OFF",
+	"megaphonetimer.config.megaphonetimer" : "Megaphone Timer : ",
+	"megaphonetimer.config.sound" : "SoundAlert :",
+
 	"mineplanetplus.key.category" : "Mineplanet+",
 	"mineplanetplus.key.open_settings" : "Open Mineplanet+ setting"
 }

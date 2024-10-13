@@ -93,6 +93,12 @@
   "planetskilltimer.key.category" : "스킬 타이머",
   "planetskilltimer.key.open_settings" : "스킬 타이머 설정열기",
 
+  "megaphonetimer.key.category" : "확성기 타이머",
+  "megaphonetimer.config.enable" : "켜짐",
+  "megaphonetimer.config.disable" : "꺼짐",
+  "megaphonetimer.config.megaphonetimer" : "확성기 타이머 : ",
+  "megaphonetimer.config.sound" : "소리 알림 :",
+
   "mineplanetplus.key.category" : "마인플래닛+",
 	"mineplanetplus.key.open_settings" : "마인플래닛+ 설정"
 }

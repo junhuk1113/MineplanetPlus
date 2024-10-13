@@ -6,6 +6,7 @@ import net.pmkjun.mineplanetplus.MineplanetPlus;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.FishHelperFabric;
 import net.pmkjun.mineplanetplus.fabric.planetskilltimer.PlanetSkillTimerFabric;
+import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimer;
 
 public final class MineplanetPlusFabric implements ModInitializer {
     @Override
@@ -13,10 +14,11 @@ public final class MineplanetPlusFabric implements ModInitializer {
         DungeonHelper dungeonhelper = new DungeonHelper();
         FishHelperFabric fishhelper = new FishHelperFabric();
         PlanetSkillTimerFabric skilltimer = new PlanetSkillTimerFabric();
-        
+
         MineplanetPlus.init();
         dungeonhelper.init();
         fishhelper.init();
         skilltimer.init();
+        MegaphoneTimer.init();
     }
 }

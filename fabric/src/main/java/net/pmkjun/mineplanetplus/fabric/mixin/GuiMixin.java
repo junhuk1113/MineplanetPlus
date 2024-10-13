@@ -2,6 +2,7 @@ package net.pmkjun.mineplanetplus.fabric.mixin;
 
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -26,12 +27,14 @@ public class GuiMixin {
     private static final DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
     private static final FishHelperClient fishhelper = FishHelperClient.getInstance();
     private static final PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
+    private static final MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
 
     @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;F)V", at = {@At("RETURN")}, cancellable = false)
     private void renderMixin(GuiGraphics guiGraphics, float tickDelta, CallbackInfo info) {
         dungeonhelper.renderEvent(guiGraphics, title, overlayMessageString);
         fishhelper.renderEvent(guiGraphics);
         skilltimer.renderEvent(guiGraphics);
+        megaphonetimer.renderEvent(guiGraphics);
     }
 
     @Inject(method = "renderExperienceBar(Lnet/minecraft/client/gui/GuiGraphics;I)V", at = {@At("HEAD")}, cancellable  = true)

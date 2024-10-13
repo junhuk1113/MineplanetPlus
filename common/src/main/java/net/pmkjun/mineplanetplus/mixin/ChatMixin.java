@@ -1,10 +1,12 @@
 package net.pmkjun.mineplanetplus.mixin;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
+import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Skill;
 
@@ -22,8 +24,11 @@ public abstract class ChatMixin {
     private static final int LEGENDARY = 4;
     private static final int MYTHIC = 5;
 
+    private static final Minecraft mc = Minecraft.getInstance();
     private final FishHelperClient fishhelper = FishHelperClient.getInstance();
     private final PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
+    private static final MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
+
     @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/network/chat/Component;)V")
     private void addMessageMixin(Component message, CallbackInfo ci) {
         //피시헬퍼
@@ -89,5 +94,12 @@ public abstract class ChatMixin {
 				}
 			}
 		}
+
+        //확성기타이머
+        if(message.getString().contains(" "+mc.getUser().getName()))
+        {
+            mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);
+            megaphonetimer.updateLastUsedtime();
+        }
     }
 }

@@ -1,25 +1,22 @@
 package net.pmkjun.mineplanetplus;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
+import net.pmkjun.mineplanetplus.megaphonetimer.gui.MegaphoneTimerConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
 public class SettingsScreen extends Screen {
     private Minecraft mc;
-    private DungeonHelperClient client;
 
     private static final ResourceLocation BACKGROUND_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");
 
@@ -27,13 +24,10 @@ public class SettingsScreen extends Screen {
     private final int height;
     private final Screen parentScreen;
 
-    private Button toggleVanillaLevelViewButton;
-
     public SettingsScreen() {
         super(Component.literal("MineplanetPlusSettingScreen"));
 
         mc = Minecraft.getInstance();
-        client = DungeonHelperClient.getInstance();
         this.parentScreen = (Screen)null;
 
         width = 147;
@@ -44,7 +38,6 @@ public class SettingsScreen extends Screen {
         super(Component.literal("MineplanetPlusSettingScreen"));
 
         mc = Minecraft.getInstance();
-        client = DungeonHelperClient.getInstance();
         this.parentScreen = parentScreen;
 
         width = 147;
@@ -66,6 +59,10 @@ public class SettingsScreen extends Screen {
 
         this.addRenderableWidget(new Button.Builder(Component.translatable("fishhelper.key.category"), btn -> onFishHelperSettingsPress())
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2)
+                .size(137, 20)
+                .build());
+        this.addRenderableWidget(new Button.Builder(Component.translatable("megaphonetimer.key.category"), btn -> onMegaphoneTimerSettingPress())
+                .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
                 .size(137, 20)
                 .build());
     }
@@ -96,20 +93,8 @@ public class SettingsScreen extends Screen {
         mc.setScreen(new FishHelperConfigScreen(mc.screen));
     }
 
-    private void setToggleVanillaLevelViewButtonText(){
-        if(client.data.toggleVanillaLevelView){
-            toggleVanillaLevelViewButton.setMessage(Component.translatable("gui.dungeonhelper.settings.vanilla_level_view")
-            .append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-        }
-        else{
-            toggleVanillaLevelViewButton.setMessage(Component.translatable("gui.dungeonhelper.settings.vanilla_level_view")
-            .append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-        }
-    }
-    
-    private void onToggleVanillaLevelViewPress(){
-        client.data.toggleVanillaLevelView = !client.data.toggleVanillaLevelView;
-        setToggleVanillaLevelViewButtonText();
+    private void onMegaphoneTimerSettingPress(){
+        mc.setScreen(new MegaphoneTimerConfigScreen(mc.screen));
     }
 
     @Override
