@@ -65,7 +65,7 @@ public class MegaphoneTimerGui {
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
         if(remaining_cooldowntime > 0){
             poseStack.pushPose();
-            poseStack.translate((3+getXpos()+8), (getYpos() + 8-1), 0.0F);
+            poseStack.translate((getXpos() + 16 + 2), getYpos()+4, 0.0D);
             poseStack.scale(0.9090909F, 0.9090909F, 0.9090909F);
             context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
             poseStack.popPose();
@@ -82,10 +82,10 @@ public class MegaphoneTimerGui {
         }
     }
     private int getXpos(){
-        return (this.mc.getWindow().getGuiScaledWidth()) * this.client.data.MegaphonetimerXpos / 1000;
+        return 2 + (this.mc.getWindow().getGuiScaledWidth()-43-2) * this.client.data.MegaphonetimerXpos / 1000;
     }
     private int getYpos(){
-        return (this.mc.getWindow().getGuiScaledHeight()-(22)) * this.client.data.MegaphonetimerYpos / 1000;
+        return 2 + (this.mc.getWindow().getGuiScaledHeight()-18-2) * this.client.data.MegaphonetimerYpos / 1000;
     }
 
 }

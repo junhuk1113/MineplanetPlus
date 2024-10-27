@@ -20,6 +20,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
 
     private Slider XPosSlider;
     private Slider YPosSlider;
+    private int width, height;
 
     public MegaphoneTimerConfigScreen(Screen parentScreen){
         super(Component.literal("확성기 타이머 설정"));
@@ -82,6 +83,38 @@ public class MegaphoneTimerConfigScreen extends Screen{
             }
         };
         this.addRenderableWidget(YPosSlider);
+        if(mc.player != null)
+        {
+            if (mc.player.getName() != null) {
+                mc.player.displayClientMessage(Component.literal("getName() : ").append(mc.player.getName()), false);
+            }
+            if (mc.player.getModelName() != null) {
+                mc.player.displayClientMessage(Component.literal("getModelName() : ").append(mc.player.getModelName()), false);
+            }
+            if (mc.player.getCustomName() != null) {
+                mc.player.displayClientMessage(Component.literal("getCustomName() : ").append(mc.player.getCustomName()), false);
+            }
+            if (mc.player.getDisplayName() != null) {
+                mc.player.displayClientMessage(Component.literal("getDisplayName() : ").append(mc.player.getDisplayName()), false);
+            }
+            if (mc.player.getScoreboardName() != null) {
+                mc.player.displayClientMessage(Component.literal("getScoreboardName() : ").append(mc.player.getScoreboardName()), false);
+            }
+            if (mc.getUser().getName() != null) {
+                mc.player.displayClientMessage(Component.literal("getUser().getName() : ").append(mc.getUser().getName()), false);
+            }
+            if (mc.getUser().getGameProfile().getName() != null) {
+                mc.player.displayClientMessage(Component.literal("getUser().getGameProfile().getName() : ").append(mc.getUser().getName()), false);
+            }
+            try{
+                String playerString = mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).getString().substring(3);
+
+                mc.player.displayClientMessage(Component.literal(playerString),false);
+            }
+            catch (NullPointerException e) {
+                mc.player.displayClientMessage(Component.literal("NULL!"), false);
+            }
+        }
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {

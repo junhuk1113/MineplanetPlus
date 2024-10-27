@@ -1,6 +1,5 @@
 package net.pmkjun.mineplanetplus.megaphonetimer.file;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 
 import java.io.*;
