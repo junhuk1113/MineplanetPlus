@@ -65,7 +65,7 @@ public class MegaphoneTimerGui {
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
         if(remaining_cooldowntime > 0){
             poseStack.pushPose();
-            poseStack.translate((getXpos() + 16 + 2), getYpos()+4, 0.0D);
+            poseStack.translate((getXpos() + 2 + 10), getYpos()+6, 0.0D);
             poseStack.scale(0.9090909F, 0.9090909F, 0.9090909F);
             context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
             poseStack.popPose();
