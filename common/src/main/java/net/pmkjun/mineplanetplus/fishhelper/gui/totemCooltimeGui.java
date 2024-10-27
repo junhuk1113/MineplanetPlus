@@ -70,7 +70,7 @@ public class totemCooltimeGui {
             second -= minute * 60;
             poseStack.pushPose();
             poseStack.translate((Timer_xpos + 16 + 2), Timer_ypos+4, 0.0D);
-            poseStack.scale(0.9090909F, 0.9090909F, 0.9090909F);
+            poseStack.scale(1F/1.1F, 1F/1.1F, 1F/1.1F);
             context.drawString(this.font, Component.literal(String.format("%02d:%02d", new Object[] { Integer.valueOf(minute), Integer.valueOf(second) })), 0, 0, 16777215);
             poseStack.scale(1.1F, 1.1F, 1.1F);
 

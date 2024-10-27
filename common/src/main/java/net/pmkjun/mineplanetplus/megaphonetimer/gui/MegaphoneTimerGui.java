@@ -26,8 +26,6 @@ public class MegaphoneTimerGui {
 
 
     private static final ResourceLocation MEGAPHONE_ICON = new ResourceLocation("mineplanetplus", "chat_broadcast.png");
-        
-    private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/widgets.png");
 
     public MegaphoneTimerGui(){
         this.mc = Minecraft.getInstance();
@@ -44,17 +42,13 @@ public class MegaphoneTimerGui {
     private void render(GuiGraphics context,ResourceLocation texture, long ms) {
         PoseStack poseStack = context.pose();
         long remaining_cooldowntime;
+        long minute, second;
         int cooldowntime = 1200000; //20min
 
         remaining_cooldowntime = cooldowntime - ms;
 
-        RenderSystem.enableBlend(); // 블렌딩 활성화
-        RenderSystem.defaultBlendFunc();
-        context.blit(WIDGETS, getXpos(),getYpos(), 24, 23, 22, 22);
-        RenderSystem.disableBlend();
-
         poseStack.pushPose();
-        poseStack.translate(3+getXpos(),getYpos()+4-1,0.0D);
+        poseStack.translate(getXpos(),getYpos(),0.0D);
         poseStack.scale(0.0625F, 0.0625F, 0.0625F);
 
         RenderSystem.setShaderTexture(0,texture);
@@ -65,9 +59,15 @@ public class MegaphoneTimerGui {
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
         if(remaining_cooldowntime > 0){
             poseStack.pushPose();
-            poseStack.translate((getXpos() + 2 + 10), getYpos()+6, 0.0D);
-            poseStack.scale(0.9090909F, 0.9090909F, 0.9090909F);
-            context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
+            poseStack.translate((getXpos() + 16 + 2), getYpos()+4, 0.0D);
+            poseStack.scale(1F/1.1F, 1F/1.1F, 1F/1.1F);
+            
+            minute = remaining_cooldowntime / 60000;
+            second = (remaining_cooldowntime - (minute * 60000)) / 1000;
+
+            context.drawString(this.mc.font, Component.literal(String.format("%02d:%02d",minute,second)), 0, 0, ChatFormatting.WHITE.getColor());
+            poseStack.scale(1.1F, 1.1F, 1.1F);
+
             poseStack.popPose();
             if (client.data.toggleAlertSound) {
                 if (remaining_cooldowntime / (double) 1000 < 0.1 && remaining_cooldowntime / (double) 1000 > 0.05 && coolend == 0) {
