@@ -96,9 +96,10 @@ public abstract class ChatMixin {
 		}
 
         //확성기타이머
-        if(message.getString().contains(" "+mc.getUser().getName()))
+        String playerString = mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).getString().substring(3);
+        if(message.getString().contains(" "+playerString))
         {
-            mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);
+            //mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);
             megaphonetimer.updateLastUsedtime();
         }
     }
