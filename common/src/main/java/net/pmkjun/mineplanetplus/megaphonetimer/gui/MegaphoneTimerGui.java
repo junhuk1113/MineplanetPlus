@@ -85,10 +85,10 @@ public class MegaphoneTimerGui {
         }
     }
     private int getXpos(){
-        return 2 + (this.mc.getWindow().getGuiScaledWidth()-43-2) * this.client.data.MegaphonetimerXpos / 1000;
+        return (this.mc.getWindow().getGuiScaledWidth()-22) * this.client.data.MegaphonetimerXpos / 1000;
     }
     private int getYpos(){
-        return 2 + (this.mc.getWindow().getGuiScaledHeight()-18-2) * this.client.data.MegaphonetimerYpos / 1000;
+        return (this.mc.getWindow().getGuiScaledHeight()-22) * this.client.data.MegaphonetimerYpos / 1000;
     }
 
 }
