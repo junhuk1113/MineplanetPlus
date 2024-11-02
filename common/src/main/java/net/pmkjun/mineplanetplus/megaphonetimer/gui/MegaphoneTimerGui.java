@@ -24,8 +24,10 @@ public class MegaphoneTimerGui {
     public int last = 0;
     public int coolend = 0;
 
-
     private static final ResourceLocation MEGAPHONE_ICON = new ResourceLocation("mineplanetplus", "chat_broadcast.png");
+    private static final ResourceLocation MEGAPHONE_ICON_COOLDOWN = new ResourceLocation("mineplanetplus", "chat_broadcast_cooldown.png");
+        
+    private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/widgets.png");
 
     public MegaphoneTimerGui(){
         this.mc = Minecraft.getInstance();
@@ -33,22 +35,29 @@ public class MegaphoneTimerGui {
     }
 
     public void renderTick(GuiGraphics context, Timer timer){
-        if(!this.client.data.toggleMegaphonetimer) return; //스킬타이머를 껏을때 실행x
+        long remaining_cooldowntime;
+        int cooldowntime = 1200000; //20min
 
-        render(context, MEGAPHONE_ICON, timer.getDifference(client.data.lastUsedTime));
+        remaining_cooldowntime = cooldowntime - timer.getDifference(client.data.lastUsedTime);
+
+        if(!this.client.data.toggleMegaphonetimer) return; //스킬타이머를 껏을때 실행x
+        if(remaining_cooldowntime > 0)
+            render(context, MEGAPHONE_ICON_COOLDOWN, remaining_cooldowntime);
+        else
+        render(context, MEGAPHONE_ICON, remaining_cooldowntime);
     }
 
 
-    private void render(GuiGraphics context,ResourceLocation texture, long ms) {
+    private void render(GuiGraphics context,ResourceLocation texture, long remaining_cooldowntime) {
         PoseStack poseStack = context.pose();
-        long remaining_cooldowntime;
-        long minute, second;
-        int cooldowntime = 1200000; //20min
 
-        remaining_cooldowntime = cooldowntime - ms;
+        RenderSystem.enableBlend(); // 블렌딩 활성화
+        RenderSystem.defaultBlendFunc();
+        context.blit(WIDGETS, getXpos(),getYpos(), 24, 23, 22, 22);
+        RenderSystem.disableBlend();
 
         poseStack.pushPose();
-        poseStack.translate(getXpos(),getYpos(),0.0D);
+        poseStack.translate(3+getXpos(),getYpos()+4-1,0.0D);
         poseStack.scale(0.0625F, 0.0625F, 0.0625F);
 
         RenderSystem.setShaderTexture(0,texture);
@@ -59,15 +68,9 @@ public class MegaphoneTimerGui {
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
         if(remaining_cooldowntime > 0){
             poseStack.pushPose();
-            poseStack.translate((getXpos() + 16 + 2), getYpos()+4, 0.0D);
+            poseStack.translate((getXpos() + 2 + 9), getYpos()+7, 0.0D);
             poseStack.scale(1F/1.1F, 1F/1.1F, 1F/1.1F);
-            
-            minute = remaining_cooldowntime / 60000;
-            second = (remaining_cooldowntime - (minute * 60000)) / 1000;
-
-            context.drawString(this.mc.font, Component.literal(String.format("%02d:%02d",minute,second)), 0, 0, ChatFormatting.WHITE.getColor());
-            poseStack.scale(1.1F, 1.1F, 1.1F);
-
+            context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
             poseStack.popPose();
             if (client.data.toggleAlertSound) {
                 if (remaining_cooldowntime / (double) 1000 < 0.1 && remaining_cooldowntime / (double) 1000 > 0.05 && coolend == 0) {
