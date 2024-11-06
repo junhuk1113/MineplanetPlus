@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 
 public class AdjustMegaphoneTimerPosScreen extends Screen{
@@ -21,13 +22,13 @@ public class AdjustMegaphoneTimerPosScreen extends Screen{
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        mc.player.displayClientMessage(Component.literal("<click>x:"+mouseX+"/y:"+mouseY), false);
+        //mc.player.displayClientMessage(Component.literal("<click>x:"+mouseX+"/y:"+mouseY), false);
         lastMouseX = mouseX; lastMouseY = mouseY;
 
         if((getXpos()<=mouseX && getXpos()+22 >= mouseX) && (getYpos()<=mouseY && getYpos()+22 >= mouseY))
         {
             isTimerClicked = true;
-            lastTimerX = (int)mouseX; lastTimerY = (int)mouseY;
+            lastTimerX = getXpos(); lastTimerY = getYpos();
             //mc.player.displayClientMessage(Component.literal("timer clicked"), false);
         }
         else{
@@ -42,10 +43,15 @@ public class AdjustMegaphoneTimerPosScreen extends Screen{
         double movedY = mouseY-lastMouseY;
         //mc.player.displayClientMessage(Component.literal("<drag>x:"+(mouseX-lastMouseX)+"/y:"+(mouseY-lastMouseY)), false);
         if(isTimerClicked){
-            client.data.MegaphonetimerXpos = (int)((lastTimerX + movedX)/(this.mc.getWindow().getGuiScaledWidth()-22) * 1000);
-            client.data.MegaphonetimerYpos = (int)((lastTimerY + movedY)/(this.mc.getWindow().getGuiScaledHeight()-22) * 1000); 
+            client.data.MegaphonetimerXpos = Mth.clamp((int)((lastTimerX + movedX)/(this.mc.getWindow().getGuiScaledWidth()-22) * 1000), 0, 1000);
+            client.data.MegaphonetimerYpos = Mth.clamp((int)((lastTimerY + movedY)/(this.mc.getWindow().getGuiScaledHeight()-22) * 1000), 0, 1000);
         }
         return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        this.client.settings.save();
+        return super.mouseReleased(mouseX, mouseY, button);
     }
     @Override
     public void onClose(){

@@ -147,12 +147,13 @@ public class SkillCooltimeGui {
 
             drawSkillTexture(guiGraphics, texture, xOffset + (22) * i + 3, yOffset + 3);
 
-            if(isManaRunout(client.data.classType, dungeonSkill.getSkillCategory(skillNum))&&!(skillNum==3&&isUltimateCooltime())){
+            if(isManaRunout(client.data.classType, dungeonSkill.getSkillCategory(skillNum))
+                &&!(skillNum==3&&isLV40SkillCooltime())&&!(skillNum==4&&isUltimateCooltime())){
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.setShaderTexture(0, MANA_RUNOUT_ICON);
 
-                drawSkillTexture(guiGraphics ,MANA_RUNOUT_ICON, xOffset + (22) * i + 3, yOffset + 3);
+                drawSkillTexture(guiGraphics, MANA_RUNOUT_ICON, xOffset + (22) * i + 3, yOffset + 3);
             }
             if(dungeonSkill.isComboSkill(client.data.classType,skillNum) && !isComboSkillUseable()){
                 skillNum++;
