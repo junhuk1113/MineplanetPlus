@@ -17,6 +17,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
     
     private Button toggleMegaphonetimerButton;
     private Button toggleAlertSoundButton;
+    private Button openPosScreenButton;
 
     private Slider XPosSlider;
     private Slider YPosSlider;
@@ -29,7 +30,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
         this.client = MegaphoneTimerClient.getInstance();
 
         this.width = 150;
-        this.height = (20+2) * 4;
+        this.height = (20+2) * 5;
     }
 
     @Override
@@ -83,6 +84,10 @@ public class MegaphoneTimerConfigScreen extends Screen{
             }
         };
         this.addRenderableWidget(YPosSlider);
+        openPosScreenButton = Button.builder(Component.literal("위치 수정"), button -> {
+            mc.setScreen(new AdjustMegaphoneTimerPosScreen(mc.screen));
+        }).pos(getRegularX(), getRegularY()+(20+2)*4).size(150, 20).build();
+        this.addRenderableWidget(openPosScreenButton);
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
