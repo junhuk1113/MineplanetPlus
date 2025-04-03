@@ -93,12 +93,41 @@ public class ItemModelsMixin {
         }
 
         ItemStack mainhandStack = mc.player.getMainHandItem();
-        if(mainhandStack!=previousMainhandStack && this.client.data.toggleAutoClassDetect){
+        if(mainhandStack!=previousMainhandStack){
             previousMainhandStack = mainhandStack;
             //mc.player.sendMessage(Text.literal("MainhandStack 변경됨 : "+mainhandStack.getItem().getTranslationKey()));
 
             if(mainhandStack.getItem().getDescriptionId().equals("item.minecraft.fishing_rod")){
                 FishingRod.updateSpec(mainhandStack);
+            }
+
+            if(this.client.data.toggleAutoClassDetect) {
+                ItemText = mainhandStack.getTooltipLines(mc.player, TooltipFlag.NORMAL);
+                for (Component text : ItemText) {
+                    if (Itemname == null)
+                        Itemname = text.getString();
+
+                    if (text.getString().equals("어새신 전용")) {
+                        //mc.player.displayClientMessage(Component.literal("어새신 무기가 감지되었습니다."),false);
+                        client.data.classType = ClassCategory.ASSASSIN;
+                        client.settings.save();
+                    } else if (text.getString().equals("용기사 전용")) {
+                        //mc.player.displayClientMessage(Component.literal("용기사 무기가 감지되었습니다."),false);
+                        client.data.classType = ClassCategory.DRAGON_WARRIOR;
+                        client.settings.save();
+                    } else if (text.getString().equals("무투가 전용")) {
+                        //mc.player.displayClientMessage(Component.literal("무투가 무기가 감지되었습니다."),false);
+                        client.data.classType = ClassCategory.MARTIAL_ARTIST;
+                        client.settings.save();
+                    } else if (text.getString().equals("배틀메이지 전용")) {
+                        //mc.player.displayClientMessage(Component.literal("배틀메이지 무기가 감지되었습니다."),false);
+                        client.data.classType = ClassCategory.BATTLE_MAGE;
+                        client.settings.save();
+                    }
+
+                    //mc.player.displayClientMessage(text, false);
+
+                }
             }
         }
             
