@@ -9,11 +9,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.item.FishItems;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishingRod;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,6 +37,7 @@ public class ItemModelsMixin {
     }
 
     private Minecraft mc = Minecraft.getInstance();
+    private DungeonHelperClient client = DungeonHelperClient.getInstance();
     private ItemStack previousMainhandStack;
 
     @Inject(method = {"getItemModel(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/client/resources/model/BakedModel;"},at = {@At("TAIL")}, cancellable = true)
@@ -96,6 +99,35 @@ public class ItemModelsMixin {
 
             if(mainhandStack.getItem().getDescriptionId().equals("item.minecraft.fishing_rod")){
                 FishingRod.updateSpec(mainhandStack);
+            }
+            ItemText = mainhandStack.getTooltipLines(mc.player, TooltipFlag.NORMAL);
+            for(Component text : ItemText){
+                if(Itemname == null)
+                    Itemname = text.getString();
+
+                if(text.getString().equals("어새신 전용")){
+                    //mc.player.displayClientMessage(Component.literal("어새신 무기가 감지되었습니다."),false);
+                    client.data.classType = ClassCategory.ASSASSIN;
+                    client.settings.save();
+                }
+                else if(text.getString().equals("용기사 전용")){
+                    //mc.player.displayClientMessage(Component.literal("용기사 무기가 감지되었습니다."),false);
+                    client.data.classType = ClassCategory.DRAGON_WARRIOR;
+                    client.settings.save();
+                }
+                else if(text.getString().equals("무투가 전용")){
+                    //mc.player.displayClientMessage(Component.literal("무투가 무기가 감지되었습니다."),false);
+                    client.data.classType = ClassCategory.MARTIAL_ARTIST;
+                    client.settings.save();
+                }
+                else if(text.getString().equals("배틀메이지 전용")){
+                    //mc.player.displayClientMessage(Component.literal("배틀메이지 무기가 감지되었습니다."),false);
+                    client.data.classType = ClassCategory.BATTLE_MAGE;
+                    client.settings.save();
+                }
+
+                //mc.player.displayClientMessage(text, false);
+
             }
         }
             
