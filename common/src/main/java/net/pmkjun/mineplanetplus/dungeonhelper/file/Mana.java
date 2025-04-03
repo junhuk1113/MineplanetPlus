@@ -17,7 +17,7 @@ public class Mana {
                 return (int)Math.ceil(2 + (dungeon_level*0.13));
             }
             if(skilltype == SkillCategory.LV30){
-                return (int)Math.ceil(4 + (dungeon_level*0.25));
+                return (int)Math.ceil(4 + (dungeon_level*0.23));
             }
             if(skilltype == SkillCategory.LV40){
                 return (int)Math.ceil(5 + (dungeon_level*0.25));
@@ -34,7 +34,7 @@ public class Mana {
                 return (int)Math.ceil(3 + (dungeon_level*0.13));
             }
             if(skilltype == SkillCategory.LV30){
-                return (int)Math.ceil(5 + (dungeon_level*0.28));
+                return (int)Math.ceil(5 + (dungeon_level*0.23));
             }
             if(skilltype == SkillCategory.LV40){
                 return (int)Math.ceil(6 + (dungeon_level*0.28));
@@ -45,7 +45,7 @@ public class Mana {
         }
         else if(classtype == ClassCategory.MARTIAL_ARTIST){
             if(skilltype == SkillCategory.DASH){
-                return (int)Math.ceil(3 + (dungeon_level*0.23));
+                return (int)Math.ceil(3 + (dungeon_level*0.18));
             }
             if(skilltype == SkillCategory.LV20){
                 return (int)Math.ceil(3 + (dungeon_level*0.18));
@@ -68,7 +68,7 @@ public class Mana {
                 return (int)Math.ceil(3 + (dungeon_level*0.13));
             }
             if(skilltype == SkillCategory.LV30){
-                return (int)Math.ceil(5 + (dungeon_level*0.23));
+                return (int)Math.ceil(5 + (dungeon_level*0.2));
             }
             if(skilltype == SkillCategory.LV40){
                 return (int)Math.ceil(6 + (dungeon_level*0.28));

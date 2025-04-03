@@ -26,20 +26,23 @@ public class bossbarMixin {
 
         for (Component component : actionbarTextList) {
             text = component;
-            if (text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/mana/manatext")) {
-                //System.out.println("현재 마나 : " + text.getString());
+
+            //mc.player.displayClientMessage(Component.literal(text.getStyle().getFont().getPath()), false);
+            if (text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/mana/text")) {
+                //mc.player.displayClientMessage(Component.literal("현재 마나 : " + text.getString()),false);
                 mana = text.getString().split("/");
                 try{
-                    Mana.current = Integer.parseInt(mana[0]);
-                    Mana.max = Integer.parseInt(mana[1]);
+                    Mana.current = Integer.parseInt(mana[0].trim());
+                    Mana.max = Integer.parseInt(mana[1].trim());
                 }
                 catch(NumberFormatException ignored){
+                    //mc.player.displayClientMessage(Component.literal("변환오류!"),false);
                 }
             }
-            if (text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/exp/leveltext")){
+            if (text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/exp_dungeon/level")){
                 dungeonExp = true;
                 dungeon_level = text.getString();
-                //System.out.println("던전 레벨 : " + text.getString());
+                //mc.player.displayClientMessage(Component.literal("던전 레벨 : " + text.getString()),false);
                 try{
                     Mana.dungeon_level = Integer.parseInt(dungeon_level);
                 }

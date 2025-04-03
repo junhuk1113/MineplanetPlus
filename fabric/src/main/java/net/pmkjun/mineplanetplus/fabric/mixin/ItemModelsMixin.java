@@ -10,12 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.item.FishItems;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishingRod;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
