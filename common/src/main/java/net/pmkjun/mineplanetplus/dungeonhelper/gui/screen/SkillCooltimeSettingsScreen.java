@@ -23,6 +23,7 @@ public class SkillCooltimeSettingsScreen extends Screen {
     private Button classTypeButton;
     private Button debugModeButton;
     private Button toggleCustomGUIPosButton;
+    private Button toggleAutoClassDetectButton;
     private Slider XPosSlider, YPosSlider;
     private int width, height;
     private final Screen parentScreen;
@@ -37,12 +38,12 @@ public class SkillCooltimeSettingsScreen extends Screen {
         this.parentScreen = parentScreen;
 
         width = 147;
-        height = 118;
+        height = 140;
     }
 
     protected void init() {
         super.init();
-        MutableComponent toggleSkillCooltimeButtonComponent, toggleCustomGUIPosComponent;
+        MutableComponent toggleSkillCooltimeButtonComponent, toggleCustomGUIPosComponent, toggleAutoClassDetectButtonComponent;
         if (this.client.data.toggleSkillCooltime) {
             toggleSkillCooltimeButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.main").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
         } else {
@@ -52,6 +53,11 @@ public class SkillCooltimeSettingsScreen extends Screen {
             toggleCustomGUIPosComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.customguipos").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
         } else {
             toggleCustomGUIPosComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.customguipos").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
+        }
+        if (this.client.data.toggleAutoClassDetect){
+            toggleAutoClassDetectButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
+        } else {
+            toggleAutoClassDetectButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
         }
 
         this.toggleSkillCooltimeButton = (Button)this.addRenderableWidget((new Button.Builder(toggleSkillCooltimeButtonComponent, (btn) -> {
@@ -90,6 +96,10 @@ public class SkillCooltimeSettingsScreen extends Screen {
                 client.settings.save();
             }
         });
+
+        this.toggleAutoClassDetectButton = (Button)this.addRenderableWidget((new Button.Builder(toggleAutoClassDetectButtonComponent, (btn) -> {
+            this.onAutoClassDetectPress();
+        })).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 5).size(137, 20).build());
 
         if (ENABLE_DEBUG_MODE) {
             MutableComponent debugModeButtonComponent;
@@ -161,6 +171,17 @@ public class SkillCooltimeSettingsScreen extends Screen {
             this.toggleCustomGUIPosButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.customguipos").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         } else {
             this.toggleCustomGUIPosButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.customguipos").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+        }
+
+        this.client.settings.save();
+    }
+
+    private void onAutoClassDetectPress(){
+        this.client.data.toggleAutoClassDetect = !this.client.data.toggleAutoClassDetect;
+        if (this.client.data.toggleAutoClassDetect) {
+            this.toggleAutoClassDetectButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
+        } else {
+            this.toggleAutoClassDetectButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
 
         this.client.settings.save();

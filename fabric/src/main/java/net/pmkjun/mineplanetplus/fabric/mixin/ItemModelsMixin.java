@@ -9,6 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.item.FishItems;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
@@ -35,6 +37,7 @@ public class ItemModelsMixin {
     }
 
     private Minecraft mc = Minecraft.getInstance();
+    private DungeonHelperClient client = DungeonHelperClient.getInstance();
     private ItemStack previousMainhandStack;
 
     @Inject(method = {"getItemModel(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/client/resources/model/BakedModel;"},at = {@At("TAIL")}, cancellable = true)
@@ -90,7 +93,7 @@ public class ItemModelsMixin {
         }
 
         ItemStack mainhandStack = mc.player.getMainHandItem();
-        if(mainhandStack!=previousMainhandStack){
+        if(mainhandStack!=previousMainhandStack && this.client.data.toggleAutoClassDetect){
             previousMainhandStack = mainhandStack;
             //mc.player.sendMessage(Text.literal("MainhandStack 변경됨 : "+mainhandStack.getItem().getTranslationKey()));
 

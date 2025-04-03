@@ -20,6 +20,7 @@ public class Data implements Serializable {
     public boolean toggleSkillCooltime = true;
     public boolean toggleCustomSkillGUIPos = false;
     public boolean toggleVanillaLevelView = false;
+    public boolean toggleAutoClassDetect = true;
 
     public ClassCategory classType = ClassCategory.ASSASSIN;
     public DungeonCategory dungeontype = DungeonCategory.ALL;

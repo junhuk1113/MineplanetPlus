@@ -42,6 +42,7 @@
 	"gui.dungeonhelper.skill_cooltime_settings.classType.martial_artist": "Martial Artist",
 	"gui.dungeonhelper.skill_cooltime_settings.classType.battle_mage": "Battle_Mage",
 	"gui.dungeonhelper.skill_cooltime_settings.customguipos" : "Custom UI Location : ",
+	"gui.dungeonhelper.skill_cooltime_settings.autoclassdetect" : "Auto Class Detect : ",
 
 
 	"fishhelper.config.title" : "fish-helper",

@@ -41,7 +41,8 @@
   "gui.dungeonhelper.skill_cooltime_settings.classType.dragon_warrior": "용기사",
   "gui.dungeonhelper.skill_cooltime_settings.classType.martial_artist": "무투가",
   "gui.dungeonhelper.skill_cooltime_settings.classType.battle_mage": "배틀메이지",
-	"gui.dungeonhelper.skill_cooltime_settings.customguipos" : "사용자 지정 위치 : ",
+  "gui.dungeonhelper.skill_cooltime_settings.customguipos" : "사용자 지정 위치 : ",
+  "gui.dungeonhelper.skill_cooltime_settings.autoclassdetect" : "직업 자동 감지 : ",
 
 
   "fishhelper.config.title" : "이클립스 Fish Helper",

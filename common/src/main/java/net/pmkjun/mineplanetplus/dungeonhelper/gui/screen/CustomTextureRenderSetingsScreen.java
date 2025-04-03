@@ -17,7 +17,7 @@ public class CustomTextureRenderSetingsScreen extends Screen {
     private Minecraft mc;
     private DungeonHelperClient client;
 
-    public static final ResourceLocation BG_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");
+    public static final ResourceLocation BG_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/custom_enchant_render_settings_background.png");
 
     private Button toggleCustomEnchantRenderButton;
     private Button toggleRuneOfFortuneRenderButton;
