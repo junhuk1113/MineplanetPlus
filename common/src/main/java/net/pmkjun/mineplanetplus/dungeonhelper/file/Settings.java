@@ -1,17 +1,28 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.file;
 
+import net.pmkjun.mineplanetplus.MPPSettings;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 
 import java.io.*;
 
-public class Settings {
-    private static String DATA_DIRECTORY_PATH = "\\Dungeon Helper";
-    private static String DATA_FILE_PATH = DATA_DIRECTORY_PATH + "\\setting.data";
-
+public class Settings extends MPPSettings{
     public Settings() {
-        if(!System.getProperty("os.name").contains("Windows")){
-            DATA_DIRECTORY_PATH = "/Dungeon Helper";
-            DATA_FILE_PATH = DATA_DIRECTORY_PATH + "/Setting.data";
+        super(getDirectoryPath(), getDataFilePath());
+    }
+
+    private static String getDirectoryPath() {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            return "\\MineplanetPlus";
+        } else {
+            return "/MineplanetPlus";
+        }
+    }
+
+    private static String getDataFilePath() {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            return "\\MineplanetPlus\\dungeonhelper.json";
+        } else {
+            return "/MineplanetPlus/dungeonhelper.json";
         }
     }
 
@@ -19,44 +30,16 @@ public class Settings {
         save(DungeonHelperClient.getInstance().data);
     }
 
-    public void save(Data data) {
-        File file = new File(System.getProperty("user.dir") + DATA_FILE_PATH);
-        File directory = new File(System.getProperty("user.dir") + DATA_DIRECTORY_PATH);
-
-        try {
-            if(!file.exists()) {
-                directory.mkdirs();
-                file.createNewFile();
-            }
-
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-
-            objectOutputStream.writeObject(data);
-
-            objectOutputStream.close();
-            fileOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public Data load() {
-        File file = new File(System.getProperty("user.dir") + DATA_FILE_PATH);
+        File file = new File(System.getProperty("user.dir") + getDataFilePath());
 
         try {
             if(!file.exists()) {
                 save(new Data());
             }
 
-            FileInputStream fileInputStream = new FileInputStream(file);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-
-            Data data = (Data) objectInputStream.readObject();
-
-            objectInputStream.close();
-            fileInputStream.close();
+            FileReader reader = new FileReader(System.getProperty("user.dir") + getDataFilePath());
+            Data data = gson.fromJson(reader, Data.class);
 
             return data;
         }

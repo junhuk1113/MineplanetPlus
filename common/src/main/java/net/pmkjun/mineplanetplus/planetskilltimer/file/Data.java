@@ -1,8 +1,6 @@
 package net.pmkjun.mineplanetplus.planetskilltimer.file;
 
-import java.io.Serializable;
-
-public class Data implements Serializable {
+public class Data {
     public long[] lastSkillTime = new long[4];
     public boolean toggleSkilltimer = true;
     public boolean[] toggleSkills = { true, true, true, true };;

@@ -1,8 +1,6 @@
 package net.pmkjun.mineplanetplus.megaphonetimer.file;
 
-import java.io.Serializable;
-
-public class Data implements Serializable {
+public class Data{
 
     public boolean toggleMegaphonetimer = true;
     public boolean toggleAlertSound = true;

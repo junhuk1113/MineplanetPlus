@@ -1,58 +1,53 @@
 package net.pmkjun.mineplanetplus.fishhelper.config;
 
+import net.pmkjun.mineplanetplus.MPPSettings;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.file.Data;
 
 import java.io.*;
 
-public class ConfigManage {
-    private static String DATA_DIRECTORY_PATH = "\\PyrofishingHelper";
+public class ConfigManage extends MPPSettings {
+    public ConfigManage() {
+        super(getDirectoryPath(), getDataFilePath());
+    }
 
-    private static String DATA_FILE_PATH = "\\PyrofishingHelper\\configv3.data";
+    private static String getDirectoryPath() {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            return "\\MineplanetPlus";
+        } else {
+            return "/MineplanetPlus";
+        }
+    }
 
-    public ConfigManage(){
-        if(!System.getProperty("os.name").contains("Windows")){
-            DATA_DIRECTORY_PATH = "/PyrofishingHelper";
-            DATA_FILE_PATH = DATA_DIRECTORY_PATH + "/configv3.data";
+    private static String getDataFilePath() {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            return "\\MineplanetPlus\\fishhelper.json";
+        } else {
+            return "/MineplanetPlus/fishhelper.json";
         }
     }
 
     public void save() {
-        save((FishHelperClient.getInstance()).data);
-    }
-
-    public void save(Data data) {
-        File file = new File(System.getProperty("user.dir") + DATA_FILE_PATH);
-        File directory = new File(System.getProperty("user.dir") + DATA_DIRECTORY_PATH);
-        try {
-            if (!file.exists()) {
-                directory.mkdirs();
-                file.createNewFile();
-            }
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(data);
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        save(FishHelperClient.getInstance().data);
     }
 
     public Data load() {
-        File file = new File(System.getProperty("user.dir") + DATA_FILE_PATH);
+        File file = new File(System.getProperty("user.dir") + getDataFilePath());
+
         try {
-            if (!file.exists())
+            if(!file.exists()) {
                 save(new Data());
-            FileInputStream fileInputStream = new FileInputStream(file);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            Data data = (Data)objectInputStream.readObject();
-            objectInputStream.close();
-            fileInputStream.close();
+            }
+
+            FileReader reader = new FileReader(System.getProperty("user.dir") + getDataFilePath());
+            Data data = gson.fromJson(reader, Data.class);
+
             return data;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

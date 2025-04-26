@@ -5,9 +5,7 @@ import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonCoolAxis;
 
-import java.io.Serializable;
-
-public class Data implements Serializable {
+public class Data{
 
     public boolean toggleDungeonCooltime = true;
     public boolean toggleDungeonCooltimeText = true;

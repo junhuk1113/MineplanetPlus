@@ -1,9 +1,8 @@
 package net.pmkjun.mineplanetplus.fishhelper.file;
 
-import java.io.Serializable;
-
 import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
-public class Data implements Serializable{
+
+public class Data{
     public String userName;
 
     public boolean toggleTotemtime = true;
