@@ -11,7 +11,7 @@ import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
 import net.pmkjun.mineplanetplus.fishhelper.input.IKeyMappings;
 
 public class KeyMappings implements IKeyMappings {
-    public static KeyMapping openSettingScreen = new KeyMapping("fishhelper.key.open_settings", InputConstants.KEY_H, "mineplanetplus.key.category");
+    public static KeyMapping openSettingScreen = new KeyMapping("fishhelper.key.open_settings", -1, "mineplanetplus.key.category");
 
     public void register() {
         Minecraft mc = Minecraft.getInstance();

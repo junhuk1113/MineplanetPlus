@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.pmkjun.mineplanetplus.MineplanetPlus;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
+import net.pmkjun.mineplanetplus.fabric.input.KeyMappings;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.FishHelperFabric;
 import net.pmkjun.mineplanetplus.fabric.planetskilltimer.PlanetSkillTimerFabric;
 import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimer;
@@ -14,6 +15,9 @@ public final class MineplanetPlusFabric implements ModInitializer {
         DungeonHelper dungeonhelper = new DungeonHelper();
         FishHelperFabric fishhelper = new FishHelperFabric();
         PlanetSkillTimerFabric skilltimer = new PlanetSkillTimerFabric();
+
+        KeyMappings keyMappings = new KeyMappings();
+        keyMappings.register();
 
         MineplanetPlus.init();
         dungeonhelper.init();
