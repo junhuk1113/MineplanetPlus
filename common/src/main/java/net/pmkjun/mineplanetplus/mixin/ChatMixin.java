@@ -96,7 +96,8 @@ public abstract class ChatMixin {
 		}
 
         //확성기타이머
-        String playerString = mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).getString().substring(3);
+        String playerString = mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).getString().substring(5);
+        //mc.player.displayClientMessage(Component.literal(playerString), false);
         if(message.getString().contains(" "+playerString))
         {
             //mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);
