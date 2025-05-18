@@ -47,7 +47,7 @@ public abstract class ClientPacketListenerMixin {
 
     //LV40 스킬
     private static final int VALID_BLADE_SPIN_DISTANCE = 2;
-    private static final int VALID_DRAGON_SMASH_DISTANCE = 25;
+    private static final int VALID_DRAGON_SMASH_DISTANCE = 10;
     private static final int VALID_MARTIAL_DRIVE_DISTANCE = 16;
     private static final int VALID_INFERNO_CHAIN_DISTANCE = 28;
 
@@ -154,21 +154,21 @@ public abstract class ClientPacketListenerMixin {
                     //CustomModelData tag = itemDisplay.itemRenderState().itemStack().get(DataComponents.CUSTOM_MODEL_DATA);
                     //Component c = itemDisplay.getCustomName();
                     //int id = tag.getFloat(0).intValue();
-                    int id = itemDisplay.getId();
+                    String model = itemDisplay.itemRenderState().itemStack().get(DataComponents.ITEM_MODEL).toString();
                     double distance = itemDisplay.position().distanceToSqr(mc.player.position());
                     if (SkillCooltimeSettingsScreen.DEBUG_MODE){
-                        mc.player.displayClientMessage(Component.literal(itemDisplay.itemRenderState().itemStack().get(DataComponents.CUSTOM_MODEL_DATA).toString()), false);
+                        mc.player.displayClientMessage(Component.literal(itemDisplay.itemRenderState().itemStack().get(DataComponents.ITEM_MODEL).toString()), false);
                         //mc.player.displayClientMessage(itemDisplay.getCustomName(), false);
                         mc.player.displayClientMessage(Component.literal(String.valueOf(distance)), false);
                     }
                     
-                    else if (client.data.classType == ClassCategory.DRAGON_WARRIOR) {
-                        if(id == 3617 && distance < VALID_DRAGON_SMASH_DISTANCE)
+                    if (client.data.classType == ClassCategory.DRAGON_WARRIOR) {
+                        if(model.equals("modelengine:fx_ice_crater_big/body2") && distance < VALID_DRAGON_SMASH_DISTANCE)
                             client.updateLastLV40SkillTime();
                     }
 
                     else if (client.data.classType == ClassCategory.MARTIAL_ARTIST) {
-                        if (id == 3633 && distance < VALID_MARTIAL_DRIVE_DISTANCE)
+                        if (model.equals("modelengine:fx_arctic_charge/body") && distance < VALID_MARTIAL_DRIVE_DISTANCE)
                             client.updateLastLV40SkillTime();
                     }
 
