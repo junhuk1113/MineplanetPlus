@@ -29,7 +29,7 @@ public class DungeonHelperSettingsScreen extends Screen {
 
         mc = Minecraft.getInstance();
         client = DungeonHelperClient.getInstance();
-        this.parentScreen = (Screen)null;
+        this.parentScreen = null;
 
         width = 147;
         height = 96;

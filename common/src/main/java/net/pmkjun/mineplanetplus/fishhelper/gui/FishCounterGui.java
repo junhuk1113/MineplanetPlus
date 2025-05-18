@@ -12,9 +12,8 @@ import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
 import java.util.Arrays;
 
 public class FishCounterGui {
-    private Minecraft mc;
-    private FishHelperClient client;
-    private Font font;
+    private final Minecraft mc;
+    private final FishHelperClient client;
 
     public FishCounterGui(){
         this.mc = Minecraft.getInstance();
@@ -82,24 +81,24 @@ public class FishCounterGui {
 
     private void renderWithoutTexture(int i, GuiGraphics context,int x, int y, String left_field, String right_field){
         PoseStack poseStack = context.pose();
-        this.font = this.mc.font;
+        Font font = this.mc.font;
         int width = 50, text_width;
 
-        text_width = this.font.width(left_field);
+        text_width = font.width(left_field);
 
         poseStack.pushPose();
         poseStack.translate((x + 2), y+4 + (12) * i, 0.0D);
         poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
-        context.drawString(this.font, Component.literal(left_field), width - text_width, 0, 0xFFFFFF);
+        context.drawString(font, Component.literal(left_field), width - text_width, 0, 0xFFFFFF);
         poseStack.scale(1.1f, 1.1f, 1.1f);
 		
         poseStack.popPose();
 
-        text_width = this.font.width(right_field);
+        text_width = font.width(right_field);
         poseStack.pushPose();
         poseStack.translate((x + 2 + 50 + 16), y+4 + (12) * i, 0.0D);
         poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
-        context.drawString(this.font, Component.literal(right_field), width - text_width, 0, 0xFFFFFF);
+        context.drawString(font, Component.literal(right_field), width - text_width, 0, 0xFFFFFF);
         
         poseStack.scale(1.1f, 1.1f, 1.1f);
 			
