@@ -3,15 +3,16 @@ package net.pmkjun.mineplanetplus.fishhelper.gui.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.fishhelper.gui.widget.Slider;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
+import net.pmkjun.mineplanetplus.gui.components.Slider;
 
 public class FishCounterConfigScreen extends Screen{
-    private Minecraft mc;
-    private FishHelperClient client;
+    private final Minecraft mc;
+    private final FishHelperClient client;
     private final Screen parentScreen;
     private Button toggleFishCounterButton;
     private Button toggleCounterModeButton;
@@ -42,39 +43,52 @@ public class FishCounterConfigScreen extends Screen{
 
         toggleFishCounterButton = Button.builder(Component.translatable(toggleFishCounter),button -> {
             toggleFishCounter();
-        }).pos(getRegularX() + 5, getRegularY()).size(150, 20).build();
+        }).pos(getRegularX() + 5, getRegularY())
+                .size(150, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.tooltip")))
+                .build();
         this.addRenderableWidget(toggleFishCounterButton);
 
         toggleCounterModeButton = Button.builder(Component.translatable(toggleCounterMode),button -> {
             toggleCounterMode();
-        }).pos(getRegularX() + 5, getRegularY()+(20+2)).size(150, 20).build();
+        }).pos(getRegularX() + 5, getRegularY()+(20+2))
+                .size(150, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.mode.tooltip")))
+                .build();
         this.addRenderableWidget(toggleCounterModeButton);
 
         toggleEarningCalculatorButton = Button.builder(Component.translatable(toggleEarningCalculator), button ->{
             toggleEarningCalculator();
-        }).pos(getRegularX()+5,getRegularY()+(20+2)*2).size(150,20).build();
+        }).pos(getRegularX()+5,getRegularY()+(20+2)*2)
+                .size(150,20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.toggleEarningCalculator.tooltip")))
+                .build();
         this.addRenderableWidget(toggleEarningCalculatorButton);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.fishcounter_reset"), button ->{
             client.resetFishCounter();
-        }).pos(getRegularX()+5, getRegularY()+(20+2)*3).size(150, 20).build());
+        }).pos(getRegularX()+5, getRegularY()+(20+2)*3).size(150, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter_reset.tooltip")))
+                .build());
 
-        counterXSlider = new Slider(getRegularX() + 5, getRegularY()+(20+2)*5, 150, 20, Component.literal("X : "),1,1000,this.client.data.Counter_xpos){
+        counterXSlider = new Slider(getRegularX() + 5, getRegularY()+(20+2)*5, 150, 20, Component.literal("X : "),Component.literal(""),1,1000,this.client.data.Counter_xpos,true){
             @Override
             protected void applyValue() {
                 client.data.Counter_xpos = getValueInt();
                 client.configManage.save();
             }
         };
+        counterXSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(counterXSlider);
 
-        counterYSlider = new Slider(getRegularX() + 5, getRegularY()+(20+2)*6, 150, 20, Component.literal("Y : "),1,1000,this.client.data.Counter_ypos){
+        counterYSlider = new Slider(getRegularX() + 5, getRegularY()+(20+2)*6, 150, 20, Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Counter_ypos,true){
             @Override
             protected void applyValue() {
                 client.data.Counter_ypos = getValueInt();
                 client.configManage.save();
             }
         };
+        counterYSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
         this.addRenderableWidget(counterYSlider);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
@@ -83,7 +97,7 @@ public class FishCounterConfigScreen extends Screen{
     }
 
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        //this.renderBackground(context);
         context.drawString(this.font, Component.translatable("fishhelper.config.changepos"), getRegularX() + 5, getRegularY()+(20 + 2)*5-10, 0xFFFFFF);
 
         this.counterXSlider.render(context, mouseX, mouseY, delta);
@@ -165,6 +179,13 @@ public class FishCounterConfigScreen extends Screen{
 
     int getRegularY() {
         return mc.getWindow().getGuiScaledHeight() / 2 - height / 2;
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
     }
 
     @Override

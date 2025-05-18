@@ -3,7 +3,8 @@ package net.pmkjun.mineplanetplus.dungeonhelper.file;
 import net.pmkjun.mineplanetplus.MPPSettings;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
 
 public class Settings extends MPPSettings{
     public Settings() {
@@ -39,9 +40,8 @@ public class Settings extends MPPSettings{
             }
 
             FileReader reader = new FileReader(System.getProperty("user.dir") + getDataFilePath());
-            Data data = gson.fromJson(reader, Data.class);
 
-            return data;
+            return gson.fromJson(reader, Data.class);
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "Unlicense"
+
+[[mods]]
+modId = "mineplanetplus"
+version = "${version}"
+displayName = "MineplanetPlus"
+authors = ""
+description = '''
+
+'''
+#logoFile = ""
+
+[[dependencies.mineplanetplus]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mineplanetplus]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.4,)"
+ordering = "NONE"
+side = "BOTH"
+
+
+[[mixins]]
+config = "mineplanetplus.mixins.json"

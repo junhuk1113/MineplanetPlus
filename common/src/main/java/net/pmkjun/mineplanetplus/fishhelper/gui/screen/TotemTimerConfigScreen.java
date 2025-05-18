@@ -4,17 +4,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.fishhelper.gui.widget.Slider;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
+import net.pmkjun.mineplanetplus.gui.components.Slider;
 
 public class TotemTimerConfigScreen extends Screen {
 
-    private Minecraft mc;
-    private FishHelperClient client;
+    private final Minecraft mc;
+    private final FishHelperClient client;
     private final Screen parentScreen;
     private EditBox CooldownReduction_TextField;
 
@@ -51,7 +52,7 @@ public class TotemTimerConfigScreen extends Screen {
             toggleTotem = "fishhelper.config.disable";
         }
 
-        activateTimeSlider = new Slider(getRegularX() + 5, getRegularY(), 150, 20, Component.literal(""),0,25,ConvertActivateTime.asLevel(this.client.data.valueTotemActivetime)){
+        activateTimeSlider = new Slider(getRegularX() + 5, getRegularY(), 150, 20,Component.literal("") , Component.literal(""),0,25,ConvertActivateTime.asLevel(this.client.data.valueTotemActivetime), true){
             @Override
             protected void updateMessage() {
                 int level = getValueInt();
@@ -61,7 +62,8 @@ public class TotemTimerConfigScreen extends Screen {
                         Component.translatable("fishhelper.config.minute").getString()+")"));
             }
         };
-        cooldownSlider = new Slider(getRegularX() + 5, getRegularY() + (20 + 2), 150, 20, Component.literal(""),0,10,ConvertCooldown.asLevel(this.client.data.valueTotemCooldown)){
+        activateTimeSlider.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.slider.tooltip")));
+        cooldownSlider = new Slider(getRegularX() + 5, getRegularY() + (20 + 2), 150, 20, Component.literal(""), Component.literal(""), 0,10,ConvertCooldown.asLevel(this.client.data.valueTotemCooldown), true){
             @Override
             protected void updateMessage() {
                 int level = getValueInt();
@@ -70,45 +72,49 @@ public class TotemTimerConfigScreen extends Screen {
                         Component.translatable("fishhelper.config.minute").getString()+")"));
             }
         };
+        cooldownSlider.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.slider.tooltip")));
 
         this.addRenderableWidget(activateTimeSlider);
         this.addRenderableWidget(cooldownSlider);
 
         //토템 쿨감시간
-        this.CooldownReduction_TextField = new EditBox(this.font,getRegularX() + 5 + 90,getRegularY()+(20 + 2)*2,35,10,this.CooldownReduction_TextField,Component.translatable("fishhelper.config.cooldownreductionfield"));
+        this.CooldownReduction_TextField = new EditBox(this.font,super.width/2+40,getRegularY()+(20 + 2)*2,35,12,this.CooldownReduction_TextField,Component.translatable("fishhelper.config.cooldownreductionfield"));
         this.CooldownReduction_TextField.setValue(Double.toString(this.client.data.valueCooldownReduction/(double)1000));
-        this.addWidget(this.CooldownReduction_TextField);
+        this.CooldownReduction_TextField.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.cooldownreductionfield.tooltip")));
+        this.addRenderableWidget(this.CooldownReduction_TextField);
 
         toggleTotemButton = Button.builder(Component.translatable(toggleTotem),button -> {
             toggleTotemtime();
-        }).pos(getRegularX() + 5,getRegularY()+(20 + 2)*2+(10+4)).size(150,20).build();
+        }).pos(getRegularX() + 5,getRegularY()+(20 + 2)*2+(10+4)).size(150,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.tooltip"))).build();
         this.addRenderableWidget(toggleTotemButton);
 
-        timerXSlider = new Slider(getRegularX() + 5,getRegularY()+(20 + 2)*4+(10+2),150,20,Component.literal("X : "),1,1000,this.client.data.Timer_xpos){
+        timerXSlider = new Slider(getRegularX() + 5,getRegularY()+(20 + 2)*4+(10+2),150,20,Component.literal("X : "), Component.literal(""),1,1000,this.client.data.Timer_xpos, true){
             @Override
             protected void applyValue() {
                 client.data.Timer_xpos = getValueInt();
                 client.configManage.save();
             }
         };
+        timerXSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(timerXSlider);
-        timerYSlider = new Slider(getRegularX() + 5,getRegularY()+(20 + 2)*5+(10+2),150,20,Component.literal("Y : "),1,1000,this.client.data.Timer_ypos){
+        timerYSlider = new Slider(getRegularX() + 5,getRegularY()+(20 + 2)*5+(10+2),150,20,Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Timer_ypos,true){
             @Override
             protected void applyValue() {
                 client.data.Timer_ypos = getValueInt();
                 client.configManage.save();
             }
         };
+        timerYSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
         this.addRenderableWidget(timerYSlider);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
             mc.setScreen(parentScreen);
-        }).pos(10,super.height-30).size(50,20).build());
+        }).pos(super.width/2-75,super.height-30).size(50,20).build());
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.savebutton"),button -> {
             changeSetting();
             mc.setScreen(parentScreen);
-        }).pos(super.width-60,super.height-30).size(50,20).build());
+        }).pos(super.width/2+25,super.height-30).size(50,20).build());
     }
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -121,7 +127,8 @@ public class TotemTimerConfigScreen extends Screen {
     }
 
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
+
         context.drawString(this.font, Component.translatable("fishhelper.config.cooldownreductionfield"), getRegularX() + 5, getRegularY()+(20 + 2)*2+2, 0xFFFFFF);
         context.drawString(this.font,Component.translatable("fishhelper.config.changepos"),getRegularX() + 5,getRegularY()+(20 + 2)*4,0xFFFFFF);
 
@@ -132,8 +139,6 @@ public class TotemTimerConfigScreen extends Screen {
         this.timerYSlider.render(context, mouseX, mouseY, delta);
 
         this.CooldownReduction_TextField.render(context, mouseX, mouseY, delta);
-
-        super.render(context, mouseX, mouseY, delta);
     }
     private void changeSetting(){
         try{
@@ -167,6 +172,13 @@ public class TotemTimerConfigScreen extends Screen {
 
     int getRegularY() {
         return mc.getWindow().getGuiScaledHeight() / 2 - height / 2;
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
     }
 
     @Override

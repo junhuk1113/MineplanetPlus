@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,8 +25,9 @@ public class ItemPickupMixin {
 	@Inject(method = "clicked", at = @At("RETURN"))
 	private void onSlotClick(int slotId, int button, ClickType clickType, Player player, CallbackInfo ci) {
 		if (player instanceof LocalPlayer) {
-			if (!carried.isEmpty()&&carried.hasTag()) {
-				System.out.println(carried.getTooltipLines(mc.player, TooltipFlag.NORMAL));
+			//if (!carried.isEmpty()&&carried.hasTag()) { 수정필요
+			if (!carried.isEmpty()) {
+				//System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));
 				if(carried.getHoverName().getString().equals("토템 발동")){
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();

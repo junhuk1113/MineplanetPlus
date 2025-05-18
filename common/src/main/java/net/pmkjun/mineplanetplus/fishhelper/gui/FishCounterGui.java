@@ -1,9 +1,6 @@
 package net.pmkjun.mineplanetplus.fishhelper.gui;
 
-import java.util.Arrays;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.Earning;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
+
+import java.util.Arrays;
 
 public class FishCounterGui {
     private Minecraft mc;

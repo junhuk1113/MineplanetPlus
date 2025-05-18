@@ -1,20 +1,20 @@
 package net.pmkjun.mineplanetplus.fabric.dungeonhelper.sound;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.sound.ISoundManager;
-import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.pmkjun.mineplanetplus.dungeonhelper.sound.ISoundManager;
+import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 
 public class SoundManager implements ISoundManager {
 
-    public static final SoundEvent TUTELARY_SOUND = SoundEvent.createVariableRangeEvent(new ResourceLocation(DungeonHelper.MODID, "tutelary_sound"));
+    public static final SoundEvent TUTELARY_SOUND = SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "tutelary_sound"));
 
     public void register() {
-        Registry.register(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(DungeonHelper.MODID, "tutelary_sound"), TUTELARY_SOUND);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "tutelary_sound"), TUTELARY_SOUND);
     }
 
     @Override

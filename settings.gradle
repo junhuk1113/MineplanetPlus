@@ -11,4 +11,4 @@ rootProject.name = 'mineplanetplus'
 
 include 'common'
 include 'fabric'
-include 'forge'
+include 'neoforge'

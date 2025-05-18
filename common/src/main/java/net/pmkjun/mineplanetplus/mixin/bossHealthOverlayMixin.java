@@ -5,14 +5,13 @@ import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Stat;
-
-import java.util.Map;
-import java.util.UUID;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Map;
+import java.util.UUID;
 
 @Mixin(BossHealthOverlay.class)
 public class bossHealthOverlayMixin {

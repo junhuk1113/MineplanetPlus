@@ -1,23 +1,22 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.gui.screen;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 
 public class DungeonHelperSettingsScreen extends Screen {
-    private Minecraft mc;
-    private DungeonHelperClient client;
+    private final Minecraft mc;
+    private final DungeonHelperClient client;
 
-    private static final ResourceLocation BACKGROUND_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");
+    private static final ResourceLocation BACKGROUND_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");
 
     private final int width;
     private final int height;
@@ -68,6 +67,7 @@ public class DungeonHelperSettingsScreen extends Screen {
         toggleVanillaLevelViewButton = new Button.Builder(Component.translatable("gui.dungeonhelper.settings.vanilla_level_view"), btn -> onToggleVanillaLevelViewPress())
         .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
         .size(137, 20)
+        .tooltip(Tooltip.create(Component.literal("현재 작동하지 않습니다.")))
         .build();
         setToggleVanillaLevelViewButtonText();
         this.addRenderableWidget(toggleVanillaLevelViewButton);
@@ -75,16 +75,18 @@ public class DungeonHelperSettingsScreen extends Screen {
 
 
     public void render(GuiGraphics guiGraphics, int a, int b, float c) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
 
-        this.renderBackground(guiGraphics);
+        //this.renderBackground(guiGraphics);
         super.render(guiGraphics, a, b, c);
     }
-    
-    public void renderBackground(GuiGraphics guiGraphics) {
-        super.renderBackground(guiGraphics);
 
-        guiGraphics.blit(BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height);
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
+        guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
     }
 
     private void onDungeonCooltimeSettingsPress() {

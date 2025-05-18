@@ -8,9 +8,9 @@ import net.minecraft.util.Mth;
 import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 
 public class AdjustMegaphoneTimerPosScreen extends Screen{
-    private Minecraft mc = Minecraft.getInstance();
-    private MegaphoneTimerClient client = MegaphoneTimerClient.getInstance();
-    private Screen parentScreen;
+    private final Minecraft mc = Minecraft.getInstance();
+    private final MegaphoneTimerClient client = MegaphoneTimerClient.getInstance();
+    private final Screen parentScreen;
     private double lastMouseX, lastMouseY;
     private int lastTimerX, lastTimerY;
     private boolean isTimerClicked = false;
@@ -56,6 +56,14 @@ public class AdjustMegaphoneTimerPosScreen extends Screen{
     @Override
     public void onClose(){
         this.mc.setScreen(parentScreen);
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+            guiGraphics.drawCenteredString(mc.font,"서버 접속 후 설정 할 수 있습니다.",mc.getWindow().getGuiScaledWidth()/2, mc.getWindow().getGuiScaledHeight()/2, 0xFFFFFF);
+        }
     }
 
     private int getXpos(){

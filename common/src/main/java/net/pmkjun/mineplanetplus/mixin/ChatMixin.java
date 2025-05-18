@@ -9,7 +9,6 @@ import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Skill;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,6 +30,7 @@ public abstract class ChatMixin {
 
     @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/network/chat/Component;)V")
     private void addMessageMixin(Component message, CallbackInfo ci) {
+        String playerString;
         //피시헬퍼
         if(fishhelper.data.toggleChattinglog)
             FishHelperMod.LOGGER.info(message.getString());
@@ -96,8 +96,15 @@ public abstract class ChatMixin {
 		}
 
         //확성기타이머
-        String playerString = mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).getString().substring(5);
-        //mc.player.displayClientMessage(Component.literal(playerString), false);
+        try{
+            playerString = mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).toFlatList().getLast().getString();
+            //System.out.println(mc.gui.getTabList().getNameForDisplay(mc.getConnection().getPlayerInfo(mc.player.getUUID())).toFlatList().getLast().getString());
+        }
+        catch (NullPointerException e){
+            System.out.println("MineplanetPlus : player info null!");
+            return;
+        }
+
         if(message.getString().contains(" "+playerString))
         {
             //mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);

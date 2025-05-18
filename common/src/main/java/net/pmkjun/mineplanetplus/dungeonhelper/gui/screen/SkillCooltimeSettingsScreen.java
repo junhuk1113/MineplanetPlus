@@ -1,33 +1,33 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.gui.screen;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.gui.components.Slider;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
+import net.pmkjun.mineplanetplus.gui.components.Slider;
 
 public class SkillCooltimeSettingsScreen extends Screen {
-    private Minecraft mc;
-    private DungeonHelperClient client;
-    public static final ResourceLocation BG_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/skill_cooltime_settings_background.png");
+    private final Minecraft mc;
+    private final DungeonHelperClient client;
+    public static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/skill_cooltime_settings_background.png");
     private Button toggleSkillCooltimeButton;
     private Button classTypeButton;
     private Button debugModeButton;
     private Button toggleCustomGUIPosButton;
     private Button toggleAutoClassDetectButton;
     private Slider XPosSlider, YPosSlider;
-    private int width, height;
+    private final int width, height;
     private final Screen parentScreen;
-    public static boolean ENABLE_DEBUG_MODE = false;
+    public static boolean ENABLE_DEBUG_MODE = true;
     public static boolean DEBUG_MODE = false;
 
     public SkillCooltimeSettingsScreen(Screen parentScreen) {
@@ -60,9 +60,9 @@ public class SkillCooltimeSettingsScreen extends Screen {
             toggleAutoClassDetectButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
         }
 
-        this.toggleSkillCooltimeButton = (Button)this.addRenderableWidget((new Button.Builder(toggleSkillCooltimeButtonComponent, (btn) -> {
+        this.toggleSkillCooltimeButton = this.addRenderableWidget((new Button.Builder(toggleSkillCooltimeButtonComponent, (btn) -> {
             this.onToggleSkillCooltimePress();
-        })).pos(this.getRegularX() + 5, this.getRegularY() + 5).size(137, 20).build());
+        }).tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.main.tooltip")))).pos(this.getRegularX() + 5, this.getRegularY() + 5).size(137, 20).build());
         Component classTypeButtonComponent = Component.empty();
         if (this.client.data.classType == ClassCategory.ASSASSIN) {
             classTypeButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.classType").append(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.classType.assassin").withStyle(Style.EMPTY.applyFormat(ChatFormatting.DARK_RED).withBold(true)));
@@ -74,13 +74,13 @@ public class SkillCooltimeSettingsScreen extends Screen {
             classTypeButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.classType").append(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.classType.battle_mage").withStyle(Style.EMPTY.applyFormat(ChatFormatting.BLUE).withBold(true)));
         }
 
-        this.classTypeButton = (Button)this.addRenderableWidget((new Button.Builder(classTypeButtonComponent, (btn) -> {
+        this.classTypeButton = this.addRenderableWidget((new Button.Builder(classTypeButtonComponent, (btn) -> {
             this.onClassTypePress();
-        })).pos(this.getRegularX() + 5, this.getRegularY() + 5 + 20 + 2).size(137, 20).build());
+        }).tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.classType.tooltip")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + 20 + 2).size(137, 20).build());
 
-        this.toggleCustomGUIPosButton = (Button)this.addRenderableWidget((new Button.Builder(toggleCustomGUIPosComponent, (btn) -> {
+        this.toggleCustomGUIPosButton = this.addRenderableWidget((new Button.Builder(toggleCustomGUIPosComponent, (btn) -> {
             this.onCustomGUIPosPress();
-        })).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 2).size(137, 20).build());
+        }).tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.customguipos.tooltip")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 2).size(137, 20).build());
 
         XPosSlider = this.addRenderableWidget(new Slider(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*3, 137, 20,Component.literal("X : "),Component.literal(""),0,1000,client.data.SkillCooltimeXpos,true){
             @Override
@@ -89,6 +89,7 @@ public class SkillCooltimeSettingsScreen extends Screen {
                 client.settings.save();
             }
         });
+        XPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         YPosSlider = this.addRenderableWidget(new Slider(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*4, 137, 20,Component.literal("Y : "),Component.literal(""),0,1000,client.data.SkillCooltimeXpos,true){
             @Override
             protected void applyValue() {
@@ -96,10 +97,11 @@ public class SkillCooltimeSettingsScreen extends Screen {
                 client.settings.save();
             }
         });
+        YPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
 
-        this.toggleAutoClassDetectButton = (Button)this.addRenderableWidget((new Button.Builder(toggleAutoClassDetectButtonComponent, (btn) -> {
+        this.toggleAutoClassDetectButton = this.addRenderableWidget((new Button.Builder(toggleAutoClassDetectButtonComponent, (btn) -> {
             this.onAutoClassDetectPress();
-        })).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 5).size(137, 20).build());
+        }).tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect.tooltip")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 5).size(137, 20).build());
 
         if (ENABLE_DEBUG_MODE) {
             MutableComponent debugModeButtonComponent;
@@ -109,25 +111,27 @@ public class SkillCooltimeSettingsScreen extends Screen {
                 debugModeButtonComponent = Component.literal("DEBUG MODE").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
             }
 
-            this.debugModeButton = (Button)this.addRenderableWidget((new Button.Builder(debugModeButtonComponent, (btn) -> {
+            this.debugModeButton = this.addRenderableWidget((new Button.Builder(debugModeButtonComponent, (btn) -> {
                 this.onDebugModePress();
-            })).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2)*5).size(137, 20).build());
+            }).tooltip(Tooltip.create(Component.literal("개발용 기능입니다")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2)*6).size(137, 20).build());
         }
 
     }
 
     public void render(GuiGraphics guiGraphics, int a, int b, float c) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        this.renderBackground(guiGraphics);
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        this.renderBackground(guiGraphics, a, b, c);
         XPosSlider.render(guiGraphics,a,b,c);
         YPosSlider.render(guiGraphics,a,b,c);
         super.render(guiGraphics, a, b, c);
     }
 
-    public void renderBackground(GuiGraphics guiGraphics) {
-        super.renderBackground(guiGraphics);
-
-        guiGraphics.blit(BG_LOCATION, this.getRegularX(), this.getRegularY(), 0, 0, this.width, this.height);
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
+        guiGraphics.blit(RenderType::guiTextured, BG_LOCATION, this.getRegularX(), this.getRegularY(), 0, 0, this.width, this.height, 256, 256);
     }
 
     private void onToggleSkillCooltimePress() {

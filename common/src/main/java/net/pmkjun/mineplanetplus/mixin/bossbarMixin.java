@@ -1,20 +1,21 @@
 package net.pmkjun.mineplanetplus.mixin;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.BossEvent;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import java.util.List;
 
 @Mixin(BossEvent.class)
 public class bossbarMixin {
     DungeonHelperClient client = DungeonHelperClient.getInstance();
 
-    @Inject(method = "Lnet/minecraft/world/BossEvent;setName(Lnet/minecraft/network/chat/Component;)V",at = {@At("RETURN")})
+    @Inject(method = "setName(Lnet/minecraft/network/chat/Component;)V",at = {@At("RETURN")})
     private void BossBarOverlayMixin(Component bossbarComponent, CallbackInfo cir){
         //System.out.println(bossbarComponent.getString());
         String[] mana;

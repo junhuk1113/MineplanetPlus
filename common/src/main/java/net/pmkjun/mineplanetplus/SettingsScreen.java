@@ -1,24 +1,21 @@
 package net.pmkjun.mineplanetplus;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
 import net.pmkjun.mineplanetplus.megaphonetimer.gui.MegaphoneTimerConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-
 public class SettingsScreen extends Screen {
-    private Minecraft mc;
+    private final Minecraft mc;
 
-    private static final ResourceLocation BACKGROUND_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");
+    private static final ResourceLocation BACKGROUND_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");
 
     private final int width;
     private final int height;
@@ -28,7 +25,7 @@ public class SettingsScreen extends Screen {
         super(Component.literal("MineplanetPlusSettingScreen"));
 
         mc = Minecraft.getInstance();
-        this.parentScreen = (Screen)null;
+        this.parentScreen = null;
 
         width = 147;
         height = 96;
@@ -69,16 +66,18 @@ public class SettingsScreen extends Screen {
 
 
     public void render(GuiGraphics guiGraphics, int a, int b, float c) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
 
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, a, b, c);
         super.render(guiGraphics, a, b, c);
     }
-    
-    public void renderBackground(GuiGraphics guiGraphics) {
-        super.renderBackground(guiGraphics);
 
-        guiGraphics.blit(BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height);
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(Minecraft.getInstance().level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
+        guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
     }
 
     private void onDungeonHelperSettingsPress() {

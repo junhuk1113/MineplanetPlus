@@ -1,19 +1,24 @@
 package net.pmkjun.mineplanetplus.fabric.mixin;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
-import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.profiling.Profiler;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Environment(EnvType.CLIENT)
 @Mixin(Gui.class)
 public class GuiMixin {
 
@@ -24,13 +29,15 @@ public class GuiMixin {
     private Component overlayMessageString;
 
     private Minecraft minecraft = Minecraft.getInstance();
-    private static final DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
-    private static final FishHelperClient fishhelper = FishHelperClient.getInstance();
-    private static final PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
-    private static final MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
+    DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
+    FishHelperClient fishhelper = FishHelperClient.getInstance();
+    PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
+    MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
 
-    @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;F)V", at = {@At("RETURN")}, cancellable = false)
-    private void renderMixin(GuiGraphics guiGraphics, float tickDelta, CallbackInfo info) {
+    @Inject(method = "render", at = {@At("RETURN")}, cancellable = false)
+    private void renderMixin(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
+        if(minecraft.options.hideGui) return; //F1 눌렀을 때 모드 gui 렌더링 비활성화
+
         dungeonhelper.renderEvent(guiGraphics, title, overlayMessageString);
         fishhelper.renderEvent(guiGraphics);
         skilltimer.renderEvent(guiGraphics);
@@ -46,7 +53,7 @@ public class GuiMixin {
             info.cancel();
 
             if (this.minecraft.player.experienceLevel > 0 && dungeonhelper.data.toggleVanillaLevelView) {
-                this.minecraft.getProfiler().push("expLevel");
+                Profiler.get().push("expLevel");
                 String string = "" + this.minecraft.player.experienceLevel;
                 l = (guiGraphics.guiWidth() - this.minecraft.font.width(string)) / 2;
                 m = guiGraphics.guiHeight() - 32 + 3 - 18;
@@ -55,7 +62,7 @@ public class GuiMixin {
                 guiGraphics.drawString(this.minecraft.font, string, l, m + 1, 0, false);
                 guiGraphics.drawString(this.minecraft.font, string, l, m - 1, 0, false);
                 guiGraphics.drawString(this.minecraft.font, string, l, m, 8453920, false);
-                this.minecraft.getProfiler().pop();
+                Profiler.get().pop();
              }
         }
             

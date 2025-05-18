@@ -13,11 +13,11 @@
     "◆피시헬퍼◆:${fishhelperCredits}"
   ],
   "contact": {
-    "homepage": "https://github.com/junhuk1113/MineplanetPlus",
+    "homepage": "https://modrinth.com/mod/mineplanetplus",
     "sources": "https://github.com/junhuk1113/MineplanetPlus"
   },
   "license": "CC0-1.0",
-  "icon": "assets/mineplanetplus/logo3.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -30,9 +30,9 @@
     "mineplanetplus.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.22",
-    "minecraft": "~1.20.1",
-    "java": ">=17",
+    "fabricloader": ">=0.16.13",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
     "fabric-api": "*"
   },
   "suggests": {

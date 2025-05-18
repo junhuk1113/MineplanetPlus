@@ -15,7 +15,7 @@ public class Data{
     public boolean toggleRuneOFFortuneRender = true;
     public boolean toggleRuneArrowEmpty = false;
 
-    public boolean toggleSkillCooltime = true;
+    public boolean toggleSkillCooltime = false;
     public boolean toggleCustomSkillGUIPos = false;
     public boolean toggleVanillaLevelView = false;
     public boolean toggleAutoClassDetect = true;
@@ -29,4 +29,6 @@ public class Data{
     public int SkillCooltimeYpos = 0;
 
     public long[] lastDungeonTime = new long[DungeonCooltimeGui.DUNGEON_COUNT];
+
+    public float uiScale = 16.0f;
 }

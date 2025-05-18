@@ -1,12 +1,11 @@
 package net.pmkjun.mineplanetplus.fabric.dungeonhelper.input;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
-
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
 
 public class KeyMappings implements IKeyMappings {
 

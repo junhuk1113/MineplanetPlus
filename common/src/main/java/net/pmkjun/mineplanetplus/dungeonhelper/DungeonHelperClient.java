@@ -1,5 +1,7 @@
 package net.pmkjun.mineplanetplus.dungeonhelper;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Data;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Settings;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.DungeonCooltimeGui;
@@ -8,25 +10,23 @@ import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsS
 import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
 import net.pmkjun.mineplanetplus.dungeonhelper.sound.ISoundManager;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 
 public class DungeonHelperClient {
 
     private static DungeonHelperClient instance;
 
-    private ISoundManager soundManager;
-    private IKeyMappings keyMappings;
+    private final ISoundManager soundManager;
+    private final IKeyMappings keyMappings;
 
     public Settings settings;
     public Data data;
 
-    private DungeonCooltimeGui dungeonCooltimeGui;
-    private SkillCooltimeGui skillCooltimeGui;
+    private final DungeonCooltimeGui dungeonCooltimeGui;
+    private final SkillCooltimeGui skillCooltimeGui;
 
-    private DungeonHelperSettingsScreen settingsScreen;
+    private final DungeonHelperSettingsScreen settingsScreen;
 
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
 
     public boolean ishereDungeon = false;
 

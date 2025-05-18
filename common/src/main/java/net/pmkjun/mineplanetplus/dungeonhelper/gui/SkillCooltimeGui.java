@@ -1,27 +1,28 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.gui;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.SkillCategory;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonSkill;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.SkillCategory;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
 
 public class SkillCooltimeGui {
 
-    private Minecraft mc;
-    private DungeonHelperClient client;
-    private DungeonSkill dungeonSkill;
+    private final Minecraft mc;
+    private final DungeonHelperClient client;
+    private final DungeonSkill dungeonSkill;
 
-    private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/widgets.png");
-    private static final ResourceLocation BLACK_ICON = new ResourceLocation("dungeonhelper", "textures/icon/black.png");
-    private static final ResourceLocation MANA_RUNOUT_ICON = new ResourceLocation("dungeonhelper", "textures/icon/mana_runout.png");
+    private static final ResourceLocation WIDGETS = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_left");
+    private static final ResourceLocation BLACK_ICON = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/black.png");
+    private static final ResourceLocation MANA_RUNOUT_ICON = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/mana_runout.png");
 
     private static final int SKILL_GUI_SIZE = 16;
     private static final float ASSASSIN_SKILL_REACTIVATION_TIME = 0.5f;
@@ -140,7 +141,7 @@ public class SkillCooltimeGui {
             if(dungeonSkill.isComboSkill(client.data.classType,skillNum) && isComboSkillUseable()){
                 skillNum++;
             }
-            guiGraphics.blit(WIDGETS, xOffset + (22)* i, yOffset, 24, 23, 22, 22);
+            guiGraphics.blitSprite(RenderType::guiTexturedOverlay, WIDGETS, xOffset + (22)* i, yOffset-1, 29, 24);
             ResourceLocation texture = null;
 
             texture = dungeonSkill.getSkillTexture(client.data.classType, skillNum);
@@ -226,8 +227,8 @@ public class SkillCooltimeGui {
         }
         //if(isComboSkillUseable())
         //    guiGraphics.blit(BLACK_ICON, x + 22 * dungeonSkill.getComboSkill(client.data.classType), y + (int) (SKILL_GUI_SIZE * (1 - leftComboSkillTime / comboSkillReactivationTime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftComboSkillTime / comboSkillReactivationTime)));
-        guiGraphics.blit(BLACK_ICON, x + 22 * 2, y + (int) (SKILL_GUI_SIZE * (1 - leftLV40SkillTime / lv40SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV40SkillTime / lv40SkillCooltime)));
-        guiGraphics.blit(BLACK_ICON, x + 22 * 3, y + (int) (SKILL_GUI_SIZE * (1 - leftUltimateTime / ultimateCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftUltimateTime / ultimateCooltime)));
+        guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 2, y + (int) (SKILL_GUI_SIZE * (1 - leftLV40SkillTime / lv40SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV40SkillTime / lv40SkillCooltime)),256, 256);
+        guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 3, y + (int) (SKILL_GUI_SIZE * (1 - leftUltimateTime / ultimateCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftUltimateTime / ultimateCooltime)),256, 256);
 
         PoseStack poseStack = guiGraphics.pose();
         if(isComboSkillUseable()) {
@@ -269,7 +270,7 @@ public class SkillCooltimeGui {
         poseStack.translate(x, y, 0);
         poseStack.scale(scaleRatio, scaleRatio, 1);
 
-        guiGraphics.blit(texture, 0, 0, 0, 0, 256, 256);
+        guiGraphics.blit(RenderType::guiTexturedOverlay, texture, 0, 0, 0, 0, 256, 256, 256, 256);
 
         poseStack.popPose();
     }

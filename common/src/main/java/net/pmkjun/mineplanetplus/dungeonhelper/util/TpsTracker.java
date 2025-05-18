@@ -1,12 +1,12 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.util;
 
-import java.util.Arrays;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+
+import java.util.Arrays;
 
 public class TpsTracker {
 

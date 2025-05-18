@@ -3,6 +3,7 @@ package net.pmkjun.mineplanetplus.fishhelper.gui.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
@@ -48,7 +49,10 @@ public class FishHelperConfigScreen extends Screen{
 
         toggleCustomTextureButton = Button.builder(Component.translatable(toggleTexture), btn -> {
             onCustomTexturePress();
-        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2).size(150, 20).build();
+        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2)
+                .size(150, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.customtexture.tooltip")))
+                .build();
         addRenderableWidget(toggleCustomTextureButton);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
@@ -57,7 +61,7 @@ public class FishHelperConfigScreen extends Screen{
     }
 
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        //this.renderBackground(context);
         super.render(context, mouseX, mouseY, delta);
     }
 
@@ -79,6 +83,13 @@ public class FishHelperConfigScreen extends Screen{
             client.data.toggleCustomTexture = true;
         }
         client.configManage.save();
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
     }
 
     @Override

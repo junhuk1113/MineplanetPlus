@@ -2,14 +2,14 @@ package net.pmkjun.mineplanetplus.planetskilltimer.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Stat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.SkillLevel;
@@ -17,8 +17,8 @@ import net.pmkjun.mineplanetplus.planetskilltimer.util.Timeformat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
 
 public class SkillTimerGui {
-    private Minecraft mc;
-    private PlanetSkillTimerClient client;
+    private final Minecraft mc;
+    private final PlanetSkillTimerClient client;
 
     public int one = 0;
     public int two = 0;
@@ -28,12 +28,12 @@ public class SkillTimerGui {
 
 
     private static final ResourceLocation[] SKILL_ICONS = {
-        new ResourceLocation("minecraft", "textures/item/golden_hoe.png"),
-        new ResourceLocation("minecraft", "textures/item/diamond_axe.png"),
-        new ResourceLocation("minecraft", "textures/item/netherite_pickaxe.png"),
-        new ResourceLocation("minecraft", "textures/item/iron_shovel.png")
+            ResourceLocation.withDefaultNamespace("textures/item/golden_hoe.png"),
+            ResourceLocation.withDefaultNamespace("textures/item/diamond_axe.png"),
+            ResourceLocation.withDefaultNamespace("textures/item/netherite_pickaxe.png"),
+            ResourceLocation.withDefaultNamespace("textures/item/iron_shovel.png")
     };
-    private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/widgets.png");
+    private static final ResourceLocation WIDGETS = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_left");
 
     public SkillTimerGui(){
         this.mc = Minecraft.getInstance();
@@ -65,7 +65,7 @@ public class SkillTimerGui {
 
         RenderSystem.enableBlend(); // 블렌딩 활성화
         RenderSystem.defaultBlendFunc();
-        context.blit(WIDGETS, getXpos()+22*i,getYpos(), 24, 23, 22, 22);
+        context.blitSprite(RenderType::guiTextured, WIDGETS, getXpos()+22*i,getYpos()-1, 29, 24);
         RenderSystem.disableBlend();
 
         poseStack.pushPose();
@@ -73,7 +73,7 @@ public class SkillTimerGui {
         poseStack.scale(0.0625F, 0.0625F, 0.0625F);
 
         RenderSystem.setShaderTexture(0,texture);
-        context.blit(texture, 0, 0, 0, 0, 256, 256);
+        context.blit(RenderType::guiTextured, texture, 0, 0, 0, 0, 256, 256, 256, 256);
         poseStack.scale(16.0F, 16.0F, 16.0F);
         poseStack.popPose();
         //System.out.println("남은 스킬 지속시간 : "+ (remaining_activatetime/(double)1000) +"초");

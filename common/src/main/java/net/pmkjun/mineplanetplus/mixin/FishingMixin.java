@@ -22,8 +22,6 @@ public abstract class FishingMixin {
 
     @Shadow @Nullable public abstract Player getPlayerOwner();
 
-    @Shadow public abstract boolean canChangeDimensions();
-
     @Inject(method = "onClientRemoval", at = @At("RETURN"))
     private void onRemovedMixin(CallbackInfo ci) {
         String bobberOwner;

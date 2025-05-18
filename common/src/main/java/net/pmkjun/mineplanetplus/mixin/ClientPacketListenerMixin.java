@@ -1,30 +1,30 @@
 package net.pmkjun.mineplanetplus.mixin;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.SkillCooltimeSettingsScreen;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.TpsTracker;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundLoginPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
+import net.minecraft.world.entity.Display.ItemDisplay;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
-
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.world.item.component.CustomModelData;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.SkillCooltimeSettingsScreen;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.TpsTracker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.world.entity.Display.ItemDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public abstract class ClientPacketListenerMixin {
     private ArrayList<Integer> entityids = new ArrayList<>();
 
     @Shadow
-    private ClientLevel level;
+    private ClientLevel level; //하단 코드 임시조치, 수정필요
 
     @Inject(method = "handleSetEquipment(Lnet/minecraft/network/protocol/game/ClientboundSetEquipmentPacket;)V", at = {@At("TAIL")})
     private void handleSetEquipmentMixin(ClientboundSetEquipmentPacket clientboundSetEquipmentPacket, CallbackInfo info) {
@@ -72,24 +72,25 @@ public abstract class ClientPacketListenerMixin {
             if (mc.player != null) {
                 List<Pair<EquipmentSlot, ItemStack>> slots = clientboundSetEquipmentPacket.getSlots();
                 for(Pair<EquipmentSlot, ItemStack> slot : slots) {
-                    CompoundTag tag = slot.getSecond().getTag();
+                    //CompoundTag tag = slot.getSecond().getTag();
+                    CustomModelData tag = slot.getSecond().get(DataComponents.CUSTOM_MODEL_DATA);
 
                     if(tag == null)
                         continue;
 
                     if(slot.getFirst().getName().equals("mainhand")||slot.getFirst().getName().equals("head")) {
-                        int id = tag.getInt("CustomModelData");
+                        int id = tag.getFloat(0).intValue();
                         double distance = armorStand.position().distanceToSqr(mc.player.position());
 
-                        /*
-                        mc.player.displayClientMessage(Component.literal(tag.toString()), false);
-                        mc.player.displayClientMessage(Component.literal(String.valueOf(distance)), false);
-                        */
+
+                        //mc.player.displayClientMessage(Component.literal(tag.toString()), false);
+                        //mc.player.displayClientMessage(Component.literal(String.valueOf(distance)), false);
+
 
                         if (SkillCooltimeSettingsScreen.DEBUG_MODE) {
-                            mc.player.displayClientMessage((Component)Component.literal(tag.toString()), false);
-                            mc.player.displayClientMessage((Component)Component.literal(String.valueOf(distance)), false);
-                            mc.player.displayClientMessage(Component.literal("currentTime : "+String.valueOf(System.currentTimeMillis())), false);
+                            mc.player.displayClientMessage(Component.literal(tag.toString()), false);
+                            mc.player.displayClientMessage(Component.literal(String.valueOf(distance)), false);
+                            mc.player.displayClientMessage(Component.literal("currentTime : "+ System.currentTimeMillis()), false);
                         }
 
                         if(client.data.classType == ClassCategory.ASSASSIN) {
@@ -133,11 +134,14 @@ public abstract class ClientPacketListenerMixin {
                         }
                         // else 2329 - dragon piercing
                         // else 2109 - assassin_dash_1
+
+
                     }
                 }
             }
         }
     }
+
     @Inject(method = "handleSetEntityData(Lnet/minecraft/network/protocol/game/ClientboundSetEntityDataPacket;)V", at = {@At("TAIL")})
     public void handleSetEntityData(ClientboundSetEntityDataPacket clientboundSetEntityDataPacket, CallbackInfo info){
         int index;
@@ -147,12 +151,15 @@ public abstract class ClientPacketListenerMixin {
             Entity entity = this.level.getEntity(clientboundSetEntityDataPacket.id());
             if(entity instanceof ItemDisplay itemDisplay){
                 try{
-                    CompoundTag tag = itemDisplay.itemRenderState().itemStack().getTag();
-                    int id = tag.getInt("CustomModelData");
+                    //CustomModelData tag = itemDisplay.itemRenderState().itemStack().get(DataComponents.CUSTOM_MODEL_DATA);
+                    //Component c = itemDisplay.getCustomName();
+                    //int id = tag.getFloat(0).intValue();
+                    int id = itemDisplay.getId();
                     double distance = itemDisplay.position().distanceToSqr(mc.player.position());
                     if (SkillCooltimeSettingsScreen.DEBUG_MODE){
-                        mc.player.displayClientMessage(Component.literal("itemdisplay : " + tag), false);
-                        mc.player.displayClientMessage((Component)Component.literal(String.valueOf(distance)), false);
+                        mc.player.displayClientMessage(Component.literal(itemDisplay.itemRenderState().itemStack().get(DataComponents.CUSTOM_MODEL_DATA).toString()), false);
+                        //mc.player.displayClientMessage(itemDisplay.getCustomName(), false);
+                        mc.player.displayClientMessage(Component.literal(String.valueOf(distance)), false);
                     }
                     
                     else if (client.data.classType == ClassCategory.DRAGON_WARRIOR) {
@@ -168,18 +175,22 @@ public abstract class ClientPacketListenerMixin {
                     entityids.remove(index);
                 }
                 catch(NullPointerException e){
+                    if (SkillCooltimeSettingsScreen.DEBUG_MODE) {
+                        mc.player.displayClientMessage(Component.literal("item display null"), false);
+                    }
                 }
             }
             
         }
     }
-    
+
     @Inject(method = "handleAddEntity(Lnet/minecraft/network/protocol/game/ClientboundAddEntityPacket;)V", at = {@At("RETURN")})
     public void handleSetEntityData(ClientboundAddEntityPacket clientboundAddEntityPacket, CallbackInfo info){
         Entity entity = this.level.getEntity(clientboundAddEntityPacket.getId());
         if(entity == null) return;
     
         if(entity instanceof ItemDisplay){
+            //System.out.println("item display added");
             try{
                 entityids.add(clientboundAddEntityPacket.getId());
             }

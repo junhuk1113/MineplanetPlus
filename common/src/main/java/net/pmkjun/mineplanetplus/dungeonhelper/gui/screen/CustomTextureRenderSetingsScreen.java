@@ -1,29 +1,29 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.gui.screen;
 
-import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 
 public class CustomTextureRenderSetingsScreen extends Screen {
 
-    private Minecraft mc;
-    private DungeonHelperClient client;
+    private final Minecraft mc;
+    private final DungeonHelperClient client;
 
-    public static final ResourceLocation BG_LOCATION = new ResourceLocation("dungeonhelper", "textures/gui/custom_enchant_render_settings_background.png");
+    public static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/custom_enchant_render_settings_background.png");
 
     private Button toggleCustomEnchantRenderButton;
     private Button toggleRuneOfFortuneRenderButton;
     private Button toggleRuneArrowEmptyButton;
 
-    private int width, height;
+    private final int width, height;
     private final Screen parentScreen;
 
     protected CustomTextureRenderSetingsScreen(Screen parentScreen) {
@@ -55,6 +55,7 @@ public class CustomTextureRenderSetingsScreen extends Screen {
         toggleCustomEnchantRenderButton = this.addRenderableWidget(new Button.Builder(toggleCustomEnchantRenderButtonComponent, btn -> onToggleCustomEnchantRenderPress())
                 .pos(getRegularX() + 5, getRegularY() + 5)
                 .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main.tooltip")))
                 .build());
 
         Component toggleRuneOfFortuneRenderButtonComponent;
@@ -72,6 +73,7 @@ public class CustomTextureRenderSetingsScreen extends Screen {
         toggleRuneOfFortuneRenderButton = this.addRenderableWidget(new Button.Builder(toggleRuneOfFortuneRenderButtonComponent, btn -> onToggleRuneOfFortuneRenderPress())
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2))
                 .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runeoffortune.tooltip")))
                 .build());
 
         Component toggleRuneArrowEmptyButtonComponent;
@@ -89,22 +91,24 @@ public class CustomTextureRenderSetingsScreen extends Screen {
         toggleRuneArrowEmptyButton = this.addRenderableWidget(new Button.Builder(toggleRuneArrowEmptyButtonComponent, btn -> onToggleRuneArrowEmptyPress())
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*2)
                 .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow.tooltip")))
                 .build());
 
     }
 
     public void render(GuiGraphics guiGraphics, int a, int b, float c) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
 
-        this.renderBackground(guiGraphics);
+        //this.renderBackground(guiGraphics);
         super.render(guiGraphics, a, b, c);
     }
 
-    public void renderBackground(GuiGraphics guiGraphics) {
-        super.renderBackground(guiGraphics);
-
-        // RenderSystem.setShaderTexture(0, );
-        guiGraphics.blit(BG_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height);
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
+        guiGraphics.blit(RenderType::guiTextured, BG_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
         
     }
 
