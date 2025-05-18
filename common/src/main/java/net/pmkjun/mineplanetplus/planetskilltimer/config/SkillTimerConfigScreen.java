@@ -225,7 +225,14 @@ public class SkillTimerConfigScreen extends Screen{
     int getRegularY() {
         return mc.getWindow().getGuiScaledHeight() / 2 - height / 2;
     }
-    
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
+    }
+
     @Override
     public void onClose() {
         this.mc.setScreen(parentScreen);
