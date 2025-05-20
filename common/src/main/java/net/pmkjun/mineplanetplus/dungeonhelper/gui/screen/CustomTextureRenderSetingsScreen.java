@@ -11,13 +11,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.planetskilltimer.gui.StretchableBackground;
 
 public class CustomTextureRenderSetingsScreen extends Screen {
 
     private final Minecraft mc;
     private final DungeonHelperClient client;
-
-    public static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/custom_enchant_render_settings_background.png");
+    private final StretchableBackground background = new StretchableBackground();
+    //public static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/custom_enchant_render_settings_background.png");
 
     private Button toggleCustomEnchantRenderButton;
     private Button toggleRuneOfFortuneRenderButton;
@@ -108,8 +109,10 @@ public class CustomTextureRenderSetingsScreen extends Screen {
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
-        guiGraphics.blit(RenderType::guiTextured, BG_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
-        
+        //guiGraphics.blit(RenderType::guiTextured, BG_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
+        background.setSize(width, height);
+        background.setPosition(getRegularX(), getRegularY());
+        background.render(guiGraphics);
     }
 
     private void onToggleCustomEnchantRenderPress() {

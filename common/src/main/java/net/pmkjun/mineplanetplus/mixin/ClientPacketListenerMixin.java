@@ -43,7 +43,10 @@ public abstract class ClientPacketListenerMixin {
     private static final int VALID_ARCANE_SCISSORS_DISTANCE = 21;
 
     //LV30 스킬
+    private static final int VALID_DAGGER_THROW_DISTANCE = 4;
+    private static final int VALID_DRAGON_BREATH_DISTANCE = 3;
     private static final int VALID_DIVING_STRIKE_DISTANCE = 50;
+    private static final int VALID_ARCANE_SPIN_DISTANCE = 5;
 
     //LV40 스킬
     private static final int VALID_BLADE_SPIN_DISTANCE = 2;
@@ -98,6 +101,8 @@ public abstract class ClientPacketListenerMixin {
                                 client.updateLastComboSkillTime();
                             if(id == 2871 && distance < VALID_THRUST_DISTANCE)
                                 client.resetLastComboSkillTime();
+                            if(id == 2947 && distance < VALID_DAGGER_THROW_DISTANCE)
+                                client.updateLastLV30SkillTime();
                             if(id == 2883 && distance < VALID_BLADE_SPIN_DISTANCE)
                                 client.updateLastLV40SkillTime();
                             if(id == 2948 && distance < 2)
@@ -108,6 +113,8 @@ public abstract class ClientPacketListenerMixin {
                         else if (client.data.classType == ClassCategory.DRAGON_WARRIOR) {
                             if(id == 2325 && distance < VALID_DRAGON_DASH_DISTANCE)
                                 client.updateLastComboSkillTime();
+                            if(id == 2336 && distance < VALID_DRAGON_BREATH_DISTANCE)
+                                client.updateLastLV30SkillTime();
                             if(id == 2347 && distance < VALID_DRAGON_WHEEL_DISTANCE)
                                 client.resetLastComboSkillTime();
                             if(id == 2334 && distance < VALID_DRAGON_FURY_DISTANCE)
@@ -170,6 +177,10 @@ public abstract class ClientPacketListenerMixin {
                     else if (client.data.classType == ClassCategory.MARTIAL_ARTIST) {
                         if (model.equals("modelengine:fx_arctic_charge/body") && distance < VALID_MARTIAL_DRIVE_DISTANCE)
                             client.updateLastLV40SkillTime();
+                    }
+                    else if (client.data.classType == ClassCategory.BATTLE_MAGE) {
+                        if (model.equals("modelengine:vfx_gale_slash_1/body") && distance < VALID_ARCANE_SPIN_DISTANCE)
+                            client.updateLastLV30SkillTime();
                     }
 
                     entityids.remove(index);

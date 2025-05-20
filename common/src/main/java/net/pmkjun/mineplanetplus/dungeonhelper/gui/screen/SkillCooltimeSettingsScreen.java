@@ -14,11 +14,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
+import net.pmkjun.mineplanetplus.planetskilltimer.gui.StretchableBackground;
 
 public class SkillCooltimeSettingsScreen extends Screen {
     private final Minecraft mc;
     private final DungeonHelperClient client;
-    public static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/skill_cooltime_settings_background.png");
+    //public static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/skill_cooltime_settings_background.png");
+    private final StretchableBackground background = new StretchableBackground();
     private Button toggleSkillCooltimeButton;
     private Button classTypeButton;
     private Button debugModeButton;
@@ -131,7 +133,10 @@ public class SkillCooltimeSettingsScreen extends Screen {
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
-        guiGraphics.blit(RenderType::guiTextured, BG_LOCATION, this.getRegularX(), this.getRegularY(), 0, 0, this.width, this.height, 256, 256);
+        //guiGraphics.blit(RenderType::guiTextured, BG_LOCATION, this.getRegularX(), this.getRegularY(), 0, 0, this.width, this.height, 256, 256);
+        background.setSize(width, height);
+        background.setPosition(getRegularX(), getRegularY());
+        background.render(guiGraphics);
     }
 
     private void onToggleSkillCooltimePress() {

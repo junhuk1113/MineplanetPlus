@@ -24,7 +24,7 @@ public class DungeonSkill{
     //배틀메이지
     private static final ResourceLocation DEATH_SPIN_TEXTURE = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/skill/death_spin.png");
     private static final ResourceLocation ARCANE_SCISSORS_TEXTURE = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/skill/arcane_scissors.png");
-    private static final ResourceLocation VOID_CHAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/skill/void_chain.png");
+    private static final ResourceLocation ARCANE_SPIN_TEXTURE = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/skill/arcane_spin.png");
     private static final ResourceLocation INFERNO_CHAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/skill/inferno_chain.png");
     private static final ResourceLocation ARCANE_DEMOLITION_TEXTURE = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/skill/arcane_demolition.png");
     
@@ -58,7 +58,7 @@ public class DungeonSkill{
         else if(classCategory == ClassCategory.BATTLE_MAGE){
             if(i == 0) return DEATH_SPIN_TEXTURE;
             else if(i == 1) return ARCANE_SCISSORS_TEXTURE;
-            else if(i == 2) return VOID_CHAIN_TEXTURE;
+            else if(i == 2) return ARCANE_SPIN_TEXTURE;
             else if(i == 3) return INFERNO_CHAIN_TEXTURE;
             else if(i == 4) return ARCANE_DEMOLITION_TEXTURE;
         }

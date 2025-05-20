@@ -60,6 +60,13 @@ public class DungeonHelperClient {
     public void updateLastComboSkillTime() {
         skillCooltimeGui.updateLastComboSkillTime(timer);
     }
+    public void updateLastLV30SkillTime() {
+        skillCooltimeGui.updateLastLV30SkillTime(timer);
+    }
+    public void updateLastLV30SkillTime(float plustime){
+        long plustimeLong = (long)(plustime * 1000);
+        skillCooltimeGui.updateLastLV30SkillTime(timer, plustimeLong);
+    }
     public void updateLastLV40SkillTime(){
         skillCooltimeGui.updateLastLV40SkillTime(timer);
     }

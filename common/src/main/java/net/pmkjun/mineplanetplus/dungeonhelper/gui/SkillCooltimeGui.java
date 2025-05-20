@@ -33,7 +33,7 @@ public class SkillCooltimeGui {
     private static final float BLADE_SPIN_SKILL_COOLTIME = 7.3f;
     private static final float DRAGON_SMASH_COOLTIME = 6.4f;
     private static final float MARTIAL_DRIVE_COOLTIME = 7.9f;
-    private static final float INFERNO_CHAIN_COOLTIME = 8.4f;
+    private static final float INFERNO_CHAIN_COOLTIME = 10.0f;
 
     private static final float BLADE_DANCE_COOLTIME = 30f;
     private static final float DRAGON_FURY_COOLTIME = 27.5f;
@@ -43,11 +43,17 @@ public class SkillCooltimeGui {
     private long lastComboSkillTime = 0;
     private long lastLV40SkillTime = 0;
     private long lastUltimateTime = 0;
+    private long lastLV30SkillTime = 0;
+    private float leftLV30SkillTime=0;
 
     private float leftComboSkillTime;
     private float leftLV40SkillTime;
     private float leftUltimateTime;
 
+    private static final float DAGGER_THROW_COOLTIME = 0.4f;      // 어쌔신
+    private static final float DRAGON_BREATH_COOLTIME = 0.4f;    // 드래곤워리어
+    private static final float ARCANE_SPIN_COOLTIME = 6.3f;     // 배틀메이지
+    
     public SkillCooltimeGui() {
         mc = Minecraft.getInstance();
         client = DungeonHelperClient.getInstance();
@@ -82,6 +88,14 @@ public class SkillCooltimeGui {
         }
     }
 
+    public void updateLastLV30SkillTime(Timer timer) {
+        lastLV30SkillTime = timer.getCurrentTime();
+    }
+
+    public void updateLastLV30SkillTime(Timer timer, long plustime) {
+        lastLV30SkillTime = timer.getCurrentTime() + plustime;
+    }
+
     public void renderTick(GuiGraphics guiGraphics, Timer timer) {
         if(!client.data.toggleSkillCooltime)
             return;
@@ -107,7 +121,16 @@ public class SkillCooltimeGui {
             this.leftUltimateTime = ARCANE_DEMOLITION_COOLTIME - timer.getDifference(this.lastUltimateTime);
         }
 
+        if(client.data.classType == ClassCategory.ASSASSIN) {
+            leftLV30SkillTime = DAGGER_THROW_COOLTIME - timer.getDifference(lastLV30SkillTime);
+        } else if(client.data.classType == ClassCategory.DRAGON_WARRIOR) {
+            leftLV30SkillTime = DRAGON_BREATH_COOLTIME - timer.getDifference(lastLV30SkillTime);
+        } else if (this.client.data.classType == ClassCategory.BATTLE_MAGE) {
+            leftLV30SkillTime = ARCANE_SPIN_COOLTIME - timer.getDifference(lastLV30SkillTime);
+        }
+
         leftComboSkillTime = Math.max(leftComboSkillTime, 0);
+        leftLV30SkillTime = Math.max(leftLV30SkillTime, 0);
         leftLV40SkillTime = Math.max(leftLV40SkillTime, 0);
         leftUltimateTime = Math.max(leftUltimateTime, 0);
 
@@ -197,6 +220,16 @@ public class SkillCooltimeGui {
             comboSkillReactivationTime = BATTLE_MAGE_SKILL_REACTIVATION_TIME;
         }*/
 
+        float lv30SkillCooltime = 0;
+        if(client.data.classType == ClassCategory.ASSASSIN) {
+            lv30SkillCooltime = DAGGER_THROW_COOLTIME;
+        } else if(client.data.classType == ClassCategory.DRAGON_WARRIOR) {
+            lv30SkillCooltime = DRAGON_BREATH_COOLTIME;
+        } else if (this.client.data.classType == ClassCategory.BATTLE_MAGE) {
+            lv30SkillCooltime = ARCANE_SPIN_COOLTIME;
+        }
+
+
         float lv40SkillCooltime = 0;
 
         if(client.data.classType == ClassCategory.ASSASSIN) {
@@ -227,6 +260,7 @@ public class SkillCooltimeGui {
         }
         //if(isComboSkillUseable())
         //    guiGraphics.blit(BLACK_ICON, x + 22 * dungeonSkill.getComboSkill(client.data.classType), y + (int) (SKILL_GUI_SIZE * (1 - leftComboSkillTime / comboSkillReactivationTime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftComboSkillTime / comboSkillReactivationTime)));
+        guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 1, y + (int) (SKILL_GUI_SIZE * (1 - leftLV30SkillTime / lv30SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV30SkillTime / lv30SkillCooltime)), 256, 256);
         guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 2, y + (int) (SKILL_GUI_SIZE * (1 - leftLV40SkillTime / lv40SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV40SkillTime / lv40SkillCooltime)),256, 256);
         guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 3, y + (int) (SKILL_GUI_SIZE * (1 - leftUltimateTime / ultimateCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftUltimateTime / ultimateCooltime)),256, 256);
 
@@ -236,18 +270,37 @@ public class SkillCooltimeGui {
             poseStack.translate(x + 8 + 22 * dungeonSkill.getComboSkill(client.data.classType), y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
 
-            guiGraphics.drawCenteredString(mc.font, Component.literal(String.valueOf((int)(leftComboSkillTime * 10) / 10f)), 0, 0, 0xFFFFFF);
+            String cooldownText = leftComboSkillTime < 1 ?
+                String.format("%.1f", leftComboSkillTime) : 
+                String.valueOf((int) leftComboSkillTime);
 
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
         }
 
-        if(isLV40SkillCooltime()){
+        if(isLV30SkillCooltime()) {
+            poseStack.pushPose();
+            poseStack.translate(x + 2 + 22 * 1 + 6, y + 4, 0);
+            poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
+            
+            String cooldownText = leftLV30SkillTime < 1 ?
+                String.format("%.1f", leftLV30SkillTime) : 
+                String.valueOf((int) leftLV30SkillTime);
+            
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
+            poseStack.popPose();
+        }
+
+        if(isLV40SkillCooltime()) {
             poseStack.pushPose();
             poseStack.translate(x + 2 + 22 * 2 + 6, y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
 
-            guiGraphics.drawCenteredString(mc.font, Component.literal(String.valueOf((int) leftLV40SkillTime)), 0, 0, 0xFFFFFF);
+            String cooldownText = leftLV40SkillTime < 1 ?
+                String.format("%.1f", leftLV40SkillTime) : 
+                String.valueOf((int) leftLV40SkillTime);
 
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
         }
 
@@ -256,8 +309,11 @@ public class SkillCooltimeGui {
             poseStack.translate(x + 2 + 22 * 3 + 6, y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
 
-            guiGraphics.drawCenteredString(mc.font, Component.literal(String.valueOf((int) leftUltimateTime)), 0, 0, 0xFFFFFF);
+            String cooldownText = leftUltimateTime < 1 ?
+                String.format("%.1f", leftUltimateTime) : 
+                String.valueOf((int) leftUltimateTime);
 
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
         }
     }
@@ -286,5 +342,8 @@ public class SkillCooltimeGui {
     }
     public boolean isComboSkillUseable(){
         return leftComboSkillTime > 0;
+    }
+    public boolean isLV30SkillCooltime() {
+        return leftLV30SkillTime > 0;
     }
 }
