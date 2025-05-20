@@ -139,10 +139,10 @@ public class DungeonCooltimeSettingsScreen extends Screen {
         });
         YPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
 
-        ScaleSlider = this.addRenderableWidget(new Slider(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*5, 137, 20,Component.literal("UI 크기 : "),Component.literal(""),8,64,client.data.uiScale,true){
+        ScaleSlider = this.addRenderableWidget(new Slider(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*5, 137, 20,Component.literal("UI 크기 : "),Component.literal(""),8,64,client.data.dungeonCooltime_uiScale,true){
             @Override
             protected void applyValue() {
-                client.data.uiScale = this.getValueInt();
+                client.data.dungeonCooltime_uiScale = this.getValueInt();
                 client.settings.save();
             }
         });

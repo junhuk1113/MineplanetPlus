@@ -30,5 +30,6 @@ public class Data{
 
     public long[] lastDungeonTime = new long[DungeonCooltimeGui.DUNGEON_COUNT];
 
-    public float uiScale = 16.0f;
+    public float dungeonCooltime_uiScale = 16.0f;
+    public float skillColltime_uiScale = 16.0f;
 }

@@ -81,7 +81,7 @@ public class DungeonCooltimeGui {
     }
 
     private void render(GuiGraphics guiGraphics, int[] seconds) {
-        float scale = client.data.uiScale;
+        float scale = client.data.dungeonCooltime_uiScale;
         int dungeon_count = DUNGEON_COUNT;
         int id = 0;
 
@@ -116,13 +116,13 @@ public class DungeonCooltimeGui {
         
         // 수정된 위치 계산
         if(client.data.coolAxis == DungeonCoolAxis.VERTICAL)
-            poseStack.translate(x, y + (client.data.uiScale + 2) * i, 0);
+            poseStack.translate(x, y + (client.data.dungeonCooltime_uiScale + 2) * i, 0);
         else {
-            poseStack.translate(x + (client.data.uiScale + 2) * i, y, 0);
+            poseStack.translate(x + (client.data.dungeonCooltime_uiScale + 2) * i, y, 0);
         }
         
         // 수정된 스케일 적용
-        poseStack.scale(client.data.uiScale/256f, client.data.uiScale/256f, client.data.uiScale/256f);
+        poseStack.scale(client.data.dungeonCooltime_uiScale /256f, client.data.dungeonCooltime_uiScale /256f, client.data.dungeonCooltime_uiScale /256f);
 
         ResourceLocation texture;
         if((texture = getDungeonTexture(id)) == null)
@@ -136,7 +136,7 @@ public class DungeonCooltimeGui {
             guiGraphics.blit(RenderType::guiTextured, BLACK_ICON, 0, 0, 0, 0, 256, (int)(256 * (float)second / 3600f), 256, 256);
         }
 
-        poseStack.scale(256f/client.data.uiScale, 256f/client.data.uiScale, 256f/client.data.uiScale);
+        poseStack.scale(256f/client.data.dungeonCooltime_uiScale, 256f/client.data.dungeonCooltime_uiScale, 256f/client.data.dungeonCooltime_uiScale);
         poseStack.popPose();
 
         // 텍스트 크기도 UI 크기에 맞게 조정
@@ -148,12 +148,12 @@ public class DungeonCooltimeGui {
 
             poseStack.pushPose();
             if(client.data.coolAxis == DungeonCoolAxis.VERTICAL)
-                poseStack.translate(x + client.data.uiScale + 2, y + (client.data.uiScale/4) + (client.data.uiScale + 2) * i, 0);
+                poseStack.translate(x + client.data.dungeonCooltime_uiScale + 2, y + (client.data.dungeonCooltime_uiScale /4) + (client.data.dungeonCooltime_uiScale + 2) * i, 0);
             else {
-                poseStack.translate(x + (client.data.uiScale/2) + (client.data.uiScale + 2) * i, y + client.data.uiScale + 2, 0);
+                poseStack.translate(x + (client.data.dungeonCooltime_uiScale /2) + (client.data.dungeonCooltime_uiScale + 2) * i, y + client.data.dungeonCooltime_uiScale + 2, 0);
             }
 
-            float textScale = client.data.uiScale/16f; // UI 크기에 비례하여 텍스트 크기 조정
+            float textScale = client.data.dungeonCooltime_uiScale /16f; // UI 크기에 비례하여 텍스트 크기 조정
             poseStack.scale(textScale/1.1f, textScale/1.1f, textScale/1.1f);
 
             if(client.data.coolAxis == DungeonCoolAxis.VERTICAL)
