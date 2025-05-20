@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus.fabric.mixin;
+package net.pmkjun.mineplanetplus.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

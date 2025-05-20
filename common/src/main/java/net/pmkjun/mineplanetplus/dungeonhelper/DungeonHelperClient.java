@@ -8,14 +8,12 @@ import net.pmkjun.mineplanetplus.dungeonhelper.gui.DungeonCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.SkillCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
-import net.pmkjun.mineplanetplus.dungeonhelper.sound.ISoundManager;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
 
 public class DungeonHelperClient {
 
     private static DungeonHelperClient instance;
 
-    private final ISoundManager soundManager;
     private final IKeyMappings keyMappings;
 
     public Settings settings;
@@ -30,8 +28,7 @@ public class DungeonHelperClient {
 
     public boolean ishereDungeon = false;
 
-    public DungeonHelperClient(ISoundManager soundManager, IKeyMappings keyMappings) {
-        this.soundManager = soundManager;
+    public DungeonHelperClient(IKeyMappings keyMappings) {
         this.keyMappings = keyMappings;
 
         instance = this;
@@ -83,10 +80,6 @@ public class DungeonHelperClient {
 
     public DungeonHelperSettingsScreen getSettingsScreen() {
         return settingsScreen;
-    }
-
-    public ISoundManager getSoundManager() {
-        return soundManager;
     }
     public void delayLastSkilltime(long delay){
         skillCooltimeGui.delayLastSkilltime(delay);

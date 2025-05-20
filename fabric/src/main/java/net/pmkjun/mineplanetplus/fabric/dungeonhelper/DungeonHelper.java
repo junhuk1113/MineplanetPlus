@@ -3,7 +3,6 @@ package net.pmkjun.mineplanetplus.fabric.dungeonhelper;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.input.KeyMappings;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.item.DungeonItems;
-import net.pmkjun.mineplanetplus.fabric.dungeonhelper.sound.SoundManager;
 
 public class DungeonHelper{
 
@@ -12,13 +11,11 @@ public class DungeonHelper{
     public DungeonHelperClient client;
 
     public void init() {
-        SoundManager soundManager = new SoundManager();
         KeyMappings keyMappings = new KeyMappings();
 
-        client = new DungeonHelperClient(soundManager, keyMappings);
+        client = new DungeonHelperClient(keyMappings);
         client.init();
         System.out.println("DungeonHelperClient init");
-        soundManager.register();
         keyMappings.register();
         DungeonItems.register();
     }
