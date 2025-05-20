@@ -6,12 +6,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.planetskilltimer.gui.StretchableBackground;
+import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 
 public class CustomTextureRenderSetingsScreen extends Screen {
 

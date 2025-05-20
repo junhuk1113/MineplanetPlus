@@ -10,12 +10,14 @@ import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
+import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
 
 public class TotemTimerConfigScreen extends Screen {
 
     private final Minecraft mc;
     private final FishHelperClient client;
+    private final StretchableBackground background = new StretchableBackground();
     private final Screen parentScreen;
     private EditBox CooldownReduction_TextField;
 
@@ -36,8 +38,8 @@ public class TotemTimerConfigScreen extends Screen {
         this.mc = Minecraft.getInstance();
         this.client = FishHelperClient.getInstance();
 
-        width = 160;
-        height = 132;
+        width = 147;
+        height = 152;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class TotemTimerConfigScreen extends Screen {
             toggleTotem = "fishhelper.config.disable";
         }
 
-        activateTimeSlider = new Slider(getRegularX() + 5, getRegularY(), 150, 20,Component.literal("") , Component.literal(""),0,25,ConvertActivateTime.asLevel(this.client.data.valueTotemActivetime), true){
+        activateTimeSlider = new Slider(getRegularX() + 5, getRegularY() + 5, 137, 20,Component.literal("") , Component.literal(""),0,25,ConvertActivateTime.asLevel(this.client.data.valueTotemActivetime), true){
             @Override
             protected void updateMessage() {
                 int level = getValueInt();
@@ -63,7 +65,7 @@ public class TotemTimerConfigScreen extends Screen {
             }
         };
         activateTimeSlider.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.slider.tooltip")));
-        cooldownSlider = new Slider(getRegularX() + 5, getRegularY() + (20 + 2), 150, 20, Component.literal(""), Component.literal(""), 0,10,ConvertCooldown.asLevel(this.client.data.valueTotemCooldown), true){
+        cooldownSlider = new Slider(getRegularX() + 5, getRegularY() + (20 + 2) + 5, 137, 20, Component.literal(""), Component.literal(""), 0,10,ConvertCooldown.asLevel(this.client.data.valueTotemCooldown), true){
             @Override
             protected void updateMessage() {
                 int level = getValueInt();
@@ -78,17 +80,17 @@ public class TotemTimerConfigScreen extends Screen {
         this.addRenderableWidget(cooldownSlider);
 
         //토템 쿨감시간
-        this.CooldownReduction_TextField = new EditBox(this.font,super.width/2+40,getRegularY()+(20 + 2)*2,35,12,this.CooldownReduction_TextField,Component.translatable("fishhelper.config.cooldownreductionfield"));
+        this.CooldownReduction_TextField = new EditBox(this.font,super.width/2+34,5+getRegularY()+(20 + 2)*2,35,12,this.CooldownReduction_TextField,Component.translatable("fishhelper.config.cooldownreductionfield"));
         this.CooldownReduction_TextField.setValue(Double.toString(this.client.data.valueCooldownReduction/(double)1000));
         this.CooldownReduction_TextField.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.cooldownreductionfield.tooltip")));
         this.addRenderableWidget(this.CooldownReduction_TextField);
 
         toggleTotemButton = Button.builder(Component.translatable(toggleTotem),button -> {
             toggleTotemtime();
-        }).pos(getRegularX() + 5,getRegularY()+(20 + 2)*2+(10+4)).size(150,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.tooltip"))).build();
+        }).pos(getRegularX() + 5,5+getRegularY()+(20 + 2)*2+(10+4)).size(137,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.tooltip"))).build();
         this.addRenderableWidget(toggleTotemButton);
 
-        timerXSlider = new Slider(getRegularX() + 5,getRegularY()+(20 + 2)*4+(10+2),150,20,Component.literal("X : "), Component.literal(""),1,1000,this.client.data.Timer_xpos, true){
+        timerXSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*4+(10+2),137,20,Component.literal("X : "), Component.literal(""),1,1000,this.client.data.Timer_xpos, true){
             @Override
             protected void applyValue() {
                 client.data.Timer_xpos = getValueInt();
@@ -97,7 +99,7 @@ public class TotemTimerConfigScreen extends Screen {
         };
         timerXSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(timerXSlider);
-        timerYSlider = new Slider(getRegularX() + 5,getRegularY()+(20 + 2)*5+(10+2),150,20,Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Timer_ypos,true){
+        timerYSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*5+(10+2),137,20,Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Timer_ypos,true){
             @Override
             protected void applyValue() {
                 client.data.Timer_ypos = getValueInt();
@@ -129,8 +131,8 @@ public class TotemTimerConfigScreen extends Screen {
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
 
-        context.drawString(this.font, Component.translatable("fishhelper.config.cooldownreductionfield"), getRegularX() + 5, getRegularY()+(20 + 2)*2+2, 0xFFFFFF);
-        context.drawString(this.font,Component.translatable("fishhelper.config.changepos"),getRegularX() + 5,getRegularY()+(20 + 2)*4,0xFFFFFF);
+        context.drawString(this.font, Component.translatable("fishhelper.config.cooldownreductionfield"), getRegularX() + 5, 5+getRegularY()+(20 + 2)*2+2, 0xFFFFFF);
+        context.drawString(this.font,Component.translatable("fishhelper.config.changepos"),getRegularX() + 5,5+getRegularY()+(20 + 2)*4,0xFFFFFF);
 
         this.activateTimeSlider.render(context, mouseX, mouseY, delta);
         this.cooldownSlider.render(context, mouseX, mouseY, delta);
@@ -179,6 +181,9 @@ public class TotemTimerConfigScreen extends Screen {
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
+        background.setSize(width, height);
+        background.setPosition(getRegularX(), getRegularY());
+        background.render(guiGraphics);
     }
 
     @Override

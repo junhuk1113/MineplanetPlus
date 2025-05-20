@@ -1,11 +1,12 @@
-package net.pmkjun.mineplanetplus.planetskilltimer.gui;
+package net.pmkjun.mineplanetplus.gui;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.pmkjun.mineplanetplus.MineplanetPlus;
 
 public class StretchableBackground {
-    private final ResourceLocation BACKGROUND_LOCATION = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/gui/dungeonhelper_settings_background.png");;
+    private final ResourceLocation BACKGROUND_LOCATION = ResourceLocation.fromNamespaceAndPath(MineplanetPlus.MOD_ID, "textures/gui/mineplanetplus_settings_background.png");;
     private final int originalWidth = 147;
     private final int originalHeight = 96;
     private int currentWidth;

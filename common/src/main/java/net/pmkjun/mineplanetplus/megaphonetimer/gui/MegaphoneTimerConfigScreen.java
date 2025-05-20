@@ -8,12 +8,14 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
 import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
 
 public class MegaphoneTimerConfigScreen extends Screen{
     private final Minecraft mc;
     private final MegaphoneTimerClient client;
+    private final StretchableBackground background = new StretchableBackground();
     private final Screen parentScreen;
     
     private Button toggleMegaphonetimerButton;
@@ -30,8 +32,8 @@ public class MegaphoneTimerConfigScreen extends Screen{
         this.mc = Minecraft.getInstance();
         this.client = MegaphoneTimerClient.getInstance();
 
-        this.width = 150;
-        this.height = (20+2) * 5;
+        this.width = 147;
+        this.height = 8 + (20+2) * 5;
     }
 
     @Override
@@ -47,8 +49,8 @@ public class MegaphoneTimerConfigScreen extends Screen{
         }
         toggleMegaphonetimerButton = Button.builder(text,button -> {
             toggleMegaphonetimer();
-        }).pos(getRegularX(), getRegularY())
-                .size(150, 20)
+        }).pos(5+getRegularX(), 5+getRegularY())
+                .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.megaphonetimer.tooltip")))
                 .build();
         this.addRenderableWidget(toggleMegaphonetimerButton);
@@ -64,8 +66,8 @@ public class MegaphoneTimerConfigScreen extends Screen{
         }
         toggleAlertSoundButton = Button.builder(text2,button -> {
             toggleAlertSound();
-        }).pos(getRegularX(),getRegularY()+(20+2)*1)
-                .size(150,20)
+        }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
+                .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.sound.tooltip")))
                 .build();
         this.addRenderableWidget(toggleAlertSoundButton);
@@ -75,7 +77,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
         }).pos(mc.getWindow().getGuiScaledWidth() / 2 - 35, mc.getWindow().getGuiScaledHeight() - 22).size(70, 20).build();
         this.addRenderableWidget(exitButton);
 
-        XPosSlider = new Slider(getRegularX(), getRegularY()+(20+2)*2,150,20,Component.literal("X : "),Component.literal(""),0,1000,this.client.data.MegaphonetimerXpos,true){
+        XPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*2,137,20,Component.literal("X : "),Component.literal(""),0,1000,this.client.data.MegaphonetimerXpos,true){
             @Override
             protected void applyValue() {
                 client.data.MegaphonetimerXpos = this.getValueInt();
@@ -84,7 +86,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
         };
         XPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(XPosSlider);
-        YPosSlider = new Slider(getRegularX(), getRegularY()+(20+2)*3,150,20,Component.literal("Y : "),Component.literal(""),0,1000,this.client.data.MegaphonetimerYpos,true){
+        YPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*3,137,20,Component.literal("Y : "),Component.literal(""),0,1000,this.client.data.MegaphonetimerYpos,true){
             @Override
             protected void applyValue() {
                 client.data.MegaphonetimerYpos = this.getValueInt();
@@ -95,8 +97,8 @@ public class MegaphoneTimerConfigScreen extends Screen{
         this.addRenderableWidget(YPosSlider);
         openPosScreenButton = Button.builder(Component.translatable("megaphonetimer.config.movepos"), button -> {
             mc.setScreen(new AdjustMegaphoneTimerPosScreen(mc.screen));
-        }).pos(getRegularX(), getRegularY()+(20+2)*4)
-                .size(150, 20)
+        }).pos(5+getRegularX(), 5+getRegularY()+(20+2)*4)
+                .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.movepos.tooltip")))
                 .build();
         this.addRenderableWidget(openPosScreenButton);
@@ -152,6 +154,9 @@ public class MegaphoneTimerConfigScreen extends Screen{
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
+        background.setSize(width, height);
+        background.setPosition(getRegularX(), getRegularY());
+        background.render(guiGraphics);
     }
 
     @Override

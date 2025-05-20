@@ -2,7 +2,7 @@ package net.pmkjun.mineplanetplus.fabric.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.pmkjun.mineplanetplus.SettingsScreen;
+import net.pmkjun.mineplanetplus.gui.SettingsScreen;
 
 public class MineplanetPlusModMenu implements ModMenuApi{
     public ConfigScreenFactory<?> getModConfigScreenFactory(){

@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus;
+package net.pmkjun.mineplanetplus.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

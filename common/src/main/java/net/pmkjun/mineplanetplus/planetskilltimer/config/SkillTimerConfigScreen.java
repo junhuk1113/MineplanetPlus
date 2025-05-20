@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 
@@ -16,6 +17,7 @@ public class SkillTimerConfigScreen extends Screen{
     private final Minecraft mc;
     private final PlanetSkillTimerClient client;
     private final Screen parentScreen;
+    private final StretchableBackground background = new StretchableBackground();
 
     private Button toggleSkillTimerButton;
     private Button toggleAlertSoundButton;
@@ -32,8 +34,8 @@ public class SkillTimerConfigScreen extends Screen{
         this.mc = Minecraft.getInstance();
         this.client = PlanetSkillTimerClient.getInstance();
 
-        this.width = 150;
-        this.height = (20 + 2) * 9;
+        this.width = 147;
+        this.height = 8 + (20 + 2) * 9;
     }
     @Override
     protected void init() {
@@ -48,8 +50,8 @@ public class SkillTimerConfigScreen extends Screen{
         }
         toggleSkillTimerButton = Button.builder(text,button -> {
             toggleSkilltimer();
-        }).pos(getRegularX(), getRegularY())
-                .size(150, 20)
+        }).pos(5+getRegularX(), 5+getRegularY())
+                .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.skilltimer.tooltip")))
                 .build();
         this.addRenderableWidget(toggleSkillTimerButton);
@@ -65,8 +67,8 @@ public class SkillTimerConfigScreen extends Screen{
         }
         toggleAlertSoundButton = Button.builder(text2,button -> {
             toggleAlertSound();
-        }).pos(getRegularX(),getRegularY()+(20+2)*1)
-                .size(150,20)
+        }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
+                .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.sound.tooltip")))
                 .build();
         this.addRenderableWidget(toggleAlertSoundButton);
@@ -84,32 +86,32 @@ public class SkillTimerConfigScreen extends Screen{
                 case 0:
                     toggleSkillsButton[i] = Button.builder(text,button -> {
                         toggleSkills(0);
-                    }).pos(getRegularX(),getRegularY()+(20+2)*(i+2))
-                            .size(150,20)
+                    }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
+                            .size(137,20)
                             .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.farming.tooltip")))
                             .build();
                     break;
                 case 1:
                     toggleSkillsButton[i] = Button.builder(text,button -> {
                         toggleSkills(1);
-                    }).pos(getRegularX(),getRegularY()+(20+2)*(i+2))
-                            .size(150,20)
+                    }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
+                            .size(137,20)
                             .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.felling.tooltip")))
                             .build();
                     break;
                 case 2:
                     toggleSkillsButton[i] = Button.builder(text,button -> {
                         toggleSkills(2);
-                    }).pos(getRegularX(),getRegularY()+(20+2)*(i+2))
-                            .size(150,20)
+                    }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
+                            .size(137,20)
                             .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.mining.tooltip")))
                             .build();
                     break;
                 case 3:
                     toggleSkillsButton[i] = Button.builder(text,button -> {
                         toggleSkills(3);
-                    }).pos(getRegularX(),getRegularY()+(20+2)*(i+2))
-                            .size(150,20)
+                    }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
+                            .size(137,20)
                             .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.digging.tooltip")))
                             .build();
                     break;
@@ -124,7 +126,7 @@ public class SkillTimerConfigScreen extends Screen{
         }).pos(mc.getWindow().getGuiScaledWidth() / 2 - 35, mc.getWindow().getGuiScaledHeight() - 22).size(70, 20).build();
         this.addRenderableWidget(exitButton);
 
-        XPosSlider = new Slider(getRegularX(), getRegularY()+(20+2)*6,150,20,Component.literal("X : "),Component.literal(""),0,1000,this.client.data.SkillTimerXpos,true){
+        XPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*6,137,20,Component.literal("X : "),Component.literal(""),0,1000,this.client.data.SkillTimerXpos,true){
             @Override
             protected void applyValue() {
                 client.data.SkillTimerXpos = this.getValueInt();
@@ -133,7 +135,7 @@ public class SkillTimerConfigScreen extends Screen{
         };
         XPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(XPosSlider);
-        YPosSlider = new Slider(getRegularX(), getRegularY()+(20+2)*7,150,20,Component.literal("Y : "),Component.literal(""),0,1000,this.client.data.SkillTimerYpos,true){
+        YPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*7,137,20,Component.literal("Y : "),Component.literal(""),0,1000,this.client.data.SkillTimerYpos,true){
             @Override
             protected void applyValue() {
                 client.data.SkillTimerYpos = this.getValueInt();
@@ -145,8 +147,8 @@ public class SkillTimerConfigScreen extends Screen{
         toggleTpsCorrectionButton = Button.builder(Component.translatable("planetskilltimer.config.tpscorrection"), button -> {
             toggleTpsCorrection();
             setTpsCorrectionButtonText();
-        }).pos(getRegularX(), getRegularY()+(20+2)*8)
-                .size(150, 20)
+        }).pos(5+getRegularX(), 5+getRegularY()+(20+2)*8)
+                .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.tpscorrection.tooltip")))
                 .build();
         setTpsCorrectionButtonText();
@@ -231,6 +233,9 @@ public class SkillTimerConfigScreen extends Screen{
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
+        background.setSize(width, height);
+        background.setPosition(getRegularX(), getRegularY());
+        background.render(guiGraphics);
     }
 
     @Override

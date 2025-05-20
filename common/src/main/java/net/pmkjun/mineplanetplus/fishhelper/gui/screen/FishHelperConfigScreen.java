@@ -7,11 +7,14 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 
 public class FishHelperConfigScreen extends Screen{
     Screen parentScreen;
     Minecraft mc;
     FishHelperClient client;
+    private final StretchableBackground background = new StretchableBackground();
+
     private final int width;
     private final int height;
     private Button toggleCustomTextureButton;
@@ -22,7 +25,7 @@ public class FishHelperConfigScreen extends Screen{
         this.mc = Minecraft.getInstance();
         this.client = FishHelperClient.getInstance();
 
-        width = 160;
+        width = 147;
         height = 74;
     }
 
@@ -41,16 +44,16 @@ public class FishHelperConfigScreen extends Screen{
         // translatable 키로 변경 필요
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.totemtimer_setting"), btn -> {
             mc.setScreen(new TotemTimerConfigScreen(mc.screen));
-        }).pos(getRegularX() + 5, getRegularY() + 5).size(150, 20).build());
+        }).pos(getRegularX() + 5, getRegularY() + 5).size(137, 20).build());
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.fishcounter_setting"), btn -> {
             mc.setScreen(new FishCounterConfigScreen(mc.screen));
-        }).pos(getRegularX() + 5, getRegularY() + 5 + 20 + 2).size(150, 20).build());
+        }).pos(getRegularX() + 5, getRegularY() + 5 + 20 + 2).size(137, 20).build());
 
         toggleCustomTextureButton = Button.builder(Component.translatable(toggleTexture), btn -> {
             onCustomTexturePress();
         }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2)
-                .size(150, 20)
+                .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.customtexture.tooltip")))
                 .build();
         addRenderableWidget(toggleCustomTextureButton);
@@ -90,6 +93,9 @@ public class FishHelperConfigScreen extends Screen{
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
+        background.setSize(width, height);
+        background.setPosition(getRegularX(), getRegularY());
+        background.render(guiGraphics);
     }
 
     @Override
