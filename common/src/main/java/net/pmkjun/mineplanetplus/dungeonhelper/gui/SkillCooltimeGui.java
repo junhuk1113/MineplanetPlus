@@ -164,7 +164,7 @@ public class SkillCooltimeGui {
             if(dungeonSkill.isComboSkill(client.data.classType,skillNum) && isComboSkillUseable()){
                 skillNum++;
             }
-            guiGraphics.blitSprite(RenderType::guiTexturedOverlay, WIDGETS, xOffset + (22)* i, yOffset-1, 29, 24);
+            guiGraphics.blitSprite(RenderType::guiTexturedOverlay, WIDGETS, xOffset + (22)* i, yOffset-1, 58, 48);
             ResourceLocation texture = null;
 
             texture = dungeonSkill.getSkillTexture(client.data.classType, skillNum);

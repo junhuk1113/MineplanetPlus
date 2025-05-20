@@ -27,7 +27,7 @@ public class SkillCooltimeSettingsScreen extends Screen {
     private Slider XPosSlider, YPosSlider;
     private final int width, height;
     private final Screen parentScreen;
-    public static boolean ENABLE_DEBUG_MODE = true;
+    public static boolean ENABLE_DEBUG_MODE = false;
     public static boolean DEBUG_MODE = false;
 
     public SkillCooltimeSettingsScreen(Screen parentScreen) {

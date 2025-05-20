@@ -37,7 +37,7 @@ public class DungeonCooltimeSettingsScreen extends Screen {
         this.parentScreen = parentScreen;
 
         width = 147;
-        height = 8 + 22*8;
+        height = 8 + 22*7;
     }
 
 
@@ -139,13 +139,13 @@ public class DungeonCooltimeSettingsScreen extends Screen {
         });
         YPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
 
-        ScaleSlider = this.addRenderableWidget(new Slider(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*5, 137, 20,Component.literal("UI 크기 : "),Component.literal(""),8,64,client.data.dungeonCooltime_uiScale,true){
+        /*ScaleSlider = this.addRenderableWidget(new Slider(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*5, 137, 20,Component.literal("UI 크기 : "),Component.literal(""),8,64,client.data.dungeonCooltime_uiScale,true){
             @Override
             protected void applyValue() {
                 client.data.dungeonCooltime_uiScale = this.getValueInt();
                 client.settings.save();
             }
-        });
+        });*/
 
         //던전 쿨타임 방향
         Component CooltimeAxisComponent;
@@ -162,13 +162,13 @@ public class DungeonCooltimeSettingsScreen extends Screen {
                     );
 
         CooltimeAxisButton = this.addRenderableWidget(new Button.Builder(CooltimeAxisComponent, btn -> onAxisTogglePress())
-                .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*6)
+                .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*5)
                 .size(137, 20)
                         .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.axis.tooltip")))
                 .build());
 
         this.addRenderableWidget(new Button.Builder(Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.resetpos"), btn -> onResetPosButtonPress())
-                .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*7)
+                .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*6)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.resetpos.toolip")))
                 .build());
@@ -179,7 +179,7 @@ public class DungeonCooltimeSettingsScreen extends Screen {
         this.renderBackground(guiGraphics, a, b, c);
         XPosSlider.render(guiGraphics,a,b,c);
         YPosSlider.render(guiGraphics,a,b,c);
-        ScaleSlider.render(guiGraphics,a,b,c);
+        //ScaleSlider.render(guiGraphics,a,b,c);
         super.render(guiGraphics, a, b, c);
     }
 
