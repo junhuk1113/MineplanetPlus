@@ -55,6 +55,5 @@ public class DungeonItems{
     }
 
     public static void register(){
-        System.out.println("Registering Dungeon Items");
     }
 }
