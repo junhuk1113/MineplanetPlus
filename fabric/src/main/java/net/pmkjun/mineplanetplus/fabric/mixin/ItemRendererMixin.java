@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.*;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
+import net.pmkjun.mineplanetplus.fabric.dungeonhelper.item.DungeonItems;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.item.FishItems;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
@@ -143,50 +144,50 @@ public class ItemRendererMixin {
             if ((cetype = CEData.getType(stack)) != null) {
                 switch (cetype) {
                     case COMMON ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "common_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.COMMON_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     case UNCOMMON ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "uncommon_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.UNCOMMON_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     case RARE ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rare_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.RARE_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     case EPIC ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "epic_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.EPIC_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     case LEGENDARY ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "legendary_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.LEGENDARY_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     case MYTHIC ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "mythic_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.MYTHIC_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     case REMOVED ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "removed_book"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.REMOVED_BOOK, stack.getCount()).get(DataComponents.ITEM_MODEL));
                     default -> var10000 = this.modelGetter.apply(resourceLocation);
                 }
             } else if ((rftype = RFData.getType(stack)) != null) {
                 if (!DungeonHelperClient.getInstance().data.toggleRuneArrowEmpty) {
                     switch (rftype) {
                         case UNCOMMON ->
-                            var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_uncommon"));
+                            var10000 = modelGetter.apply(new ItemStack(DungeonItems.UNCOMMON_RUNE, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case RARE ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_rare"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.RARE_RUNE, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case EPIC ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_epic"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.EPIC_RUNE, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case LEGENDARY ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_legendary"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.LEGENDARY_RUNE, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case MYTHIC ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_mythic"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.MYTHIC_RUNE, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         default -> var10000 = this.modelGetter.apply(resourceLocation);
                     }
                 } else {
                     switch (rftype) {
                         case COMMON ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_common_e"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.COMMON_RUNE_E, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case UNCOMMON ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_uncommon_e"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.UNCOMMON_RUNE_E, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case RARE ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_rare_e"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.RARE_RUNE_E, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case EPIC ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_epic_e"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.EPIC_RUNE_E, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case LEGENDARY ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_legendary_e"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.LEGENDARY_RUNE_E, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         case MYTHIC ->
-                                var10000 = modelGetter.apply(ResourceLocation.fromNamespaceAndPath(DungeonHelper.MODID, "rune_magic_mythic_e"));
+                                var10000 = modelGetter.apply(new ItemStack(DungeonItems.MYTHIC_RUNE_E, stack.getCount()).get(DataComponents.ITEM_MODEL));
                         default -> var10000 = this.modelGetter.apply(resourceLocation);
                     }
                 }
