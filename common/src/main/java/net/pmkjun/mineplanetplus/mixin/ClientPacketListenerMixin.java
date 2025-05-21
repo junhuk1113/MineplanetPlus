@@ -33,7 +33,7 @@ import java.util.List;
 public abstract class ClientPacketListenerMixin {
     //대시 스킬
     private static final int VALID_BLADE_DASH_DISTANCE = 30;
-    private static final int VALID_DRAGON_DASH_DISTANCE = 5;
+    private static final int VALID_DRAGON_DASH_DISTANCE = 8;
     private static final int VALID_DEATH_SPIN_DISTANCE = 2;
 
     //LV20 스킬

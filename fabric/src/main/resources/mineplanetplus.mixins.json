@@ -6,7 +6,8 @@
   "client": [
   ],
   "mixins": [
-    "ItemRendererMixin"
+    "ItemRendererMixin",
+    "GuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1

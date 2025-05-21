@@ -13,8 +13,7 @@
     "ClientPacketListenerMixin",
     "ConnectionMixin",
     "FishingMixin",
-    "ItemPickupMixin",
-    "GuiMixin"
+    "ItemPickupMixin"
   ],
   "injectors": {
     "defaultRequire": 1
