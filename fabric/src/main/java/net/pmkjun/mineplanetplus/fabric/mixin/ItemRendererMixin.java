@@ -160,6 +160,13 @@ public class ItemRendererMixin {
                     default -> var10000 = this.modelGetter.apply(resourceLocation);
                 }
             } else if ((rftype = RFData.getType(stack)) != null) {
+                try{
+                    if(stack.get(DataComponents.CUSTOM_MODEL_DATA).getFloat(0) == 2658.0f) return; //만료된 아이템은 렌더하지 않음
+                }
+                catch (NullPointerException e) {
+                    System.out.println("행운의 룬 : null pointer exception");
+                }
+
                 if (!DungeonHelperClient.getInstance().data.toggleRuneArrowEmpty) {
                     switch (rftype) {
                         case UNCOMMON ->
