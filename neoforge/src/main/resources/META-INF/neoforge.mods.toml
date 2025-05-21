@@ -27,6 +27,5 @@ versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "BOTH"
 
-
 [[mixins]]
 config = "mineplanetplus.mixins.json"

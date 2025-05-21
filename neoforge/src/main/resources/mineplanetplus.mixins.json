@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.pmkjun.mineplanetplus.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "refmap": "mineplanetplus.refmap.json",
+  "client": [
+    "ItemRendererMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
