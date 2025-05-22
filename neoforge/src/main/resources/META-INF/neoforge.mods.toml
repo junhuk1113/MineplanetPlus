@@ -7,11 +7,17 @@ license = "Unlicense"
 modId = "mineplanetplus"
 version = "${version}"
 displayName = "MineplanetPlus"
-authors = ""
+authors = "${modAuthor}"
 description = '''
-
+마인플래닛 서버를 더욱 편리하게 플레이 해보세요!
 '''
-#logoFile = ""
+credits='''
+
+◆던전헬퍼◆:${dungeonhelperCredits}
+◆스킬타이머◆:${skilltimerCredits}
+◆피시헬퍼◆:${fishhelperCredits}"
+'''
+logoFile = "icon.png"
 
 [[dependencies.mineplanetplus]]
 modId = "neoforge"

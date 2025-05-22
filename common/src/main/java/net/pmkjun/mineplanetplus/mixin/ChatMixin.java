@@ -26,7 +26,7 @@ public abstract class ChatMixin {
     private static final Minecraft mc = Minecraft.getInstance();
     private final FishHelperClient fishhelper = FishHelperClient.getInstance();
     private final PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
-    private static final MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
+    private final MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
 
     @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/network/chat/Component;)V")
     private void addMessageMixin(Component message, CallbackInfo ci) {
@@ -108,7 +108,12 @@ public abstract class ChatMixin {
         if(message.getString().contains(" "+playerString))
         {
             //mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);
-            megaphonetimer.updateLastUsedtime();
+            try {
+                megaphonetimer.updateLastUsedtime();
+            }
+            catch (NullPointerException e){
+                mc.player.displayClientMessage(Component.literal("확성기 타이머 : NullPointerException!"), false);
+            }
         }
     }
 }
