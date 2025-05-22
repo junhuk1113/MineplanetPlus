@@ -8,23 +8,23 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class DungeonItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(DungeonHelper.MODID);
 
-    public static final DeferredItem<Item> COMMON_BOOK = ITEMS.register("common_book", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> UNCOMMON_BOOK = ITEMS.register("uncommon_book", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> RARE_BOOK = ITEMS.register("rare_book", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> EPIC_BOOK = ITEMS.register("epic_book", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> LEGENDARY_BOOK = ITEMS.register("legendary_book", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> MYTHIC_BOOK = ITEMS.register("mythic_book", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> REMOVED_BOOK = ITEMS.register("removed_book", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> COMMON_BOOK = ITEMS.registerItem("common_book",Item::new, new Item.Properties());
+    public static final DeferredItem<Item> UNCOMMON_BOOK = ITEMS.registerItem("uncommon_book", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> RARE_BOOK = ITEMS.registerItem("rare_book", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> EPIC_BOOK = ITEMS.registerItem("epic_book", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> LEGENDARY_BOOK = ITEMS.registerItem("legendary_book", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> MYTHIC_BOOK = ITEMS.registerItem("mythic_book", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> REMOVED_BOOK = ITEMS.registerItem("removed_book", Item::new, new Item.Properties());
 
-    public static final DeferredItem<Item> UNCOMMON_RUNE = ITEMS.register("rune_magic_uncommon", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> RARE_RUNE = ITEMS.register("rune_magic_rare", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> EPIC_RUNE = ITEMS.register("rune_magic_epic", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> LEGENDARY_RUNE = ITEMS.register("rune_magic_legendary", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> MYTHIC_RUNE = ITEMS.register("rune_magic_mythic", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> COMMON_RUNE_E = ITEMS.register("rune_magic_common_e", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> UNCOMMON_RUNE_E = ITEMS.register("rune_magic_uncommon_e", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> RARE_RUNE_E = ITEMS.register("rune_magic_rare_e", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> EPIC_RUNE_E = ITEMS.register("rune_magic_epic_e", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> LEGENDARY_RUNE_E = ITEMS.register("rune_magic_legendary_e", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> MYTHIC_RUNE_E = ITEMS.register("rune_magic_mythic_e", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> UNCOMMON_RUNE = ITEMS.registerItem("rune_magic_uncommon", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> RARE_RUNE = ITEMS.registerItem("rune_magic_rare", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> EPIC_RUNE = ITEMS.registerItem("rune_magic_epic", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> LEGENDARY_RUNE = ITEMS.registerItem("rune_magic_legendary", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> MYTHIC_RUNE = ITEMS.registerItem("rune_magic_mythic", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> COMMON_RUNE_E = ITEMS.registerItem("rune_magic_common_e", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> UNCOMMON_RUNE_E = ITEMS.registerItem("rune_magic_uncommon_e", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> RARE_RUNE_E = ITEMS.registerItem("rune_magic_rare_e", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> EPIC_RUNE_E = ITEMS.registerItem("rune_magic_epic_e", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> LEGENDARY_RUNE_E = ITEMS.registerItem("rune_magic_legendary_e", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> MYTHIC_RUNE_E = ITEMS.registerItem("rune_magic_mythic_e", Item::new, new Item.Properties());
 }

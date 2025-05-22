@@ -7,7 +7,7 @@ import net.pmkjun.mineplanetplus.dungeonhelper.file.Settings;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.DungeonCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.SkillCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
-import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
+import net.pmkjun.mineplanetplus.input.IKeyMappings;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
 
 public class DungeonHelperClient {

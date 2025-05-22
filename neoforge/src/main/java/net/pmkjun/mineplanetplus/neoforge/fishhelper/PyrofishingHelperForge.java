@@ -7,13 +7,12 @@ import net.pmkjun.mineplanetplus.neoforge.fishhelper.input.KeyMappings;
 import net.pmkjun.mineplanetplus.neoforge.fishhelper.item.FishItems;
 
 public class PyrofishingHelperForge {
-    public PyrofishingHelperForge() {
-        IEventBus eventBus = NeoForge.EVENT_BUS;
+    public PyrofishingHelperForge(IEventBus modEventBus) {
         FishItems.register();
-        FishItems.ITEMS.register(eventBus);
+        FishItems.ITEMS.register(modEventBus);
 
         KeyMappings keyMappings = new KeyMappings();
-        keyMappings.register();
+        keyMappings.register(modEventBus);
         FishHelperMod.init();
     }
 }

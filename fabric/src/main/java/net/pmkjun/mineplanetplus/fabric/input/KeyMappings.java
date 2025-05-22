@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.pmkjun.mineplanetplus.gui.SettingsScreen;
-import net.pmkjun.mineplanetplus.dungeonhelper.input.IKeyMappings;
+import net.pmkjun.mineplanetplus.input.IKeyMappings;
 
 public class KeyMappings implements IKeyMappings {
 

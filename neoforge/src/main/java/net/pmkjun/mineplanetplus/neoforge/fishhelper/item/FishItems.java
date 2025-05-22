@@ -22,22 +22,22 @@ public class FishItems {
     public static void register(){
         int i;
         for(i = 0; i<FishItemList.COMMMON_FISH_LIST.length; i++){
-            COMMON_FISH[i] = ITEMS.register("common_"+i, () -> new Item(new Item.Properties()));
+            COMMON_FISH[i] = ITEMS.registerItem("common_"+i, Item::new, new Item.Properties());
         }
         for(i = 0; i<FishItemList.UNCOMMON_FISH_LIST.length; i++){
-            UNCOMMON_FISH[i] = ITEMS.register("uncommon_"+i, () -> new Item(new Item.Properties()));
+            UNCOMMON_FISH[i] = ITEMS.registerItem("uncommon_"+i, Item::new, new Item.Properties());
         }
         for(i = 0; i<FishItemList.RARE_FISH_LIST.length; i++){
-            RARE_FISH[i] = ITEMS.register("rare_"+i, () -> new Item(new Item.Properties()));
+            RARE_FISH[i] = ITEMS.registerItem("rare_"+i, Item::new, new Item.Properties());
         }
         for(i = 0; i<FishItemList.EPIC_FISH_LIST.length; i++){
-            EPIC_FISH[i] = ITEMS.register("epic_"+i, () -> new Item(new Item.Properties()));
+            EPIC_FISH[i] = ITEMS.registerItem("epic_"+i, Item::new, new Item.Properties());
         }
         for(i = 0; i<FishItemList.LEGENDARY_FISH_LIST.length; i++){
-            LEGENDARY_FISH[i] = ITEMS.register("legendary_"+i, () -> new Item(new Item.Properties()));
+            LEGENDARY_FISH[i] = ITEMS.registerItem("legendary_"+i, Item::new, new Item.Properties());
         }
         for(i = 0; i<FishItemList.MYTHIC_FISH_LIST.length; i++){
-            MYTHIC_FISH[i] = ITEMS.register("mythic_"+i, () -> new Item(new Item.Properties()));
+            MYTHIC_FISH[i] = ITEMS.registerItem("mythic_"+i, Item::new, new Item.Properties());
         }
 
     }
@@ -45,7 +45,7 @@ public class FishItems {
         String name = itemStack.getHoverName().getString();
         int index;
 
-        if(!(itemStack.getItem().toString().equals("cod"))) return null;
+        if(!(itemStack.getItem().toString().equals("minecraft:cod"))) return null;
         if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
 
         index = Arrays.stream(FishItemList.COMMMON_FISH_LIST).toList().indexOf(name);

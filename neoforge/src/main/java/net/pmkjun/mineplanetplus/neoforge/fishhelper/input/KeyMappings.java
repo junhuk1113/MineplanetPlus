@@ -1,9 +1,8 @@
 package net.pmkjun.mineplanetplus.neoforge.fishhelper.input;
 
-import com.mojang.blaze3d.platform.InputConstants;
-
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -19,23 +18,24 @@ public class KeyMappings implements IKeyMappings {
             -1,
             "mineplanetplus.key.category")));
 
-
+    public void register(IEventBus modEventBus) {
+        modEventBus.addListener(KeyMappings::registerBindings);
+        NeoForge.EVENT_BUS.addListener(this::onClientTick);
+    }
     @Override
     public void register() {
-        NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.addListener(KeyMappings::registerKeyBindings);
     }
 
     @SubscribeEvent
-    public static void registerKeyBindings(RegisterKeyMappingsEvent event) {
+    public static void registerBindings(RegisterKeyMappingsEvent event) {
         event.register(FISHHELPER_MAPPING.get());
     }
 
     @SubscribeEvent
-    public void onClientTick(ClientTickEvent event) {
+    public void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         while (FISHHELPER_MAPPING.get().consumeClick()) {
-            mc.setScreen(new DungeonHelperSettingsScreen());
+            mc.setScreen(new FishHelperConfigScreen(mc.screen));
         }
     }
 }

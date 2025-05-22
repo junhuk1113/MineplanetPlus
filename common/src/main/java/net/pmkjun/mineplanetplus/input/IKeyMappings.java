@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus.dungeonhelper.input;
+package net.pmkjun.mineplanetplus.input;
 
 public interface IKeyMappings {
 

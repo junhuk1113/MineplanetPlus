@@ -15,11 +15,11 @@ public class DungeonHelper {
 
     public DungeonHelperClient client;
 
-    public DungeonHelper(){
-        IEventBus eventBus = NeoForge.EVENT_BUS;
-        DungeonItems.ITEMS.register(eventBus);
+    public DungeonHelper(IEventBus modEventBus){
+        DungeonItems.ITEMS.register(modEventBus);
 
         KeyMappings keyMapping = new KeyMappings();
+        keyMapping.register(modEventBus);
 
         client = new DungeonHelperClient(keyMapping);
         client.init();

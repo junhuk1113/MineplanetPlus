@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "refmap": "mineplanetplus.refmap.json",
   "client": [
+    "GuiMixin",
     "ItemRendererMixin"
   ],
   "mixins": [

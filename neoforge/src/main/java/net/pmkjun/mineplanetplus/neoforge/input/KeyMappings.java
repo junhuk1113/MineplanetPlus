@@ -1,32 +1,33 @@
-package net.pmkjun.mineplanetplus.neoforge.dungeonhelper.input;
+package net.pmkjun.mineplanetplus.neoforge.input;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.Lazy;
-import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
-import net.minecraft.client.KeyMapping;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.pmkjun.mineplanetplus.input.IKeyMappings;
+import net.pmkjun.mineplanetplus.gui.SettingsScreen;
 
 public class KeyMappings implements IKeyMappings {
 
-    public static final Lazy<KeyMapping> DUNGEONHELPER_MAPPING = Lazy.of(() -> new KeyMapping(
-            "key.dungeonhelper.open_dungeonhelper_settings",
-            -1,
+    public static final Lazy<KeyMapping> MINEPLANETPLUS_MAPPING = Lazy.of(() -> new KeyMapping(
+            "mineplanetplus.key.open_settings",
+            InputConstants.KEY_M,
             "mineplanetplus.key.category"));
     @SubscribeEvent
     public static void registerBindings(RegisterKeyMappingsEvent event) {
-        event.register(DUNGEONHELPER_MAPPING.get());
+        event.register(MINEPLANETPLUS_MAPPING.get());
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        while (DUNGEONHELPER_MAPPING.get().consumeClick()) {
-            mc.setScreen(new DungeonHelperSettingsScreen());
+        while (MINEPLANETPLUS_MAPPING.get().consumeClick()) {
+            mc.setScreen(new SettingsScreen());
         }
     }
 
