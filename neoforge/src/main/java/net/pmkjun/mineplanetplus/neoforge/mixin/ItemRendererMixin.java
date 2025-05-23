@@ -157,7 +157,8 @@ public class ItemRendererMixin {
                 }
             } else if ((rftype = RFData.getType(stack)) != null) {
                 try{
-                    if(stack.get(DataComponents.CUSTOM_MODEL_DATA).getFloat(0) == 2658.0f) return; //만료된 아이템은 렌더하지 않음
+                    float customModelData = stack.get(DataComponents.CUSTOM_MODEL_DATA).getFloat(0);
+                    if(customModelData == 2658.0f || customModelData == 2293.0f) return; //만료된 아이템은 렌더하지 않음
                 }
                 catch (NullPointerException e) {
                     System.out.println("행운의 룬 : null pointer exception");
