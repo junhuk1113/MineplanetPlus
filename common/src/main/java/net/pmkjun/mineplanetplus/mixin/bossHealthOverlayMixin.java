@@ -3,6 +3,7 @@ package net.pmkjun.mineplanetplus.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Stat;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,7 +26,7 @@ public class bossHealthOverlayMixin {
         for (Map.Entry<UUID, LerpingBossEvent> entry : bossBars.entrySet()) {
             LerpingBossEvent bossBar = entry.getValue();
             if (mc.player != null&&bossBar!=null) {
-                //mc.player.sendMessage(Text.literal("BossBar Text: " + bossBar.getName().getString()), false);
+                //mc.player.displayClientMessage(Component.literal("BossBar Text: " + bossBar.getName().getStyle()), false);
                 String bossbarText = bossBar.getName().getString();
                 String temp;
                 if(bossbarText.contains("%)")){

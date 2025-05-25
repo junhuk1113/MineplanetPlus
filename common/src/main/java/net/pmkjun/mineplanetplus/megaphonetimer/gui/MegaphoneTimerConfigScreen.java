@@ -21,6 +21,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
     private Button toggleMegaphonetimerButton;
     private Button toggleAlertSoundButton;
     private Button openPosScreenButton;
+    private Button hudRemoveButton;
 
     private Slider XPosSlider;
     private Slider YPosSlider;
@@ -102,6 +103,23 @@ public class MegaphoneTimerConfigScreen extends Screen{
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.movepos.tooltip")))
                 .build();
         this.addRenderableWidget(openPosScreenButton);
+
+        Component text3;
+        if(client.data.toggleHudRemover){
+            text3 = Component.literal("HUD 제거 : ").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
+        }
+        else{
+            text3 = Component.literal("HUD 제거 : ").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
+        }
+        hudRemoveButton = Button.builder(text3,button -> {
+                    toggleHudRemover();
+                }).pos(5+getRegularX(),5+getRegularY()+(20+2)*5)
+                .size(137,20)
+                .tooltip(Tooltip.create(Component.literal("Hud 제거 테스트")))
+                .build();
+        this.addRenderableWidget(hudRemoveButton);
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
@@ -137,6 +155,21 @@ public class MegaphoneTimerConfigScreen extends Screen{
             toggleAlertSoundButton.setMessage(Component.translatable("megaphonetimer.config.sound").append(
                     Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
             client.data.toggleAlertSound = true ;
+            client.settings.save();
+        }
+    }
+
+    private void toggleHudRemover(){
+        if(client.data.toggleHudRemover){
+            hudRemoveButton.setMessage(Component.literal("HUD 제거 : ").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+            client.data.toggleHudRemover = false;
+            client.settings.save();
+        }
+        else{
+            hudRemoveButton.setMessage(Component.literal("HUD 제거 : ").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
+            client.data.toggleHudRemover = true;
             client.settings.save();
         }
     }

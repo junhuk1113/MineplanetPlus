@@ -9,4 +9,6 @@ public class Data{
     public int MegaphonetimerYpos = 500;
 
     public long lastUsedTime = 0;
+
+    public boolean toggleHudRemover = false;
 }
