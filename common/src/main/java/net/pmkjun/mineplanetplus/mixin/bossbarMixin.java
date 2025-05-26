@@ -71,11 +71,16 @@ public class bossbarMixin {
         if(megaphoneTimerClient.data.toggleHudRemover) {
             List<Component> modifiedList = new ArrayList<>();
             for (Component component : actionbarTextList) {
-                if (component.getStyle().getFont().getPath().equals("layout/top_survival/textures")) {
+                if (component.getStyle().getFont().getPath().equals("layout/status/textures")) {
                     // 원하는 새로운 컴포넌트로 교체
-                    Component newComponent = Component.literal("\uE05B").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
+                    Component newComponent = Component.literal("\uE051").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
                     modifiedList.add(newComponent);
-                } else {
+                }
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit")) {
+                    Component newComponent = Component.literal("\uE008").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
+                    modifiedList.add(newComponent);// 한자리수 공백 5, 두자리수 공백8 // 3차이
+                }
+                else {
                     modifiedList.add(component);
                 }
             }
