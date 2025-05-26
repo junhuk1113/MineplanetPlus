@@ -33,12 +33,12 @@ public class GuiMixin {
 
     @Inject(method = "render", at = {@At("RETURN")}, cancellable = false)
     private void renderMixin(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
-        if(minecraft.options.hideGui) return; //F1 눌렀을 때 모드 gui 렌더링 비활성화
-
-        dungeonhelper.renderEvent(guiGraphics, title, overlayMessageString);
-        fishhelper.renderEvent(guiGraphics);
-        skilltimer.renderEvent(guiGraphics);
-        megaphonetimer.renderEvent(guiGraphics);
+        if(minecraft.options.hideGui) { //F1 눌렀을 때 모드 gui 렌더링 비활성화
+            dungeonhelper.renderEvent(guiGraphics, title, overlayMessageString);
+            fishhelper.renderEvent(guiGraphics);
+            skilltimer.renderEvent(guiGraphics);
+            megaphonetimer.renderEvent(guiGraphics);
+        }
     }
 
     @Inject(method = "renderExperienceBar(Lnet/minecraft/client/gui/GuiGraphics;I)V", at = {@At("HEAD")}, cancellable  = true)
