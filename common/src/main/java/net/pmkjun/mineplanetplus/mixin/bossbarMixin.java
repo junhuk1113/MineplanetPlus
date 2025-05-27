@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.BossEvent;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
@@ -70,6 +71,7 @@ public class bossbarMixin {
 
         if(megaphoneTimerClient.data.toggleHudRemover) {
             List<Component> modifiedList = new ArrayList<>();
+            int credit=0;
             for (Component component : actionbarTextList) {
                 if (component.getStyle().getFont().getPath().equals("layout/status/textures")) {
                     // 원하는 새로운 컴포넌트로 교체
@@ -77,8 +79,36 @@ public class bossbarMixin {
                     modifiedList.add(newComponent);
                 }
                 else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit")) {
-                    Component newComponent = Component.literal("\uE008").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
-                    modifiedList.add(newComponent);// 한자리수 공백 5, 두자리수 공백8 // 3차이
+                    try{
+                        credit = Integer.parseInt(component.getString());
+
+                        String space = "\uE016";//9, 11, 16
+                        //Component newComponent = Component.literal(space).setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
+                        Component newComponent = Component.literal("").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "layout/status/fonts/status/credit")));
+                        modifiedList.add(newComponent);// 한자리수 공백 5, 두자리수 공백8 // 3차이
+                    }
+                    catch(NumberFormatException e){
+                        System.out.println(component.toString());
+                        //Component newComponent = Component.literal("\uE005").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
+                        //modifiedList.add(newComponent);
+                    }
+
+                }
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/money")) {
+                    try{
+                        System.out.println(component.getStyle().getFont().toString());
+                        credit = Integer.parseInt(component.getString());
+                        int length = component.getString().length();
+                        String space = "\uE010";
+                        //Component newComponent = Component.literal(space).setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
+                        Component newComponent = Component.literal("").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "layout/status/fonts/status/money")));
+                        modifiedList.add(newComponent);// 한자리수 공백 5, 두자리수 공백8 // 3차이
+                    }
+                    catch(NumberFormatException e){
+                        //System.out.println(component.toString());
+                        //Component newComponent = Component.literal("\uE010").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
+                        //modifiedList.add(newComponent);
+                    }
                 }
                 else {
                     modifiedList.add(component);
