@@ -1,18 +1,14 @@
 package net.pmkjun.mineplanetplus.mixin;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.BossEvent;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.DefaultSkillUI;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,13 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mixin(BossEvent.class)
 public class bossbarMixin {
     Minecraft mc = Minecraft.getInstance();
     DungeonHelperClient client = DungeonHelperClient.getInstance();
-    MegaphoneTimerClient megaphoneTimerClient = MegaphoneTimerClient.getInstance();
+    ServerUtilityClient serverUtilityClient = ServerUtilityClient.getInstance();
 
     int money;
 
@@ -73,25 +68,26 @@ public class bossbarMixin {
         }
         client.ishereDungeon = dungeonExp;
 
-        if(megaphoneTimerClient.data.toggleHudRemover) {
+        boolean dungeonhudHide = (client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO && client.data.toggleSkillCooltime || client.data.toggleDefaultSkillUI == DefaultSkillUI.OFF);
+        if(!serverUtilityClient.data.toggleCurrencyDisplay || (dungeonhudHide && client.ishereDungeon)) {
             List<Component> modifiedList = new ArrayList<>();
             boolean skipNext = false;
             System.out.println(bossbarComponent.toString());
             for (Component component : actionbarTextList) {
-                if (component.getStyle().getFont().getPath().equals("layout/status/textures")) {
+                if(skipNext){
+                    skipNext = false;
+                }
+                else if (component.getStyle().getFont().getPath().equals("layout/status/textures") && !serverUtilityClient.data.toggleCurrencyDisplay) {
                     // 원하는 새로운 컴포넌트로 교체
                     Component newComponent = Component.literal("\uE051").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
                     modifiedList.add(newComponent);
                 }
-                else if(skipNext){
-                    skipNext = false;
-                }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit")) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit") && !serverUtilityClient.data.toggleCurrencyDisplay) {
                     if(!component.getString().equals(" ")) {
                         skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                     }
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/money")) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/money") && !serverUtilityClient.data.toggleCurrencyDisplay) {
                     if(!component.getString().equals(" ")) {
                         skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                         /*if(money != Integer.parseInt(component.getString().replaceAll(",", ""))) {
@@ -101,15 +97,15 @@ public class bossbarMixin {
                         }*/
                     }
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin")) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin") && !serverUtilityClient.data.toggleCurrencyDisplay) {
                     if(!component.getString().equals(" ")) {
                         skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                     }
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && client.skillUIChars.getSkillChars().contains(component.getString())) {
+                else if (component.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && client.skillUIChars.getSkillChars().contains(component.getString()) && dungeonhudHide) {
                     skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                 }
-                else if (component.getStyle().getFont().getPath().contains("layout/hud_dungeon/fonts/skill")) {
+                else if (component.getStyle().getFont().getPath().contains("layout/hud_dungeon/fonts/skill") && dungeonhudHide) {
                     modifiedList.removeLast();
                     skipNext = true;
                 }

@@ -1,7 +1,7 @@
-package net.pmkjun.mineplanetplus.megaphonetimer.file;
+package net.pmkjun.mineplanetplus.serverutility.file;
 
 import net.pmkjun.mineplanetplus.MPPSettings;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 
 import java.io.File;
 import java.io.FileReader;
@@ -28,7 +28,7 @@ public class Settings extends MPPSettings {
     }
 
     public void save() {
-        save(MegaphoneTimerClient.getInstance().data);
+        save(ServerUtilityClient.getInstance().data);
     }
 
     public Data load() {

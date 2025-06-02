@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus.megaphonetimer.gui;
+package net.pmkjun.mineplanetplus.serverutility.gui;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -10,18 +10,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 
 public class MegaphoneTimerConfigScreen extends Screen{
     private final Minecraft mc;
-    private final MegaphoneTimerClient client;
+    private final ServerUtilityClient client;
     private final StretchableBackground background = new StretchableBackground();
     private final Screen parentScreen;
     
     private Button toggleMegaphonetimerButton;
     private Button toggleAlertSoundButton;
     private Button openPosScreenButton;
-    private Button hudRemoveButton;
 
     private Slider XPosSlider;
     private Slider YPosSlider;
@@ -31,7 +30,7 @@ public class MegaphoneTimerConfigScreen extends Screen{
         super(Component.literal("확성기 타이머 설정"));
         this.parentScreen = parentScreen;
         this.mc = Minecraft.getInstance();
-        this.client = MegaphoneTimerClient.getInstance();
+        this.client = ServerUtilityClient.getInstance();
 
         this.width = 147;
         this.height = 8 + (20+2) * 5;
@@ -103,23 +102,6 @@ public class MegaphoneTimerConfigScreen extends Screen{
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.movepos.tooltip")))
                 .build();
         this.addRenderableWidget(openPosScreenButton);
-
-        Component text3;
-        if(client.data.toggleHudRemover){
-            text3 = Component.literal("HUD 제거 : ").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text3 = Component.literal("HUD 제거 : ").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        hudRemoveButton = Button.builder(text3,button -> {
-                    toggleHudRemover();
-                }).pos(5+getRegularX(),5+getRegularY()+(20+2)*5)
-                .size(137,20)
-                .tooltip(Tooltip.create(Component.literal("Hud 제거 테스트")))
-                .build();
-        this.addRenderableWidget(hudRemoveButton);
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
@@ -155,21 +137,6 @@ public class MegaphoneTimerConfigScreen extends Screen{
             toggleAlertSoundButton.setMessage(Component.translatable("megaphonetimer.config.sound").append(
                     Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
             client.data.toggleAlertSound = true ;
-            client.settings.save();
-        }
-    }
-
-    private void toggleHudRemover(){
-        if(client.data.toggleHudRemover){
-            hudRemoveButton.setMessage(Component.literal("HUD 제거 : ").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleHudRemover = false;
-            client.settings.save();
-        }
-        else{
-            hudRemoveButton.setMessage(Component.literal("HUD 제거 : ").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleHudRemover = true;
             client.settings.save();
         }
     }

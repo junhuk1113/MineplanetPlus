@@ -9,8 +9,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
-import net.pmkjun.mineplanetplus.megaphonetimer.gui.MegaphoneTimerConfigScreen;
+import net.pmkjun.mineplanetplus.serverutility.gui.MegaphoneTimerConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
+import net.pmkjun.mineplanetplus.serverutility.gui.ServerUtilityConfigScreen;
 
 public class SettingsScreen extends Screen {
     private final Minecraft mc;
@@ -58,7 +59,7 @@ public class SettingsScreen extends Screen {
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2)
                 .size(137, 20)
                 .build());
-        this.addRenderableWidget(new Button.Builder(Component.translatable("megaphonetimer.key.category"), btn -> onMegaphoneTimerSettingPress())
+        this.addRenderableWidget(new Button.Builder(Component.translatable("serverutility.key.category"), btn -> onServerUtilitySettingPress())
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
                 .size(137, 20)
                 .build());
@@ -92,8 +93,8 @@ public class SettingsScreen extends Screen {
         mc.setScreen(new FishHelperConfigScreen(mc.screen));
     }
 
-    private void onMegaphoneTimerSettingPress(){
-        mc.setScreen(new MegaphoneTimerConfigScreen(mc.screen));
+    private void onServerUtilitySettingPress(){
+        mc.setScreen(new ServerUtilityConfigScreen(mc.screen));
     }
 
     @Override

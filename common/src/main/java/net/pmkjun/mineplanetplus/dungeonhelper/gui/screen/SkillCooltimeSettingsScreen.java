@@ -212,12 +212,15 @@ public class SkillCooltimeSettingsScreen extends Screen {
     private void onDefaultSkillUIPress(){
         if (this.client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO){
             this.client.data.toggleDefaultSkillUI = DefaultSkillUI.ON;
+            this.toggleDefaultSkillUIButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else if(this.client.data.toggleDefaultSkillUI == DefaultSkillUI.ON){
             this.client.data.toggleDefaultSkillUI = DefaultSkillUI.OFF;
+            this.toggleDefaultSkillUIButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
         else{
             this.client.data.toggleDefaultSkillUI = DefaultSkillUI.AUTO;
+            this.toggleDefaultSkillUIButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui").append(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui.auto").withStyle(Style.EMPTY.applyFormat(ChatFormatting.BLUE).withBold(true))));
         }
 
         this.client.settings.save();

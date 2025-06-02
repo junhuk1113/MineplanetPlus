@@ -1,15 +1,15 @@
-package net.pmkjun.mineplanetplus.megaphonetimer.gui;
+package net.pmkjun.mineplanetplus.serverutility.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 
 public class AdjustMegaphoneTimerPosScreen extends Screen{
     private final Minecraft mc = Minecraft.getInstance();
-    private final MegaphoneTimerClient client = MegaphoneTimerClient.getInstance();
+    private final ServerUtilityClient client = ServerUtilityClient.getInstance();
     private final Screen parentScreen;
     private double lastMouseX, lastMouseY;
     private int lastTimerX, lastTimerY;

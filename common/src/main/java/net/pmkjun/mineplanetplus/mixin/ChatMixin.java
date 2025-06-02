@@ -4,12 +4,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Skill;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +29,7 @@ public abstract class ChatMixin {
     private static final Minecraft mc = Minecraft.getInstance();
     private final FishHelperClient fishhelper = FishHelperClient.getInstance();
     private final PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
-    private final MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
+    private final ServerUtilityClient megaphonetimer = ServerUtilityClient.getInstance();
 
     @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/network/chat/Component;)V")
     private void addMessageMixin(Component message, CallbackInfo ci) {
@@ -41,7 +39,7 @@ public abstract class ChatMixin {
         //피시헬퍼
         if(fishhelper.data.toggleChattinglog)
             FishHelperMod.LOGGER.info(message.getString());
-        
+
         if((message.getString().contains("\uE2F8 ") && (message.getString().contains("을(를) 낚았습니다.")||message.getString().contains("You caught a")))||
         (message.getString().contains("\uE2F8 ") && message.getString().contains("로 변환되었습니다."))){
         FISH:
@@ -123,6 +121,7 @@ public abstract class ChatMixin {
             }
         }
 
+        if(megaphonetimer.data.toggleFeeCalcalator){
         List<Component> messageList = message.toFlatList();
         int money, fee;
         for(int index = 0; index < messageList.size(); index++){
@@ -133,10 +132,10 @@ public abstract class ChatMixin {
                     //mc.player.displayClientMessage(Component.literal("지불하신 수수료는 " + money / 10 + "원 입니다. 총 "+ (money + (money/10)) + "원이 차감되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("지불하신 수수료는 ").withColor(0xCAD1E0)
                             .append(Component.literal(""+fee).withColor(0xFFE679)
-                            .append(Component.literal("\uE1BE"))
+                            .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
                             .append(Component.literal("입니다. ").withColor(0xCAD1E0))
                             .append(Component.literal(""+(money + fee)).withColor(0xFFE679))
-                            .append(Component.literal("\uE1BE"))
+                            .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
                             .append(Component.literal("이 차감되었습니다.").withColor(0xCAD1E0))),false);
                 }
                 catch (NumberFormatException e){
@@ -151,11 +150,29 @@ public abstract class ChatMixin {
                     //mc.player.displayClientMessage(Component.literal("거래소 수수료 " + fee + "원이 차감되어 총 "+ (money - fee) + "원이 지급되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("거래소 수수료 ").withColor(0xCAD1E0)
                             .append(Component.literal(""+fee).withColor(0xFFE679)
-                                    .append(Component.literal("\uE1BE"))
-                                    .append(Component.literal("원이 차감되어 총 ").withColor(0xCAD1E0))
+                                    .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
+                                    .append(Component.literal("이 차감되어 총 ").withColor(0xCAD1E0))
                                     .append(Component.literal(""+(money - fee)).withColor(0xFFE679))
-                                    .append(Component.literal("\uE1BE"))
-                                    .append(Component.literal("원이 지급되었습니다.").withColor(0xCAD1E0))),false);
+                                    .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
+                                    .append(Component.literal("이 지급되었습니다.").withColor(0xCAD1E0))),false);
+                }
+                catch (NumberFormatException e){
+                    System.out.println("MineplanetPlus : NumberFormatException!");
+                }
+            }
+
+            if(messageList.get(index).getString().equals("\uE3B8") && messageList.get(index+1).getString().equals("에 구매하였습니다.") && messageList.get(index-4).getString().equals("님의 당신의 ")){
+                try {
+                    money = Integer.parseInt(messageList.get(index - 1).getString().replaceAll(",", ""));
+                    fee = Math.round((float) money / 10);
+                    //mc.player.displayClientMessage(Component.literal("거래소 수수료 " + fee + "원이 차감되어 총 "+ (money - fee) + "원이 지급되었습니다."), false);
+                    mc.player.displayClientMessage(Component.literal("거래소 수수료 ").withColor(0xCAD1E0)
+                            .append(Component.literal(""+fee).withColor(0xFFE679)
+                                    .append(Component.literal("\uE3B8").withStyle(ChatFormatting.WHITE))
+                                    .append(Component.literal("이 차감되어 총 ").withColor(0xCAD1E0))
+                                    .append(Component.literal(""+(money - fee)).withColor(0xFFE679))
+                                    .append(Component.literal("\uE3B8").withStyle(ChatFormatting.WHITE))
+                                    .append(Component.literal("이 지급되었습니다.").withColor(0xCAD1E0))),false);
                 }
                 catch (NumberFormatException e){
                     System.out.println("MineplanetPlus : NumberFormatException!");
@@ -163,4 +180,5 @@ public abstract class ChatMixin {
             }
         }
     }
+        }
 }

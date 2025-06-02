@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus.megaphonetimer.file;
+package net.pmkjun.mineplanetplus.serverutility.file;
 
 public class Data{
 
@@ -10,5 +10,6 @@ public class Data{
 
     public long lastUsedTime = 0;
 
-    public boolean toggleHudRemover = false;
+    public boolean toggleCurrencyDisplay = true;
+    public boolean toggleFeeCalcalator = true;
 }

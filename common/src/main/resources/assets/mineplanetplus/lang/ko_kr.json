@@ -120,6 +120,11 @@
   "planetskilltimer.key.category" : "스킬 타이머",
   "planetskilltimer.key.open_settings" : "스킬 타이머 설정열기",
 
+  "serverutility.key.category" : "편의 기능",
+  "serverutility.currency_display" : "재화 표시 : ",
+  "serverutility.currency_display.tooltip" : "골드, 실링, 크레딧 상태 UI 표시 여부를 설정합니다.",
+  "serverutility.fee_calculator" : "거래 수수료 표시 : ",
+  "serverutility.fee_calculator.tooltip" : "송금하거나, 거래소에서 판매된 아이템의 금액을 수령할 때 발생하는 수수료를 표시합니다. (+ /송금수수료, /거래소수수료 명령어로 내야 할 수수료를 미리 계산해보세요!)",
   "megaphonetimer.key.category" : "확성기 타이머",
   "megaphonetimer.config.enable" : "켜짐",
   "megaphonetimer.config.disable" : "꺼짐",
@@ -131,7 +136,7 @@
   "megaphonetimer.config.movepos.tooltip" : "확성기 타이머 아이콘을 마우스로 드래그해서 위치를 설정할 수 있습니다.",
 
   "mineplanetplus.key.category" : "마인플래닛+",
-	"mineplanetplus.key.open_settings" : "* 마인플래닛+ 설정",
+  "mineplanetplus.key.open_settings" : "* 마인플래닛+ 설정",
   "mineplanetplus.config.xslider.tooltip" : "UI 가로 위치를 조정합니다. 슬라이더 클릭 후 키보드 좌/우 화살표 키로 위치 값을 정밀 설정 할 수 있습니다.",
   "mineplanetplus.config.yslider.tooltip" : "UI 세로 위치를 조정합니다. 슬라이더 클릭 후 키보드 좌/우 화살표 키로 위치 값을 정밀 설정 할 수 있습니다.",
   "mineplanetplus.config.sizeslider" : "크기 조절 : ",

@@ -1,20 +1,20 @@
-package net.pmkjun.mineplanetplus.megaphonetimer;
+package net.pmkjun.mineplanetplus.serverutility;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.pmkjun.mineplanetplus.megaphonetimer.file.Data;
-import net.pmkjun.mineplanetplus.megaphonetimer.file.Settings;
-import net.pmkjun.mineplanetplus.megaphonetimer.gui.MegaphoneTimerGui;
+import net.pmkjun.mineplanetplus.serverutility.file.Data;
+import net.pmkjun.mineplanetplus.serverutility.file.Settings;
+import net.pmkjun.mineplanetplus.serverutility.gui.MegaphoneTimerGui;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
 
-public class MegaphoneTimerClient {
-    private static MegaphoneTimerClient instance;
+public class ServerUtilityClient {
+    private static ServerUtilityClient instance;
     public Data data;
     public Settings settings;
 
     private final MegaphoneTimerGui gui;
     private Timer timer = new Timer();
 
-    public MegaphoneTimerClient(){
+    public ServerUtilityClient(){
         instance = this;
         this.settings = new Settings();
         this.data = this.settings.load();
@@ -35,7 +35,7 @@ public class MegaphoneTimerClient {
         this.settings.save();
     }
 
-    public static MegaphoneTimerClient getInstance(){
+    public static ServerUtilityClient getInstance(){
         return instance;
     }
 }

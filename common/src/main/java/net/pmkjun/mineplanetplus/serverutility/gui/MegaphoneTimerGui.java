@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus.megaphonetimer.gui;
+package net.pmkjun.mineplanetplus.serverutility.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,13 +10,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timeformat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
 
 public class MegaphoneTimerGui {
     private final Minecraft mc;
-    private final MegaphoneTimerClient client;
+    private final ServerUtilityClient client;
 
     public int last = 0;
     public int coolend = 0;
@@ -28,7 +28,7 @@ public class MegaphoneTimerGui {
 
     public MegaphoneTimerGui(){
         this.mc = Minecraft.getInstance();
-        this.client = MegaphoneTimerClient.getInstance();
+        this.client = ServerUtilityClient.getInstance();
     }
 
     public void renderTick(GuiGraphics guiGraphics, Timer timer){

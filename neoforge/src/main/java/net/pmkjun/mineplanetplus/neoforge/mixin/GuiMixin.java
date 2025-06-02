@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.profiling.Profiler;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.megaphonetimer.MegaphoneTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +29,7 @@ public class GuiMixin {
     DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
     FishHelperClient fishhelper = FishHelperClient.getInstance();
     PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
-    MegaphoneTimerClient megaphonetimer = MegaphoneTimerClient.getInstance();
+    ServerUtilityClient megaphonetimer = ServerUtilityClient.getInstance();
 
     @Inject(method = "render", at = {@At("RETURN")}, cancellable = false)
     private void renderMixin(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
