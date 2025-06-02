@@ -56,7 +56,9 @@
   "gui.dungeonhelper.skill_cooltime_settings.customguipos.tooltip" : "스킬 쿨타임 UI를 이동할 수 있게 설정합니다.",
   "gui.dungeonhelper.skill_cooltime_settings.autoclassdetect" : "직업 자동 감지 : ",
   "gui.dungeonhelper.skill_cooltime_settings.autoclassdetect.tooltip" : "직업 자동 감지 기능을 끄면 수동으로 직업을 선택해야 합니다.",
-
+  "gui.dungeonhelper.skill_cooltime_settings.defaultskillui" : "기본 스킬 UI : ",
+  "gui.dungeonhelper.skill_cooltime_settings.defaultskillui.tooltip" : "스킬 쿨타임 표시 기능을 켜면, 기본 스킬 UI가 자동으로 숨겨집니다. 문제 발생 시 수동으로 설정을 변경할 수 있습니다.",
+  "gui.dungeonhelper.skill_cooltime_settings.defaultskillui.auto" : "자동",
 
   "fishhelper.config.title" : "이클립스 Fish Helper",
   "fishhelper.config.cooldownfield" : "토템 쿨타임",

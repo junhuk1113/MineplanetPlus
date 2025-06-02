@@ -11,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.DefaultSkillUI;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
 import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 
@@ -24,6 +25,7 @@ public class SkillCooltimeSettingsScreen extends Screen {
     private Button debugModeButton;
     private Button toggleCustomGUIPosButton;
     private Button toggleAutoClassDetectButton;
+    private Button toggleDefaultSkillUIButton;
     private Slider XPosSlider, YPosSlider;
     private final int width, height;
     private final Screen parentScreen;
@@ -38,12 +40,12 @@ public class SkillCooltimeSettingsScreen extends Screen {
         this.parentScreen = parentScreen;
 
         width = 147;
-        height = 140;
+        height = 140+22;
     }
 
     protected void init() {
         super.init();
-        MutableComponent toggleSkillCooltimeButtonComponent, toggleCustomGUIPosComponent, toggleAutoClassDetectButtonComponent;
+        MutableComponent toggleSkillCooltimeButtonComponent, toggleCustomGUIPosComponent, toggleAutoClassDetectButtonComponent, toggleDefaultSkillUIButtonComponent;
         if (this.client.data.toggleSkillCooltime) {
             toggleSkillCooltimeButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.main").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
         } else {
@@ -58,6 +60,15 @@ public class SkillCooltimeSettingsScreen extends Screen {
             toggleAutoClassDetectButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
         } else {
             toggleAutoClassDetectButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
+        }
+        if (this.client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO){
+            toggleDefaultSkillUIButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui").append(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui.auto").withStyle(Style.EMPTY.applyFormat(ChatFormatting.BLUE).withBold(true)));
+        }
+        else if(this.client.data.toggleDefaultSkillUI == DefaultSkillUI.ON){
+            toggleDefaultSkillUIButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
+        }
+        else{
+            toggleDefaultSkillUIButtonComponent = Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
         }
 
         this.toggleSkillCooltimeButton = this.addRenderableWidget((new Button.Builder(toggleSkillCooltimeButtonComponent, (btn) -> {
@@ -103,6 +114,10 @@ public class SkillCooltimeSettingsScreen extends Screen {
             this.onAutoClassDetectPress();
         }).tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect.tooltip")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 5).size(137, 20).build());
 
+        toggleDefaultSkillUIButton = this.addRenderableWidget((new Button.Builder(toggleDefaultSkillUIButtonComponent, (btn) -> {
+            this.onDefaultSkillUIPress();
+        }).tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.defaultskillui.tooltip")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2) * 6).size(137, 20).build());
+
         if (ENABLE_DEBUG_MODE) {
             MutableComponent debugModeButtonComponent;
             if (DEBUG_MODE) {
@@ -113,7 +128,7 @@ public class SkillCooltimeSettingsScreen extends Screen {
 
             this.debugModeButton = this.addRenderableWidget((new Button.Builder(debugModeButtonComponent, (btn) -> {
                 this.onDebugModePress();
-            }).tooltip(Tooltip.create(Component.literal("개발용 기능입니다")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2)*6).size(137, 20).build());
+            }).tooltip(Tooltip.create(Component.literal("개발용 기능입니다")))).pos(this.getRegularX() + 5, this.getRegularY() + 5 + (20 + 2)*7).size(137, 20).build());
         }
 
     }
@@ -189,6 +204,20 @@ public class SkillCooltimeSettingsScreen extends Screen {
             this.toggleAutoClassDetectButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         } else {
             this.toggleAutoClassDetectButton.setMessage(Component.translatable("gui.dungeonhelper.skill_cooltime_settings.autoclassdetect").append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+        }
+
+        this.client.settings.save();
+    }
+
+    private void onDefaultSkillUIPress(){
+        if (this.client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO){
+            this.client.data.toggleDefaultSkillUI = DefaultSkillUI.ON;
+        }
+        else if(this.client.data.toggleDefaultSkillUI == DefaultSkillUI.ON){
+            this.client.data.toggleDefaultSkillUI = DefaultSkillUI.OFF;
+        }
+        else{
+            this.client.data.toggleDefaultSkillUI = DefaultSkillUI.AUTO;
         }
 
         this.client.settings.save();

@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Data;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Settings;
+import net.pmkjun.mineplanetplus.dungeonhelper.file.SkillUIChars;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.DungeonCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.SkillCooltimeGui;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
@@ -27,6 +28,7 @@ public class DungeonHelperClient {
     private final Timer timer = new Timer();
 
     public boolean ishereDungeon = false;
+    public SkillUIChars skillUIChars = new SkillUIChars();
 
     public DungeonHelperClient(IKeyMappings keyMappings) {
         this.keyMappings = keyMappings;

@@ -2,10 +2,13 @@ package net.pmkjun.mineplanetplus.mixin;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.BossEvent;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
@@ -26,6 +29,8 @@ public class bossbarMixin {
     DungeonHelperClient client = DungeonHelperClient.getInstance();
     MegaphoneTimerClient megaphoneTimerClient = MegaphoneTimerClient.getInstance();
 
+    int money;
+
     @Shadow
     protected Component name;
 
@@ -37,7 +42,6 @@ public class bossbarMixin {
         Component text;
         boolean dungeonExp = false;
         List<Component> actionbarTextList = bossbarComponent.toFlatList();
-        //List<Component> actionbarTextList = bossbarComponent.getSiblings();
         //mc.player.displayClientMessage(Component.literal(bossbarComponent), false);
         //mc.player.displayClientMessage(Component.literal("보스바 감지"), false);
         for (Component component : actionbarTextList) {
@@ -71,46 +75,45 @@ public class bossbarMixin {
 
         if(megaphoneTimerClient.data.toggleHudRemover) {
             List<Component> modifiedList = new ArrayList<>();
-            int credit=0;
+            boolean skipNext = false;
+            System.out.println(bossbarComponent.toString());
             for (Component component : actionbarTextList) {
                 if (component.getStyle().getFont().getPath().equals("layout/status/textures")) {
                     // 원하는 새로운 컴포넌트로 교체
                     Component newComponent = Component.literal("\uE051").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
                     modifiedList.add(newComponent);
                 }
+                else if(skipNext){
+                    skipNext = false;
+                }
                 else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit")) {
-                    try{
-                        credit = Integer.parseInt(component.getString());
-
-                        String space = "\uE016";//9, 11, 16
-                        //Component newComponent = Component.literal(space).setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
-                        Component newComponent = Component.literal("").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "layout/status/fonts/status/credit")));
-                        modifiedList.add(newComponent);// 한자리수 공백 5, 두자리수 공백8 // 3차이
+                    if(!component.getString().equals(" ")) {
+                        skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                     }
-                    catch(NumberFormatException e){
-                        System.out.println(component.toString());
-                        //Component newComponent = Component.literal("\uE005").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
-                        //modifiedList.add(newComponent);
-                    }
-
                 }
                 else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/money")) {
-                    try{
-                        System.out.println(component.getStyle().getFont().toString());
-                        credit = Integer.parseInt(component.getString());
-                        int length = component.getString().length();
-                        String space = "\uE010";
-                        //Component newComponent = Component.literal(space).setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
-                        Component newComponent = Component.literal("").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "layout/status/fonts/status/money")));
-                        modifiedList.add(newComponent);// 한자리수 공백 5, 두자리수 공백8 // 3차이
-                    }
-                    catch(NumberFormatException e){
-                        //System.out.println(component.toString());
-                        //Component newComponent = Component.literal("\uE010").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
-                        //modifiedList.add(newComponent);
+                    if(!component.getString().equals(" ")) {
+                        skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
+                        /*if(money != Integer.parseInt(component.getString().replaceAll(",", ""))) {
+                            mc.player.displayClientMessage(Component.literal("골드 변화 감지 : " + (Integer.parseInt(component.getString().replaceAll(",", ""))-money)), false);
+
+                            money = Integer.parseInt(component.getString().replaceAll(",", ""));
+                        }*/
                     }
                 }
-                else {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin")) {
+                    if(!component.getString().equals(" ")) {
+                        skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
+                    }
+                }
+                else if (component.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && client.skillUIChars.getSkillChars().contains(component.getString())) {
+                    skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
+                }
+                else if (component.getStyle().getFont().getPath().contains("layout/hud_dungeon/fonts/skill")) {
+                    modifiedList.removeLast();
+                    skipNext = true;
+                }
+                else{
                     modifiedList.add(component);
                 }
             }
