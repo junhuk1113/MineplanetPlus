@@ -6,12 +6,12 @@ import net.minecraft.network.chat.Component;
 import java.text.DecimalFormat;
 
 public class FeeCalculator {
-    public static Component getSendFeeMessage(int money) {
-        int fee, sentAmount;
+    public static Component getSendFeeMessage(long money) {
+        long fee, sentAmount;
         DecimalFormat df = new DecimalFormat("###,###");
 
         fee = Math.round((float) money / 10);
-        sentAmount = (int)Math.round((float) money / 1.1);
+        sentAmount = Math.round((float) money / 1.1);
 
         return Component.literal("지불해야 할 수수료는 ").withColor(0xCAD1E0)
                 .append(Component.literal(df.format(fee)).withColor(0xFFE679)
@@ -28,10 +28,10 @@ public class FeeCalculator {
                         .append(Component.literal("을 송금하세요.").withColor(0xCAD1E0)));
     }
 
-    public static Component getBuyFeeMessage(int money) {
-        int fee, boughtAmount;
+    public static Component getSellFeeMessage(long money) {
+        long fee, boughtAmount;
         fee = Math.round((float) money / 10);
-        boughtAmount = (int)Math.round((float) money / 0.9 );
+        boughtAmount = Math.round((float) money / 0.9 );
         DecimalFormat df = new DecimalFormat("###,###");
 
         return Component.literal("거래소 수수료는 ").withColor(0xCAD1E0)

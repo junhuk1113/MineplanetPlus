@@ -123,11 +123,11 @@ public abstract class ChatMixin {
 
         if(megaphonetimer.data.toggleFeeCalcalator){
         List<Component> messageList = message.toFlatList();
-        int money, fee;
+        long money, fee;
         for(int index = 0; index < messageList.size(); index++){
             if(messageList.get(index).getString().equals("\uE1BE") && messageList.get(index+1).getString().equals("을 송금하였습니다.") && messageList.get(index-2).getString().equals("님에게 ")){
                 try {
-                    money = Integer.parseInt(messageList.get(index - 1).getString().replaceAll(",", ""));
+                    money = Long.parseLong(messageList.get(index - 1).getString().replaceAll(",", ""));
                     fee = Math.round((float) money / 10);
                     //mc.player.displayClientMessage(Component.literal("지불하신 수수료는 " + money / 10 + "원 입니다. 총 "+ (money + (money/10)) + "원이 차감되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("지불하신 수수료는 ").withColor(0xCAD1E0)
@@ -145,7 +145,7 @@ public abstract class ChatMixin {
 
             if(messageList.get(index).getString().equals("\uE1BE") && messageList.get(index+1).getString().equals("에 구매하였습니다.") && messageList.get(index-4).getString().equals("님의 당신의 ")){
                 try {
-                    money = Integer.parseInt(messageList.get(index - 1).getString().replaceAll(",", ""));
+                    money = Long.parseLong(messageList.get(index - 1).getString().replaceAll(",", ""));
                     fee = Math.round((float) money / 10);
                     //mc.player.displayClientMessage(Component.literal("거래소 수수료 " + fee + "원이 차감되어 총 "+ (money - fee) + "원이 지급되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("거래소 수수료 ").withColor(0xCAD1E0)
@@ -164,7 +164,7 @@ public abstract class ChatMixin {
             if(messageList.get(index).getString().equals("\uE3B8") && messageList.get(index+1).getString().equals("에 구매하였습니다.") && messageList.get(index-4).getString().equals("님의 당신의 ")){
                 try {
                     money = Integer.parseInt(messageList.get(index - 1).getString().replaceAll(",", ""));
-                    fee = Math.round((float) money / 10);
+                    fee = (int)((float) money / 10);
                     //mc.player.displayClientMessage(Component.literal("거래소 수수료 " + fee + "원이 차감되어 총 "+ (money - fee) + "원이 지급되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("거래소 수수료 ").withColor(0xCAD1E0)
                             .append(Component.literal(""+fee).withColor(0xFFE679)

@@ -1,6 +1,7 @@
 package net.pmkjun.mineplanetplus.fabric;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -32,37 +33,37 @@ public final class MineplanetPlusFabric implements ModInitializer {
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("송금수수료")
-                .then(ClientCommandManager.argument("value", IntegerArgumentType.integer(0))
+                .then(ClientCommandManager.argument("value", LongArgumentType.longArg(0))
                     .executes(MineplanetPlusFabric::executeCommandWithArg)
                 )
             );
         });
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("판매수수료")
-                    .then(ClientCommandManager.argument("value2", IntegerArgumentType.integer(0))
-                            .executes(MineplanetPlusFabric::executeBuyFee)
+                    .then(ClientCommandManager.argument("value2", LongArgumentType.longArg(0))
+                            .executes(MineplanetPlusFabric::executeSellFee)
                     )
             );
         });
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("크레딧판매수수료")
                     .then(ClientCommandManager.argument("credit", IntegerArgumentType.integer(0))
-                            .executes(MineplanetPlusFabric::executeCreditBuyFee)
+                            .executes(MineplanetPlusFabric::executeCreditSellFee)
                     )
             );
         });
     }
     private static int executeCommandWithArg(CommandContext<FabricClientCommandSource> context) {
-        int value = IntegerArgumentType.getInteger(context, "value");
+        long value = LongArgumentType.getLong(context, "value");
         context.getSource().sendFeedback(FeeCalculator.getSendFeeMessage(value));
         return 1;
     }
-    private static int executeBuyFee(CommandContext<FabricClientCommandSource> context) {
-        int value2 = IntegerArgumentType.getInteger(context, "value2");
-        context.getSource().sendFeedback(FeeCalculator.getBuyFeeMessage(value2));
+    private static int executeSellFee(CommandContext<FabricClientCommandSource> context) {
+        long value2 = LongArgumentType.getLong(context, "value2");
+        context.getSource().sendFeedback(FeeCalculator.getSellFeeMessage(value2));
         return 1;
     }
-    private static int executeCreditBuyFee(CommandContext<FabricClientCommandSource> context) {
+    private static int executeCreditSellFee(CommandContext<FabricClientCommandSource> context) {
         int credit = IntegerArgumentType.getInteger(context, "credit");
         context.getSource().sendFeedback(FeeCalculator.getCreditFeeMessage(credit));
         return 1;
