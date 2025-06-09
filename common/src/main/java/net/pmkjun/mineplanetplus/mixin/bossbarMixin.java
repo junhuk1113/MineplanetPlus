@@ -38,7 +38,7 @@ public class bossbarMixin {
         boolean isSlot1Updated = false, isSlot3Updated = false, isSlot4Updated = false, isSlot5Updated = false, isHUD = false;
 
         List<Component> actionbarTextList = bossbarComponent.toFlatList();
-        mc.player.displayClientMessage(Component.literal(bossbarComponent.getStyle().getFont().toString()), false);
+        //mc.player.displayClientMessage(Component.literal(bossbarComponent.getStyle().getFont().toString()), false);
         //mc.player.displayClientMessage(Component.literal("보스바 감지"), false);
         for (Component component : actionbarTextList) {
             text = component;
@@ -81,9 +81,7 @@ public class bossbarMixin {
                 isSlot3Updated = true;
             }
             if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot4_cooldown_text")){
-                if(client.data.classType == ClassCategory.MARTIAL_ARTIST) {client.updateLeftComboSkillTime(Float.parseFloat(text.getString()));
-                mc.player.displayClientMessage(Component.literal(text.getString()), false);
-                }
+                if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftComboSkillTime(Float.parseFloat(text.getString()));
                 else client.updateLeftLV40SkillTime(Float.parseFloat(text.getString()));
                 isSlot4Updated = true;
             }
@@ -93,7 +91,8 @@ public class bossbarMixin {
             }
         }
         if(!isSlot1Updated && isHUD){
-            client.updateLeftComboSkillTime(0f);
+            if(!(client.data.classType == ClassCategory.MARTIAL_ARTIST))
+                client.updateLeftComboSkillTime(0f);
         }
         if(!isSlot3Updated && isHUD){
             if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftLV40SkillTime(0f);
