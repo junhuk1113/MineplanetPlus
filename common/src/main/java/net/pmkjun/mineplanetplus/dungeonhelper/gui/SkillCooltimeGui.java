@@ -96,43 +96,22 @@ public class SkillCooltimeGui {
         lastLV30SkillTime = timer.getCurrentTime() + plustime;
     }
 
+    public void updateLeftComboSkillTime(float cooldown) {
+        leftComboSkillTime = cooldown;
+    }
+    public void updateLeftLV30SkillTime(float cooldown) {
+        leftLV30SkillTime = cooldown;
+    }
+    public void updateLeftLV40SkillTime(float cooldown) {
+        leftLV40SkillTime = cooldown;
+    }
+    public void updateLeftUltimateTime(float cooldown) {
+        leftUltimateTime = cooldown;
+    }
+
     public void renderTick(GuiGraphics guiGraphics, Timer timer) {
         if(!client.data.toggleSkillCooltime)
             return;
-
-        if(client.data.classType == ClassCategory.ASSASSIN) {
-            leftComboSkillTime = ASSASSIN_SKILL_REACTIVATION_TIME - timer.getDifference(lastComboSkillTime);
-            leftLV40SkillTime = BLADE_SPIN_SKILL_COOLTIME - timer.getDifference(lastLV40SkillTime);
-            leftUltimateTime = BLADE_DANCE_COOLTIME - timer.getDifference(lastUltimateTime);
-        }
-        else if(client.data.classType == ClassCategory.DRAGON_WARRIOR) {
-            leftComboSkillTime = DRAGON_WARRIOR_SKILL_REACTIVATION_TIME - timer.getDifference(lastComboSkillTime);
-            leftLV40SkillTime = DRAGON_SMASH_COOLTIME - timer.getDifference(lastLV40SkillTime);
-            leftUltimateTime = DRAGON_FURY_COOLTIME - timer.getDifference(lastUltimateTime);
-        }
-        else if (this.client.data.classType == ClassCategory.MARTIAL_ARTIST) {
-            leftComboSkillTime = MARTIAL_ARTIST_SKILL_REACTIVATION_TIME - timer.getDifference(lastComboSkillTime);
-            leftLV40SkillTime = MARTIAL_DRIVE_COOLTIME - timer.getDifference(lastLV40SkillTime);
-            this.leftUltimateTime = MULTIPLE_BLOW_COOLTIME - timer.getDifference(this.lastUltimateTime);
-        }
-        else if (this.client.data.classType == ClassCategory.BATTLE_MAGE){
-            leftComboSkillTime = BATTLE_MAGE_SKILL_REACTIVATION_TIME - timer.getDifference(lastComboSkillTime);
-            leftLV40SkillTime = INFERNO_CHAIN_COOLTIME - timer.getDifference(lastLV40SkillTime);
-            this.leftUltimateTime = ARCANE_DEMOLITION_COOLTIME - timer.getDifference(this.lastUltimateTime);
-        }
-
-        if(client.data.classType == ClassCategory.ASSASSIN) {
-            leftLV30SkillTime = DAGGER_THROW_COOLTIME - timer.getDifference(lastLV30SkillTime);
-        } else if(client.data.classType == ClassCategory.DRAGON_WARRIOR) {
-            leftLV30SkillTime = DRAGON_BREATH_COOLTIME - timer.getDifference(lastLV30SkillTime);
-        } else if (this.client.data.classType == ClassCategory.BATTLE_MAGE) {
-            leftLV30SkillTime = ARCANE_SPIN_COOLTIME - timer.getDifference(lastLV30SkillTime);
-        }
-
-        leftComboSkillTime = Math.max(leftComboSkillTime, 0);
-        leftLV30SkillTime = Math.max(leftLV30SkillTime, 0);
-        leftLV40SkillTime = Math.max(leftLV40SkillTime, 0);
-        leftUltimateTime = Math.max(leftUltimateTime, 0);
 
         render(guiGraphics);
     }

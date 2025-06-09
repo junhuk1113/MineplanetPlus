@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.BossEvent;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DefaultSkillUI;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,8 +25,6 @@ public class bossbarMixin {
     DungeonHelperClient client = DungeonHelperClient.getInstance();
     ServerUtilityClient serverUtilityClient = ServerUtilityClient.getInstance();
 
-    int money;
-
     @Shadow
     protected Component name;
 
@@ -36,11 +35,17 @@ public class bossbarMixin {
         String dungeon_level;
         Component text;
         boolean dungeonExp = false;
+        boolean isSlot1Updated = false, isSlot3Updated = false, isSlot4Updated = false, isSlot5Updated = false, isHUD = false;
+
         List<Component> actionbarTextList = bossbarComponent.toFlatList();
-        //mc.player.displayClientMessage(Component.literal(bossbarComponent), false);
+        mc.player.displayClientMessage(Component.literal(bossbarComponent.getStyle().getFont().toString()), false);
         //mc.player.displayClientMessage(Component.literal("보스바 감지"), false);
         for (Component component : actionbarTextList) {
             text = component;
+
+            if(text.getStyle().getFont().getNamespace().equals("mythichud")){
+                isHUD = true;
+            }
 
             //mc.player.displayClientMessage(text, false);
             //mc.player.displayClientMessage(Component.literal(text.getStyle().getFont().getPath()), false);
@@ -65,15 +70,52 @@ public class bossbarMixin {
                 catch(NumberFormatException ignored){
                 }
             }
+
+            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot1_cooldown_text")){
+                client.updateLeftComboSkillTime(Float.parseFloat(text.getString()));
+                isSlot1Updated = true;
+            }
+            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot3_cooldown_text")){
+                if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftLV40SkillTime(Float.parseFloat(text.getString()));
+                else client.updateLeftLV30SkillTime(Float.parseFloat(text.getString()));
+                isSlot3Updated = true;
+            }
+            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot4_cooldown_text")){
+                if(client.data.classType == ClassCategory.MARTIAL_ARTIST) {client.updateLeftComboSkillTime(Float.parseFloat(text.getString()));
+                mc.player.displayClientMessage(Component.literal(text.getString()), false);
+                }
+                else client.updateLeftLV40SkillTime(Float.parseFloat(text.getString()));
+                isSlot4Updated = true;
+            }
+            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot5_cooldown_text")){
+                client.updateLeftUltimateTime(Float.parseFloat(text.getString()));
+                isSlot5Updated = true;
+            }
         }
+        if(!isSlot1Updated && isHUD){
+            client.updateLeftComboSkillTime(0f);
+        }
+        if(!isSlot3Updated && isHUD){
+            if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftLV40SkillTime(0f);
+            else client.updateLeftLV30SkillTime(0f);
+        }
+        if(!isSlot4Updated && isHUD){
+            if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftComboSkillTime(0f);
+            else client.updateLeftLV40SkillTime(0f);
+        }
+        if(!isSlot5Updated && isHUD){
+            client.updateLeftUltimateTime(0f);
+        }
+
         client.ishereDungeon = dungeonExp;
 
         boolean dungeonhudHide = (client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO && client.data.toggleSkillCooltime || client.data.toggleDefaultSkillUI == DefaultSkillUI.OFF);
         if(!serverUtilityClient.data.toggleCurrencyDisplay || (dungeonhudHide && client.ishereDungeon)) {
             List<Component> modifiedList = new ArrayList<>();
             boolean skipNext = false;
-            System.out.println(bossbarComponent.toString());
+            //System.out.println(bossbarComponent.toString());
             for (Component component : actionbarTextList) {
+
                 if(skipNext){
                     skipNext = false;
                 }

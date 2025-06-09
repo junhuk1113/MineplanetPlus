@@ -31,6 +31,7 @@ import java.util.List;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
+    /*
     //대시 스킬
     private static final int VALID_BLADE_DASH_DISTANCE = 30;
     private static final int VALID_DRAGON_DASH_DISTANCE = 8;
@@ -209,7 +210,7 @@ public abstract class ClientPacketListenerMixin {
             }
         }
     }
-    
+    */
     @Inject(at = @At("TAIL"), method = "handleLogin")
     private void triggerJoinEvent(ClientboundLoginPacket packet, CallbackInfo info) {
         TpsTracker.INSTANCE.onGameJoined();

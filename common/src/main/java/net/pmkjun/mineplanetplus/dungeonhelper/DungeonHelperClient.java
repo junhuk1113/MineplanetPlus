@@ -56,7 +56,7 @@ public class DungeonHelperClient {
 
         timer.updateTime();
     }
-    public void updateLastComboSkillTime() {
+    /*public void updateLastComboSkillTime() {
         skillCooltimeGui.updateLastComboSkillTime(timer);
     }
     public void updateLastLV30SkillTime() {
@@ -78,6 +78,19 @@ public class DungeonHelperClient {
     }
     public void resetLastComboSkillTime() {
         skillCooltimeGui.resetLastComboSkillTime();
+    }*/
+
+    public void updateLeftComboSkillTime(float cooldown){
+        skillCooltimeGui.updateLeftComboSkillTime(cooldown);
+    }
+    public void updateLeftLV30SkillTime(float cooldown){
+        skillCooltimeGui.updateLeftLV30SkillTime(cooldown);
+    }
+    public void updateLeftLV40SkillTime(float cooldown){
+        skillCooltimeGui.updateLeftLV40SkillTime(cooldown);
+    }
+    public void updateLeftUltimateTime(float cooldown){
+        skillCooltimeGui.updateLeftUltimateTime(cooldown);
     }
 
     public DungeonHelperSettingsScreen getSettingsScreen() {
