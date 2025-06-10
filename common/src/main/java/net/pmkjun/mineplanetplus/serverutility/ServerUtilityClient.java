@@ -1,9 +1,10 @@
 package net.pmkjun.mineplanetplus.serverutility;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.serverutility.file.Data;
 import net.pmkjun.mineplanetplus.serverutility.file.Settings;
-import net.pmkjun.mineplanetplus.serverutility.gui.MegaphoneTimerGui;
+import net.pmkjun.mineplanetplus.serverutility.gui.ServerUtilityGui;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
 
 public class ServerUtilityClient {
@@ -11,8 +12,10 @@ public class ServerUtilityClient {
     public Data data;
     public Settings settings;
 
-    private final MegaphoneTimerGui gui;
+    private final ServerUtilityGui gui;
     private Timer timer = new Timer();
+
+    public Component money, coin, credit;
 
     public ServerUtilityClient(){
         instance = this;
@@ -22,7 +25,7 @@ public class ServerUtilityClient {
             this.data = new Data();
             this.settings.save();
         }
-        this.gui = new MegaphoneTimerGui();
+        this.gui = new ServerUtilityGui();
     }
 
     public void renderEvent(GuiGraphics context) {
@@ -30,7 +33,7 @@ public class ServerUtilityClient {
         this.timer.updateTime();
     }
 
-    public void updateLastUsedtime(){
+    public void updateLastUsedMegaphonetime(){
         this.data.lastUsedTime = this.timer.getCurrentTime();
         this.settings.save();
     }

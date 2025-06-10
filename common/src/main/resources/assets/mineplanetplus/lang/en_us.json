@@ -60,7 +60,6 @@
   "gui.dungeonhelper.skill_cooltime_settings.defaultskillui.tooltip" : "스킬 쿨타임 표시 기능을 켜면, 기본 스킬 UI가 자동으로 숨겨집니다. 문제 발생 시 수동으로 설정을 변경할 수 있습니다.",
   "gui.dungeonhelper.skill_cooltime_settings.defaultskillui.auto" : "자동",
 
-
   "fishhelper.config.title" : "이클립스 Fish Helper",
   "fishhelper.config.cooldownfield" : "토템 쿨타임",
   "fishhelper.config.activatefield" : "토템 지속시간",
@@ -122,8 +121,11 @@
   "planetskilltimer.key.open_settings" : "스킬 타이머 설정열기",
 
   "serverutility.key.category" : "편의 기능",
-  "serverutility.currency_display" : "재화 표시 : ",
-  "serverutility.currency_display.tooltip" : "골드, 실링, 크레딧 상태 UI 표시 여부를 설정합니다.",
+  "serverutility.currency_display" : "재화 표시 설정",
+  "serverutility.currency_display.main" : "재화 표시 : ",
+  "serverutility.currency_display.main.tooltip" : "골드, 실링, 크레딧 상태 UI 표시 여부를 설정합니다.",
+  "serverutility.currency_display.customguipos" : "사용자 지정 위치 : ",
+  "serverutility.currency_display.customguipos.tooltip" : "재화 표시 UI를 이동할 수 있게 설정합니다.",
   "serverutility.fee_calculator" : "거래 수수료 표시 : ",
   "serverutility.fee_calculator.tooltip" : "송금하거나, 거래소에서 판매된 아이템의 금액을 수령할 때 발생하는 수수료를 표시합니다. (/송금수수료, 판매수수료, 크레딧판매수수료 명령어로 내야 할 수수료를 미리 계산해보세요!)",
   "megaphonetimer.key.category" : "확성기 타이머",

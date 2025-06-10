@@ -75,19 +75,29 @@ public class bossbarMixin {
                 client.updateLeftComboSkillTime(Float.parseFloat(text.getString()));
                 isSlot1Updated = true;
             }
-            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot3_cooldown_text")){
+            else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot3_cooldown_text")){
                 if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftLV40SkillTime(Float.parseFloat(text.getString()));
                 else client.updateLeftLV30SkillTime(Float.parseFloat(text.getString()));
                 isSlot3Updated = true;
             }
-            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot4_cooldown_text")){
+            else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot4_cooldown_text")){
                 if(client.data.classType == ClassCategory.MARTIAL_ARTIST) client.updateLeftComboSkillTime(Float.parseFloat(text.getString()));
                 else client.updateLeftLV40SkillTime(Float.parseFloat(text.getString()));
                 isSlot4Updated = true;
             }
-            if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot5_cooldown_text")){
+            else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/fonts/skill/slot5_cooldown_text")){
                 client.updateLeftUltimateTime(Float.parseFloat(text.getString()));
                 isSlot5Updated = true;
+            }
+
+            else if(text.getStyle().getFont().getPath().equals("layout/status/fonts/status/money") && !text.getString().equals(" ")){
+                serverUtilityClient.money = text;
+            }
+            else if(text.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin") && !text.getString().equals(" ")){
+                serverUtilityClient.coin = text;
+            }
+            else if(text.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit") && !text.getString().equals(" ")){
+                serverUtilityClient.credit = text;
             }
         }
         if(!isSlot1Updated && isHUD){
@@ -107,9 +117,9 @@ public class bossbarMixin {
         }
 
         client.ishereDungeon = dungeonExp;
-
+        boolean currencyDisplayHide = !(serverUtilityClient.data.toggleCurrencyDisplay && !serverUtilityClient.data.toggleCurrencyDisplayCustompos);
         boolean dungeonhudHide = (client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO && client.data.toggleSkillCooltime || client.data.toggleDefaultSkillUI == DefaultSkillUI.OFF);
-        if(!serverUtilityClient.data.toggleCurrencyDisplay || (dungeonhudHide && client.ishereDungeon)) {
+        if(currencyDisplayHide || (dungeonhudHide && client.ishereDungeon)) {
             List<Component> modifiedList = new ArrayList<>();
             boolean skipNext = false;
             //System.out.println(bossbarComponent.toString());
@@ -118,27 +128,22 @@ public class bossbarMixin {
                 if(skipNext){
                     skipNext = false;
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/textures") && !serverUtilityClient.data.toggleCurrencyDisplay) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/textures") && currencyDisplayHide) {
                     // 원하는 새로운 컴포넌트로 교체
                     Component newComponent = Component.literal("\uE051").setStyle(Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("mythichud", "spaces"))); // 기존 스타일 유지
                     modifiedList.add(newComponent);
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit") && !serverUtilityClient.data.toggleCurrencyDisplay) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit") && currencyDisplayHide) {
                     if(!component.getString().equals(" ")) {
                         skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                     }
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/money") && !serverUtilityClient.data.toggleCurrencyDisplay) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/money") && currencyDisplayHide) {
                     if(!component.getString().equals(" ")) {
                         skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
-                        /*if(money != Integer.parseInt(component.getString().replaceAll(",", ""))) {
-                            mc.player.displayClientMessage(Component.literal("골드 변화 감지 : " + (Integer.parseInt(component.getString().replaceAll(",", ""))-money)), false);
-
-                            money = Integer.parseInt(component.getString().replaceAll(",", ""));
-                        }*/
                     }
                 }
-                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin") && !serverUtilityClient.data.toggleCurrencyDisplay) {
+                else if (component.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin") && currencyDisplayHide) {
                     if(!component.getString().equals(" ")) {
                         skipNext = true; // 다음 컴포넌트를 건너뛰기 위한 플래그
                     }

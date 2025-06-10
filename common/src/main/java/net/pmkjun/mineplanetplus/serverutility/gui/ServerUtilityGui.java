@@ -14,7 +14,7 @@ import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timeformat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
 
-public class MegaphoneTimerGui {
+public class ServerUtilityGui {
     private final Minecraft mc;
     private final ServerUtilityClient client;
 
@@ -23,10 +23,11 @@ public class MegaphoneTimerGui {
 
     private static final ResourceLocation MEGAPHONE_ICON = ResourceLocation.fromNamespaceAndPath("mineplanetplus", "chat_broadcast.png");
     private static final ResourceLocation MEGAPHONE_ICON_COOLDOWN = ResourceLocation.fromNamespaceAndPath("mineplanetplus", "chat_broadcast_cooldown.png");
+    private static final ResourceLocation Currency_Background = ResourceLocation.fromNamespaceAndPath("mythichud", "textures/assets/planet/status_background.png");
         
     private static final ResourceLocation WIDGETS = ResourceLocation.withDefaultNamespace("hud/hotbar_offhand_left");
 
-    public MegaphoneTimerGui(){
+    public ServerUtilityGui(){
         this.mc = Minecraft.getInstance();
         this.client = ServerUtilityClient.getInstance();
     }
@@ -37,24 +38,27 @@ public class MegaphoneTimerGui {
 
         remaining_cooldowntime = cooldowntime - timer.getDifference(client.data.lastUsedTime);
 
-        if(!this.client.data.toggleMegaphonetimer) return; //스킬타이머를 껏을때 실행x
-        if(remaining_cooldowntime > 0)
-            render(guiGraphics, MEGAPHONE_ICON_COOLDOWN, remaining_cooldowntime);
-        else
-            render(guiGraphics, MEGAPHONE_ICON, remaining_cooldowntime);
+        if(this.client.data.toggleMegaphonetimer) { //스킬타이머를 껏을때 실행x
+            if (remaining_cooldowntime > 0)
+                renderMegaphone(guiGraphics, MEGAPHONE_ICON_COOLDOWN, remaining_cooldowntime);
+            else
+                renderMegaphone(guiGraphics, MEGAPHONE_ICON, remaining_cooldowntime);
+        }
+        if(this.client.data.toggleCurrencyDisplay && this.client.data.toggleCurrencyDisplayCustompos)
+            renderCurrency(guiGraphics, Currency_Background);
     }
 
 
-    private void render(GuiGraphics guiGraphics,ResourceLocation texture, long remaining_cooldowntime) {
+    private void renderMegaphone(GuiGraphics guiGraphics, ResourceLocation texture, long remaining_cooldowntime) {
         PoseStack poseStack = guiGraphics.pose();
 
         RenderSystem.enableBlend(); // 블렌딩 활성화
         RenderSystem.defaultBlendFunc();
-        guiGraphics.blitSprite(RenderType::guiTextured ,WIDGETS, getXpos(),getYpos()-1, 29, 24);
+        guiGraphics.blitSprite(RenderType::guiTextured ,WIDGETS, getMegaphoneXpos(), getMegaphoneYpos()-1, 29, 24);
         RenderSystem.disableBlend();
 
         poseStack.pushPose();
-        poseStack.translate(3+getXpos(),getYpos()+4-1,0.0D);
+        poseStack.translate(3+ getMegaphoneXpos(), getMegaphoneYpos()+4-1,0.0D);
         poseStack.scale(0.0625F, 0.0625F, 0.0625F);
 
         RenderSystem.setShaderTexture(0,texture);
@@ -65,7 +69,7 @@ public class MegaphoneTimerGui {
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
         if(remaining_cooldowntime > 0){
             poseStack.pushPose();
-            poseStack.translate((getXpos() + 2 + 9), getYpos()+7, 0.0D);
+            poseStack.translate((getMegaphoneXpos() + 2 + 9), getMegaphoneYpos()+7, 0.0D);
             poseStack.scale(1F/1.1F, 1F/1.1F, 1F/1.1F);
             guiGraphics.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
             poseStack.popPose();
@@ -81,11 +85,29 @@ public class MegaphoneTimerGui {
             }
         }
     }
-    private int getXpos(){
+
+    private void renderCurrency(GuiGraphics guiGraphics, ResourceLocation texture) {
+        RenderSystem.enableBlend(); // 블렌딩 활성화
+        RenderSystem.defaultBlendFunc();
+        guiGraphics.blit(RenderType::guiTextured ,texture, getCurrencyDisplayXpos(), getCurrencyDisplayYpos(), 0, 0, 80, 41, 80, 41);
+        RenderSystem.disableBlend();
+
+        guiGraphics.drawString(mc.font, Component.literal(client.money.getString()), getCurrencyDisplayXpos()+16, getCurrencyDisplayYpos()+5, client.money.getStyle().getColor().getValue(), false);
+        guiGraphics.drawString(mc.font, Component.literal(client.coin.getString()), getCurrencyDisplayXpos()+16, getCurrencyDisplayYpos()+5+12, client.coin.getStyle().getColor().getValue(), false);
+        guiGraphics.drawString(mc.font, Component.literal(client.credit.getString()), getCurrencyDisplayXpos()+16, getCurrencyDisplayYpos()+5+24, client.credit.getStyle().getColor().getValue(), false);
+    }
+
+    private int getMegaphoneXpos(){
         return (this.mc.getWindow().getGuiScaledWidth()-22) * this.client.data.MegaphonetimerXpos / 1000;
     }
-    private int getYpos(){
+    private int getMegaphoneYpos(){
         return (this.mc.getWindow().getGuiScaledHeight()-22) * this.client.data.MegaphonetimerYpos / 1000;
     }
 
+    private int getCurrencyDisplayXpos(){
+        return (this.mc.getWindow().getGuiScaledWidth()-80) * this.client.data.CurrencyDisplayXpos / 1000;
+    }
+    private int getCurrencyDisplayYpos() {
+        return (this.mc.getWindow().getGuiScaledHeight()-41) * this.client.data.CurrencyDisplayYpos / 1000;
+    }
 }

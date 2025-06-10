@@ -39,21 +39,10 @@ public class ServerUtilityConfigScreen extends Screen{
                 .size(137, 20)
                 .build());
 
-
-        Component text;
-        if(client.data.toggleCurrencyDisplay){
-            text = Component.translatable("serverutility.currency_display").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text =  Component.translatable("serverutility.currency_display").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleCurrencyDisplayButton = Button.builder(text, button -> {
+        toggleCurrencyDisplayButton = Button.builder(Component.translatable("serverutility.currency_display"), button -> {
                     toggleCurrencyDisplay();
                 }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
                 .size(137,20)
-                .tooltip(Tooltip.create(Component.translatable("serverutility.currency_display.tooltip")))
                 .build();
         this.addRenderableWidget(toggleCurrencyDisplayButton);
 
@@ -84,17 +73,7 @@ public class ServerUtilityConfigScreen extends Screen{
     }
 
     private void toggleCurrencyDisplay(){
-        if(client.data.toggleCurrencyDisplay){
-            toggleCurrencyDisplayButton.setMessage(Component.translatable("serverutility.currency_display").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleCurrencyDisplay = false;
-        }
-        else{
-            toggleCurrencyDisplayButton.setMessage( Component.translatable("serverutility.currency_display").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleCurrencyDisplay = true;
-        }
-        client.settings.save();
+        mc.setScreen(new CurrencyHudConfigScreen(mc.screen));
     }
     private void toggleFeeCalculator(){
         if(client.data.toggleFeeCalcalator){

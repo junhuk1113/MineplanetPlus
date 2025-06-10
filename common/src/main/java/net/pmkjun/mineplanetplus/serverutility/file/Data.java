@@ -11,5 +11,9 @@ public class Data{
     public long lastUsedTime = 0;
 
     public boolean toggleCurrencyDisplay = true;
+    public boolean toggleCurrencyDisplayCustompos = false;
+    public int CurrencyDisplayXpos = 972;
+    public int CurrencyDisplayYpos = 967;
+
     public boolean toggleFeeCalcalator = true;
 }
