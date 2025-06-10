@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Mixin(ChatComponent.class)
@@ -114,7 +115,7 @@ public abstract class ChatMixin {
         {
             //mc.player.displayClientMessage(Component.literal("확성기를 사용했습니다!"), false);
             try {
-                megaphonetimer.updateLastUsedtime();
+                megaphonetimer.updateLastUsedMegaphonetime();
             }
             catch (NullPointerException e){
                 mc.player.displayClientMessage(Component.literal("확성기 타이머 : NullPointerException!"), false);
@@ -124,6 +125,7 @@ public abstract class ChatMixin {
         if(megaphonetimer.data.toggleFeeCalcalator){
         List<Component> messageList = message.toFlatList();
         long money, fee;
+        DecimalFormat df = new DecimalFormat("###,###");
         for(int index = 0; index < messageList.size(); index++){
             if(messageList.get(index).getString().equals("\uE1BE") && messageList.get(index+1).getString().equals("을 송금하였습니다.") && messageList.get(index-2).getString().equals("님에게 ")){
                 try {
@@ -131,10 +133,10 @@ public abstract class ChatMixin {
                     fee = Math.round((float) money / 10);
                     //mc.player.displayClientMessage(Component.literal("지불하신 수수료는 " + money / 10 + "원 입니다. 총 "+ (money + (money/10)) + "원이 차감되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("지불하신 수수료는 ").withColor(0xCAD1E0)
-                            .append(Component.literal(""+fee).withColor(0xFFE679)
+                            .append(Component.literal(df.format(fee)).withColor(0xFFE679)
                             .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
                             .append(Component.literal("입니다. ").withColor(0xCAD1E0))
-                            .append(Component.literal(""+(money + fee)).withColor(0xFFE679))
+                            .append(Component.literal(df.format(money + fee)).withColor(0xFFE679))
                             .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
                             .append(Component.literal("이 차감되었습니다.").withColor(0xCAD1E0))),false);
                 }
@@ -149,10 +151,10 @@ public abstract class ChatMixin {
                     fee = Math.round((float) money / 10);
                     //mc.player.displayClientMessage(Component.literal("거래소 수수료 " + fee + "원이 차감되어 총 "+ (money - fee) + "원이 지급되었습니다."), false);
                     mc.player.displayClientMessage(Component.literal("거래소 수수료 ").withColor(0xCAD1E0)
-                            .append(Component.literal(""+fee).withColor(0xFFE679)
+                            .append(Component.literal(df.format(fee)).withColor(0xFFE679)
                                     .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
                                     .append(Component.literal("이 차감되어 총 ").withColor(0xCAD1E0))
-                                    .append(Component.literal(""+(money - fee)).withColor(0xFFE679))
+                                    .append(Component.literal(df.format(money - fee)).withColor(0xFFE679))
                                     .append(Component.literal("\uE1BE").withStyle(ChatFormatting.WHITE))
                                     .append(Component.literal("이 지급되었습니다.").withColor(0xCAD1E0))),false);
                 }
