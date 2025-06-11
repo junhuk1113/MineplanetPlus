@@ -16,6 +16,7 @@ public class ServerUtilityClient {
     private Timer timer = new Timer();
 
     public Component money, coin, credit;
+    private String current_ip;
 
     public ServerUtilityClient(){
         instance = this;
@@ -36,6 +37,20 @@ public class ServerUtilityClient {
     public void updateLastUsedMegaphonetime(){
         this.data.lastUsedTime = this.timer.getCurrentTime();
         this.settings.save();
+    }
+
+    public void updateCurrentIP(String ip){
+        this.current_ip = ip;
+    }
+
+    public boolean isHereMineplanet(){
+        if(this.data.toggleForceModEnable) return true;
+        try {
+            return this.current_ip.equals("mineplanet.kr");
+        }
+        catch (NullPointerException e){
+            return false;
+        }
     }
 
     public static ServerUtilityClient getInstance(){

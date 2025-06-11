@@ -16,4 +16,5 @@ public class Data{
     public int CurrencyDisplayYpos = 967;
 
     public boolean toggleFeeCalcalator = true;
+    public boolean toggleForceModEnable = false;
 }

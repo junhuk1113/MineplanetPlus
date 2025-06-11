@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,11 +21,12 @@ public class ItemPickupMixin {
 	private static final Logger LOGGER = LogManager.getLogger("ItemPickupMixin");
 	private final FishHelperClient client = FishHelperClient.getInstance();
 	private final Minecraft mc = Minecraft.getInstance();
+	private final ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
 	@Shadow
 	private ItemStack carried;
 	@Inject(method = "clicked", at = @At("RETURN"))
 	private void onSlotClick(int slotId, int button, ClickType clickType, Player player, CallbackInfo ci) {
-		if (player instanceof LocalPlayer) {
+		if (player instanceof LocalPlayer && serverutility.isHereMineplanet()) {
 			//if (!carried.isEmpty()&&carried.hasTag()) { 수정필요
 			if (!carried.isEmpty()) {
 				//System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));

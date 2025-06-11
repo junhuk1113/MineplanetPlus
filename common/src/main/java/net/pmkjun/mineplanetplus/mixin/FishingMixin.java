@@ -3,6 +3,7 @@ package net.pmkjun.mineplanetplus.mixin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class FishingMixin {
     //private static final Logger LOGGER = LogManager.getLogger("FishingMixin");
     FishHelperClient client = FishHelperClient.getInstance();
-
+    ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
     @Shadow
     private boolean biting;
 
@@ -24,21 +25,22 @@ public abstract class FishingMixin {
 
     @Inject(method = "onClientRemoval", at = @At("RETURN"))
     private void onRemovedMixin(CallbackInfo ci) {
-        String bobberOwner;
-        try{
-            bobberOwner = getPlayerOwner().getName().getString();
-        }
-        catch (NullPointerException e){
-            //System.out.println("null1!");
-            return;
-        }
+        if (serverutility.isHereMineplanet()) {
+            String bobberOwner;
+            try {
+                bobberOwner = getPlayerOwner().getName().getString();
+            } catch (NullPointerException e) {
+                //System.out.println("null1!");
+                return;
+            }
 
-        //LOGGER.info("Fishing bobber entity removed."+caughtFish+" "+bobberOwner);
+            //LOGGER.info("Fishing bobber entity removed."+caughtFish+" "+bobberOwner);
 
-        if(biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername()) && client.data.isTotemCooldown){
-            //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
-            client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
-            client.configManage.save();
+            if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername()) && client.data.isTotemCooldown) {
+                //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
+                client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
+                client.configManage.save();
+            }
         }
     }
 }

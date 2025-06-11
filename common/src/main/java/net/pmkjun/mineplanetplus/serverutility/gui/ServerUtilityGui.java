@@ -91,10 +91,14 @@ public class ServerUtilityGui {
         RenderSystem.defaultBlendFunc();
         guiGraphics.blit(RenderType::guiTextured ,texture, getCurrencyDisplayXpos(), getCurrencyDisplayYpos(), 0, 0, 80, 41, 80, 41);
         RenderSystem.disableBlend();
-
-        guiGraphics.drawString(mc.font, Component.literal(client.money.getString()), getCurrencyDisplayXpos()+16, getCurrencyDisplayYpos()+5, client.money.getStyle().getColor().getValue(), false);
-        guiGraphics.drawString(mc.font, Component.literal(client.coin.getString()), getCurrencyDisplayXpos()+16, getCurrencyDisplayYpos()+5+12, client.coin.getStyle().getColor().getValue(), false);
-        guiGraphics.drawString(mc.font, Component.literal(client.credit.getString()), getCurrencyDisplayXpos()+16, getCurrencyDisplayYpos()+5+24, client.credit.getStyle().getColor().getValue(), false);
+        try {
+            guiGraphics.drawString(mc.font, Component.literal(client.money.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5, client.money.getStyle().getColor().getValue(), false);
+            guiGraphics.drawString(mc.font, Component.literal(client.coin.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 12, client.coin.getStyle().getColor().getValue(), false);
+            guiGraphics.drawString(mc.font, Component.literal(client.credit.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 24, client.credit.getStyle().getColor().getValue(), false);
+        }
+        catch (NullPointerException e) {
+            System.out.println("Mineplanet+ : 재화 정보 로드 실패");
+        }
     }
 
     private int getMegaphoneXpos(){

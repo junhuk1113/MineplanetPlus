@@ -128,6 +128,8 @@
   "serverutility.currency_display.customguipos.tooltip" : "재화 표시 UI를 이동할 수 있게 설정합니다.",
   "serverutility.fee_calculator" : "거래 수수료 표시 : ",
   "serverutility.fee_calculator.tooltip" : "송금하거나, 거래소에서 판매된 아이템의 금액을 수령할 때 발생하는 수수료를 표시합니다. (/송금수수료, 판매수수료, 크레딧판매수수료 명령어로 내야 할 수수료를 미리 계산해보세요!)",
+  "serverutility.forcemodenable" : "모드 강제 활성화 : ",
+  "serverutility.forcemodenable.tooltip" : "이 모드는 마인플래닛 서버 전용으로 제작되었습니다. 서버를 제대로 감지하지 못해 모드가 꺼진 경우, 이 버튼을 눌러 강제로 켤 수 있습니다.",
   "megaphonetimer.key.category" : "확성기 타이머",
   "megaphonetimer.config.enable" : "켜짐",
   "megaphonetimer.config.disable" : "꺼짐",
