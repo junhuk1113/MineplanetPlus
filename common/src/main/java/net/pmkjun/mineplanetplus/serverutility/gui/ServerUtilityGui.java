@@ -97,7 +97,7 @@ public class ServerUtilityGui {
             guiGraphics.drawString(mc.font, Component.literal(client.credit.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 24, client.credit.getStyle().getColor().getValue(), false);
         }
         catch (NullPointerException e) {
-            System.out.println("Mineplanet+ : 재화 정보 로드 실패");
+            //System.out.println("Mineplanet+ : 재화 정보 로드 실패");
         }
     }
 
