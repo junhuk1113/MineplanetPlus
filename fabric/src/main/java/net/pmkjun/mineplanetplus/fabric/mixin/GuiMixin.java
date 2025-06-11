@@ -32,7 +32,7 @@ public class GuiMixin {
     DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
     FishHelperClient fishhelper = FishHelperClient.getInstance();
     PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
-    ServerUtilityClient megaphonetimer = ServerUtilityClient.getInstance();
+    ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
 
     @Inject(method = "render", at = {@At("RETURN")}, cancellable = false)
     private void renderMixin(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
@@ -40,7 +40,7 @@ public class GuiMixin {
             dungeonhelper.renderEvent(guiGraphics, title, overlayMessageString);
             fishhelper.renderEvent(guiGraphics);
             skilltimer.renderEvent(guiGraphics);
-            megaphonetimer.renderEvent(guiGraphics);
+            serverutility.renderEvent(guiGraphics);
         }
     }
 
