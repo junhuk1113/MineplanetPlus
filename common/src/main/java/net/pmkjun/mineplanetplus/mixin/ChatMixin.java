@@ -37,7 +37,7 @@ public abstract class ChatMixin {
         if (serverutility.isHereMineplanet()) {
             String playerString;
 
-            System.out.println(message.toString());
+            //System.out.println(message.toString());
             //피시헬퍼
             if (fishhelper.data.toggleChattinglog)
                 FishHelperMod.LOGGER.info(message.getString());

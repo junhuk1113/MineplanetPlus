@@ -33,38 +33,38 @@ public final class MineplanetPlusFabric implements ModInitializer {
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("송금수수료")
-                .then(ClientCommandManager.argument("value", LongArgumentType.longArg(0))
+                .then(ClientCommandManager.argument("골드 입력", LongArgumentType.longArg(0))
                     .executes(MineplanetPlusFabric::executeCommandWithArg)
                 )
             );
         });
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("판매수수료")
-                    .then(ClientCommandManager.argument("value2", LongArgumentType.longArg(0))
+                    .then(ClientCommandManager.argument("골드 입력", LongArgumentType.longArg(0))
                             .executes(MineplanetPlusFabric::executeSellFee)
                     )
             );
         });
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("크레딧판매수수료")
-                    .then(ClientCommandManager.argument("credit", IntegerArgumentType.integer(0))
+                    .then(ClientCommandManager.argument("크레딧 입력", IntegerArgumentType.integer(0))
                             .executes(MineplanetPlusFabric::executeCreditSellFee)
                     )
             );
         });
     }
     private static int executeCommandWithArg(CommandContext<FabricClientCommandSource> context) {
-        long value = LongArgumentType.getLong(context, "value");
+        long value = LongArgumentType.getLong(context, "골드 입력");
         context.getSource().sendFeedback(FeeCalculator.getSendFeeMessage(value));
         return 1;
     }
     private static int executeSellFee(CommandContext<FabricClientCommandSource> context) {
-        long value2 = LongArgumentType.getLong(context, "value2");
+        long value2 = LongArgumentType.getLong(context, "골드 입력");
         context.getSource().sendFeedback(FeeCalculator.getSellFeeMessage(value2));
         return 1;
     }
     private static int executeCreditSellFee(CommandContext<FabricClientCommandSource> context) {
-        int credit = IntegerArgumentType.getInteger(context, "credit");
+        int credit = IntegerArgumentType.getInteger(context, "크레딧 입력");
         context.getSource().sendFeedback(FeeCalculator.getCreditFeeMessage(credit));
         return 1;
     }
