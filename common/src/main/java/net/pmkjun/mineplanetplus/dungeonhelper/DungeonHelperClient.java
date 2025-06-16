@@ -28,6 +28,7 @@ public class DungeonHelperClient {
     private final Timer timer = new Timer();
 
     public boolean ishereDungeon = false;
+    public boolean isSlot1Manarunout = false, isSlot3Manarunout = false, isSlot4Manarunout = false, isSlot5Manarunout = false;
     public SkillUIChars skillUIChars = new SkillUIChars();
 
     public DungeonHelperClient(IKeyMappings keyMappings) {

@@ -249,9 +249,7 @@ public class SkillCooltimeGui {
             poseStack.translate(x + 8 + 22 * dungeonSkill.getComboSkill(client.data.classType), y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
 
-            String cooldownText = leftComboSkillTime < 1 ?
-                String.format("%.1f", leftComboSkillTime) : 
-                String.valueOf((int) leftComboSkillTime);
+            String cooldownText = String.format("%.1f", leftComboSkillTime);
 
             guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
@@ -262,9 +260,7 @@ public class SkillCooltimeGui {
             poseStack.translate(x + 2 + 22 * 1 + 6, y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
             
-            String cooldownText = leftLV30SkillTime < 1 ?
-                String.format("%.1f", leftLV30SkillTime) : 
-                String.valueOf((int) leftLV30SkillTime);
+            String cooldownText = String.format("%.1f", leftLV30SkillTime);
             
             guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
@@ -275,9 +271,7 @@ public class SkillCooltimeGui {
             poseStack.translate(x + 2 + 22 * 2 + 6, y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
 
-            String cooldownText = leftLV40SkillTime < 1 ?
-                String.format("%.1f", leftLV40SkillTime) : 
-                String.valueOf((int) leftLV40SkillTime);
+            String cooldownText = String.format("%.1f", leftLV40SkillTime);
 
             guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
@@ -288,9 +282,7 @@ public class SkillCooltimeGui {
             poseStack.translate(x + 2 + 22 * 3 + 6, y + 4, 0);
             poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
 
-            String cooldownText = leftUltimateTime < 1 ?
-                String.format("%.1f", leftUltimateTime) : 
-                String.valueOf((int) leftUltimateTime);
+            String cooldownText = String.format("%.1f", leftUltimateTime);
 
             guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
             poseStack.popPose();
@@ -311,7 +303,21 @@ public class SkillCooltimeGui {
     }
 
     public boolean isManaRunout(ClassCategory classtype, SkillCategory skilltype){
-        return Mana.current < Mana.getSkillManacost(classtype, skilltype, Mana.dungeon_level);
+        if(!(classtype == ClassCategory.MARTIAL_ARTIST)){//어새신, 용기사, 배틀메이지
+            if(skilltype == SkillCategory.DASH) return this.client.isSlot1Manarunout;
+            else if(skilltype == SkillCategory.LV20) return this.client.isSlot1Manarunout;
+            else if(skilltype == SkillCategory.LV30) return this.client.isSlot3Manarunout;
+            else if(skilltype == SkillCategory.LV40) return this.client.isSlot4Manarunout;
+            else if(skilltype == SkillCategory.ULTIMATE) return this.client.isSlot5Manarunout;
+        }
+        else{//무투가
+            if(skilltype == SkillCategory.DASH) return this.client.isSlot1Manarunout;
+            else if(skilltype == SkillCategory.LV20) return this.client.isSlot4Manarunout;
+            else if(skilltype == SkillCategory.LV30) return this.client.isSlot4Manarunout;
+            else if(skilltype == SkillCategory.LV40) return this.client.isSlot3Manarunout;
+            else if(skilltype == SkillCategory.ULTIMATE) return this.client.isSlot5Manarunout;
+        }
+        return false;
     }
     public boolean isLV40SkillCooltime() {
         return leftLV40SkillTime > 0;

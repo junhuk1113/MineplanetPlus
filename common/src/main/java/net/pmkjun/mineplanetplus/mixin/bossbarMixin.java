@@ -36,6 +36,7 @@ public class bossbarMixin {
             Component text;
             boolean dungeonExp = false;
             boolean isSlot1Updated = false, isSlot3Updated = false, isSlot4Updated = false, isSlot5Updated = false, isHUD = false;
+            boolean isSlot1Manarunout = false, isSlot3Manarunout = false, isSlot4Manarunout = false, isSlot5Manarunout = false;
 
             List<Component> actionbarTextList = bossbarComponent.toFlatList();
             //mc.player.displayClientMessage(Component.literal(bossbarComponent.getStyle().getFont().toString()), false);
@@ -92,6 +93,20 @@ public class bossbarMixin {
                 } else if (text.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit") && !text.getString().equals(" ")) {
                     serverUtilityClient.credit = text;
                 }
+
+                else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && text.getString().equals("\uE05E")){
+                    isSlot1Manarunout = true;
+                }
+                else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && text.getString().equals("\uE046")){
+                    isSlot3Manarunout = true;
+                }
+                else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && text.getString().equals("\uE02E")){
+                    isSlot4Manarunout = true;
+                }
+                else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && text.getString().equals("\uE016")){
+                    isSlot5Manarunout = true;
+                }
+
             }
             if (!isSlot1Updated && isHUD) {
                 if (!(client.data.classType == ClassCategory.MARTIAL_ARTIST))
@@ -108,6 +123,11 @@ public class bossbarMixin {
             if (!isSlot5Updated && isHUD) {
                 client.updateLeftUltimateTime(0f);
             }
+
+            this.client.isSlot1Manarunout  = isSlot1Manarunout;
+            this.client.isSlot3Manarunout  = isSlot3Manarunout;
+            this.client.isSlot4Manarunout  = isSlot4Manarunout;
+            this.client.isSlot5Manarunout  = isSlot5Manarunout;
 
             client.ishereDungeon = dungeonExp;
             boolean currencyDisplayHide = !(serverUtilityClient.data.toggleCurrencyDisplay && !serverUtilityClient.data.toggleCurrencyDisplayCustompos);
