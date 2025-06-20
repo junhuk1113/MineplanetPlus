@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 
@@ -22,9 +23,11 @@ public class FishItems {
     public static final Item[] EPIC_FISH = new Item[FishItemList.EPIC_FISH_LIST.length];
     public static final Item[] LEGENDARY_FISH = new Item[FishItemList.LEGENDARY_FISH_LIST.length];
     public static final Item[] MYTHIC_FISH = new Item[FishItemList.MYTHIC_FISH_LIST.length];
+    public static final ResourceKey<Item> QUEST_KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("pyrofishinghelper", "quest"));
 
-    private static void registerItem(ResourceKey<Item> key, Item item) {
-        Registry.register(BuiltInRegistries.ITEM, key, item);
+    public static final Item QUEST = registerItem(QUEST_KEY, new Item(new Item.Properties().setId(QUEST_KEY)));
+    private static Item registerItem(ResourceKey<Item> key, Item item) {
+        return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 
     public static void register() {
@@ -86,6 +89,21 @@ public class FishItems {
 
         index = Arrays.stream(FishItemList.MYTHIC_FISH_LIST).toList().indexOf(name);
         if(index!=-1) return MYTHIC_FISH[index];
+
+        return null;
+    }
+    public static Item getQuestItem(ItemStack itemStack, FishHelperClient client){
+        String name = itemStack.getHoverName().getString();
+        int index;
+
+        if(!(itemStack.getItem().toString().equals("minecraft:cod"))) return null;
+        if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
+
+        try {
+            index = client.getLastSelectedQuest().getQuestData().keySet().stream().toList().indexOf(name);
+            if (index != -1) return QUEST;
+        }
+        catch (NullPointerException ignored){}
 
         return null;
     }

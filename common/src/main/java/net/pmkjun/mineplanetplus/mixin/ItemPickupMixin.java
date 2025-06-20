@@ -2,11 +2,15 @@ package net.pmkjun.mineplanetplus.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.util.DeliveryQuest;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +37,9 @@ public class ItemPickupMixin {
 				if(carried.getHoverName().getString().equals("토템 발동")){
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();
+				}
+				else if(carried.getHoverName().getString().contains("배달 주문") && carried.getHoverName().getString().contains("시작하지 않음")){
+					client.updateLastSelectedQuest(new DeliveryQuest(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL)));
 				}
 			}
 		}

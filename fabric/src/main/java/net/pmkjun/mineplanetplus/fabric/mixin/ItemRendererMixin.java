@@ -46,6 +46,7 @@ public class ItemRendererMixin {
 
     private final Minecraft mc = Minecraft.getInstance();
     private final DungeonHelperClient client = DungeonHelperClient.getInstance();
+    private final FishHelperClient fishhelper = FishHelperClient.getInstance();
     private ItemStack previousMainhandStack;
 
     @Inject(method = {"appendItemLayers"}, at = {@At("RETURN")})
@@ -145,6 +146,7 @@ public class ItemRendererMixin {
             ResourceLocation resourceLocation = stack.get(DataComponents.ITEM_MODEL);
             if (resourceLocation != null) {
                 ItemModel var10000;
+                ItemModel extraItemModel = null;
 
                 if ((cetype = CEData.getType(stack)) != null) {
                     try {
@@ -209,6 +211,9 @@ public class ItemRendererMixin {
                     }
                 } else if (FishItems.getFishItem(stack) != null) {
                     var10000 = modelGetter.apply(new ItemStack(FishItems.getFishItem(stack), stack.getCount()).get(DataComponents.ITEM_MODEL));
+                    if(FishItems.getQuestItem(stack, fishhelper) != null){
+                        extraItemModel = modelGetter.apply(new ItemStack(FishItems.getQuestItem(stack, fishhelper), stack.getCount()).get(DataComponents.ITEM_MODEL));
+                    }
                 } else {
                     return;
                 }
@@ -222,6 +227,9 @@ public class ItemRendererMixin {
                 }
 
                 var10000.update(renderState, stack, (ItemModelResolver) (Object) this, displayContext, var10005, entity, seed);
+                if(extraItemModel != null) {
+                    extraItemModel.update(renderState, stack, (ItemModelResolver) (Object) this, displayContext, var10005, entity, seed);
+                }
             }
         }
     }
