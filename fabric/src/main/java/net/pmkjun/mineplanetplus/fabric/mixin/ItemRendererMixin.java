@@ -22,6 +22,7 @@ import net.pmkjun.mineplanetplus.fabric.fishhelper.item.FishItems;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
+import net.pmkjun.mineplanetplus.fishhelper.util.DeliveryQuest;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishingRod;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Final;
@@ -214,7 +215,18 @@ public class ItemRendererMixin {
                     if(FishItems.getQuestItem(stack, fishhelper) != null){
                         extraItemModel = modelGetter.apply(new ItemStack(FishItems.getQuestItem(stack, fishhelper), stack.getCount()).get(DataComponents.ITEM_MODEL));
                     }
-                } else {
+                }
+
+                else if(fishhelper.getLastSelectedQuest() != null){
+                    if(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL).equals(fishhelper.getLastSelectedQuest().getQuestTooltip())){
+                        var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+                else {
                     return;
                 }
 

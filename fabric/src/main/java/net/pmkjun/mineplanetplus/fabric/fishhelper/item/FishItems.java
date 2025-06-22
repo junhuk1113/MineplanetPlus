@@ -101,10 +101,15 @@ public class FishItems {
 
         try {
             index = client.getLastSelectedQuest().getQuestData().keySet().stream().toList().indexOf(name);
+            if(!client.getLastSelectedQuest().isNotStarted) return null;
             if (index != -1) return QUEST;
         }
         catch (NullPointerException ignored){}
 
         return null;
+    }
+
+    public static Item getQuestItem(){
+        return QUEST;
     }
 }

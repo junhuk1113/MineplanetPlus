@@ -61,7 +61,10 @@ public class FishHelperClient {
     }
 
     public void updateLastSelectedQuest(DeliveryQuest lastSelectedQuest) {
-        if(this.lastSelectedQuest == null) this.lastSelectedQuest = lastSelectedQuest;
+        if(this.lastSelectedQuest == null) {
+            mc.player.displayClientMessage(Component.literal("퀘스트가 선택되었습니다."), false);
+            this.lastSelectedQuest = lastSelectedQuest;
+        }
         else if(lastSelectedQuest.getQuestTooltip().equals(this.lastSelectedQuest.getQuestTooltip())){
             mc.player.displayClientMessage(Component.literal("퀘스트 선택이 해제되었습니다."), false);
             this.lastSelectedQuest = null;
