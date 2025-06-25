@@ -38,7 +38,7 @@ public class ItemPickupMixin {
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();
 				}
-				else if(carried.getHoverName().getString().contains("배달 주문") && carried.getHoverName().getString().contains("시작하지 않음")){
+				else if(carried.getHoverName().getString().contains("배달 주문") && carried.getHoverName().getString().contains("시작하지 않음") && this.client.data.toggleDeliveryHelper){
 					client.updateLastSelectedQuest(new DeliveryQuest(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL)));
 				}
 			}

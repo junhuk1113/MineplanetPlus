@@ -218,7 +218,7 @@ public class ItemRendererMixin {
                 }
 
                 else if(fishhelper.getLastSelectedQuest() != null){
-                    if(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL).equals(fishhelper.getLastSelectedQuest().getQuestTooltip())){
+                    if(fishhelper.getLastSelectedQuest().isQuestTooltipEqual(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))){
                         var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
                     }
                     else {

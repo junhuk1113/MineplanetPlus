@@ -95,6 +95,9 @@
   "fishhelper.config.fishcounter_setting.mode.count" : "표시 값 : 개수",
   "fishhelper.config.fishcounter_setting.mode.all" : "표시 값 : 확률(개수)",
   "fishhelper.config.fishcounter.mode.tooltip" : "물고기 카운터에 표시될 값을 설정합니다. (확률 > 개수 > 확률(개수))",
+  "fishhelper.config.deliveryhelper_enable" : "배달 도우미 : 켜짐",
+  "fishhelper.config.deliveryhelper_disable" : "배달 도우미 : 꺼짐",
+  "fishhelper.config.deliveryhelper.tooltip" : "물고기 배달을 선택하면 필요한 물고기를 표시합니다.",
 
   "fishhelper.key.category" : "피시 헬퍼",
   "fishhelper.key.open_settings" : "피시 헬퍼 설정열기",

@@ -31,4 +31,7 @@ public class DeliveryQuest {
     public HashMap<String,Integer> getQuestData(){
         return questData;
     }
+    public boolean isQuestTooltipEqual(List<Component> questTooltip){
+        return this.questTooltip.equals(questTooltip);
+    }
 }

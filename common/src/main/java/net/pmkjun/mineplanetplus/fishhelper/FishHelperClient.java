@@ -62,17 +62,21 @@ public class FishHelperClient {
 
     public void updateLastSelectedQuest(DeliveryQuest lastSelectedQuest) {
         if(this.lastSelectedQuest == null) {
-            mc.player.displayClientMessage(Component.literal("퀘스트가 선택되었습니다."), false);
+            //mc.player.displayClientMessage(Component.literal("퀘스트가 선택되었습니다."), false);
             this.lastSelectedQuest = lastSelectedQuest;
         }
         else if(lastSelectedQuest.getQuestTooltip().equals(this.lastSelectedQuest.getQuestTooltip())){
-            mc.player.displayClientMessage(Component.literal("퀘스트 선택이 해제되었습니다."), false);
+            //mc.player.displayClientMessage(Component.literal("퀘스트 선택이 해제되었습니다."), false);
             this.lastSelectedQuest = null;
         }
         else{
-            mc.player.displayClientMessage(Component.literal("선택된 퀘스트가 변경되었습니다."), false);
+            //mc.player.displayClientMessage(Component.literal("선택된 퀘스트가 변경되었습니다."), false);
             this.lastSelectedQuest = lastSelectedQuest;
         }
+    }
+
+    public void deleteLastSelectedQuest(){
+        this.lastSelectedQuest = null;
     }
 
     public DeliveryQuest getLastSelectedQuest() {

@@ -18,6 +18,7 @@ public class FishHelperConfigScreen extends Screen{
     private final int width;
     private final int height;
     private Button toggleCustomTextureButton;
+    private Button toggleDeliveryHelperButton;
 
     public FishHelperConfigScreen(Screen parentScreen){
         super(Component.translatable("fishhelper.config.title"));
@@ -26,7 +27,7 @@ public class FishHelperConfigScreen extends Screen{
         this.client = FishHelperClient.getInstance();
 
         width = 147;
-        height = 74;
+        height = 8 + 22*4;
     }
 
     protected void init(){
@@ -58,6 +59,22 @@ public class FishHelperConfigScreen extends Screen{
                 .build();
         addRenderableWidget(toggleCustomTextureButton);
 
+        Component deliveryHelperComponent;
+        if(this.client.data.toggleDeliveryHelper){
+            deliveryHelperComponent = Component.translatable("fishhelper.config.deliveryhelper_enable");
+        }
+        else{
+            deliveryHelperComponent = Component.translatable("fishhelper.config.deliveryhelper_disable");
+        }
+
+        toggleDeliveryHelperButton = Button.builder(deliveryHelperComponent, btn -> {
+            onDeliveryHelperPress();
+        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
+                .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.deliveryhelper.tooltip")))
+                .build();
+        addRenderableWidget(toggleDeliveryHelperButton);
+
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
             mc.setScreen(parentScreen);
         }).pos(mc.getWindow().getGuiScaledWidth() / 2 - 25 ,super.height-30).size(50,20).build());
@@ -84,6 +101,18 @@ public class FishHelperConfigScreen extends Screen{
         else{
             toggleCustomTextureButton.setMessage(Component.translatable("fishhelper.config.customtexture_enable"));
             client.data.toggleCustomTexture = true;
+        }
+        client.configManage.save();
+    }
+    private void onDeliveryHelperPress(){
+        if(client.data.toggleDeliveryHelper){
+            toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_disable"));
+            client.data.toggleDeliveryHelper = false;
+            client.deleteLastSelectedQuest();
+        }
+        else{
+            toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_enable"));
+            client.data.toggleDeliveryHelper = true;
         }
         client.configManage.save();
     }
