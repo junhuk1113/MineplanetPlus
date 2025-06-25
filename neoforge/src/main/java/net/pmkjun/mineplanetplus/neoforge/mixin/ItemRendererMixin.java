@@ -42,6 +42,7 @@ public class ItemRendererMixin {
 
     private final Minecraft mc = Minecraft.getInstance();
     private final DungeonHelperClient client = DungeonHelperClient.getInstance();
+    private final FishHelperClient fishHelper = FishHelperClient.getInstance();
     private final ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
     private ItemStack previousMainhandStack;
 
@@ -139,6 +140,7 @@ public class ItemRendererMixin {
             ResourceLocation resourceLocation = stack.get(DataComponents.ITEM_MODEL);
             if (resourceLocation != null) {
                 ItemModel var10000;
+                ItemModel extraItemModel = null;
 
                 if ((cetype = CEData.getType(stack)) != null) {
                     try {
@@ -204,7 +206,19 @@ public class ItemRendererMixin {
                     }
                 } else if (FishItems.getFishItem(stack) != null) {
                     var10000 = modelGetter.apply(new ItemStack(FishItems.getFishItem(stack), stack.getCount()).get(DataComponents.ITEM_MODEL));
-                } else {
+                    if(FishItems.getQuestItem(stack, fishHelper) != null){
+                        extraItemModel = modelGetter.apply(new ItemStack(FishItems.getQuestItem(stack, fishHelper), stack.getCount()).get(DataComponents.ITEM_MODEL));
+                    }
+                }
+                else if(fishHelper.getLastSelectedQuest() != null){
+                    if(fishHelper.getLastSelectedQuest().isQuestTooltipEqual(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))){
+                        var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
+                    }
+                    else {
+                        return;
+                    }
+                }
+                else {
                     return;
                 }
 
@@ -217,6 +231,9 @@ public class ItemRendererMixin {
                 }
 
                 var10000.update(renderState, stack, (ItemModelResolver) (Object) this, displayContext, var10005, entity, seed);
+                if(extraItemModel != null) {
+                    extraItemModel.update(renderState, stack, (ItemModelResolver) (Object) this, displayContext, var10005, entity, seed);
+                }
             }
         }
     }
