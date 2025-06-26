@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RomanNum {
-    private static char[] signs = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
-    private static int[] values = {1, 5, 10, 50, 100, 500, 1000}; 
+    private static final char[] signs = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+    private static final int[] values = {1, 5, 10, 50, 100, 500, 1000};
 
 	public static int toInt(String s){
 		

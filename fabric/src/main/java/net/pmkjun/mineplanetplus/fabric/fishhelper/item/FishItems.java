@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 
@@ -99,12 +98,8 @@ public class FishItems {
         if(!(itemStack.getItem().toString().equals("minecraft:cod"))) return null;
         if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
 
-        try {
-            index = client.getLastSelectedQuest().getQuestData().keySet().stream().toList().indexOf(name);
-            if(!client.getLastSelectedQuest().isNotStarted) return null;
-            if (index != -1) return QUEST;
-        }
-        catch (NullPointerException ignored){}
+
+        if (client.deliveryQuests.isFishExistQuestData(name)) return QUEST;
 
         return null;
     }

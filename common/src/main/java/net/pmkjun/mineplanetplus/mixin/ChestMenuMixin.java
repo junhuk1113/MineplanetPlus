@@ -2,13 +2,14 @@ package net.pmkjun.mineplanetplus.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +32,14 @@ public abstract class ChestMenuMixin extends AbstractContainerMenu {
     private void quickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
         if(player instanceof LocalPlayer){
             Slot slot = this.slots.get(index);
-            mc.player.displayClientMessage(Component.literal("아이템 퀵 무브 감지 : "+slot.getItem().getHoverName().getString()),false);
+            //mc.player.displayClientMessage(Component.literal("아이템 퀵 무브 감지 : "+slot.getItem().getHoverName().getString()),false);
+
+            if(slot.getItem().getHoverName().getString().contains("배달 주문") && slot.getItem().getHoverName().getString().contains("시작하지 않음") && this.client.data.toggleDeliveryHelper){
+                client.deliveryQuests.addLastSelectedQuest(slot.getItem().getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));
+            }
+            else if(slot.getItem().getHoverName().getString().contains("물고기 배달") && slot.getItem().toString().contains("minecraft:knowledge_book")){
+                client.deliveryQuests.resetQuestData();
+            }
         }
     }
 }

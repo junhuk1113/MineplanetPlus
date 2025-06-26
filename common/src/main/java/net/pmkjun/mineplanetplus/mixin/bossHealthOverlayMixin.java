@@ -3,7 +3,6 @@ package net.pmkjun.mineplanetplus.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Stat;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;

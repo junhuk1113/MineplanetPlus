@@ -90,12 +90,12 @@ public abstract class ChatMixin {
                 }
             }
             if (message.getString().contains("\uE2F8 You do not have enough fish for this delivery.")){
-                try {
-                    this.fishhelper.getLastSelectedQuest().isNotStarted = true;
-                }
-                catch (NullPointerException ignored){
-                }
+                this.fishhelper.deliveryQuests.pushQuestData();
             }
+            else if(message.getString().contains("\uE2F8 해당 배달 주문을 삭제하였습니다.")){
+                this.fishhelper.deliveryQuests.popQuestData();
+            }
+
 
             //스킬타이머
             if (message.getString().contains(" 발동되었습니다!") && !message.getString().contains("|")) {

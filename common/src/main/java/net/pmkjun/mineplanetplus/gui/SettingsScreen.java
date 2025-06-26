@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
-import net.pmkjun.mineplanetplus.serverutility.gui.MegaphoneTimerConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
 import net.pmkjun.mineplanetplus.serverutility.gui.ServerUtilityConfigScreen;
 

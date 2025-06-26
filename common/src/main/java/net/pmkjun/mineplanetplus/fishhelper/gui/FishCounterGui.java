@@ -36,7 +36,7 @@ public class FishCounterGui {
                     "(" + String.format("%d", client.data.fish_Count[i])+")"+"%";
             }
         }
-        fishCounterData[6] = Integer.toString(Arrays.stream(client.data.fish_Count).sum()) + "마리";
+        fishCounterData[6] = Arrays.stream(client.data.fish_Count).sum() + "마리";
             
         fishCounterData[7] = " ";
         fishCounterData[8] = String.format("%.1f", Earning.getMoney())+"원";

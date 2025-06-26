@@ -9,7 +9,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.fishhelper.util.DeliveryQuest;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +37,10 @@ public class ItemPickupMixin {
 					client.updateTotemtime();
 				}
 				else if(carried.getHoverName().getString().contains("배달 주문") && carried.getHoverName().getString().contains("시작하지 않음") && this.client.data.toggleDeliveryHelper){
-					client.updateLastSelectedQuest(new DeliveryQuest(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL)));
+					client.deliveryQuests.addLastSelectedQuest(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));
+				}
+				else if(carried.getHoverName().getString().contains("물고기 배달") && carried.getItem().toString().contains("minecraft:knowledge_book")){
+					client.deliveryQuests.resetQuestData();
 				}
 			}
 		}

@@ -13,7 +13,7 @@ public class ServerUtilityClient {
     public Settings settings;
 
     private final ServerUtilityGui gui;
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
 
     public Component money, coin, credit;
     private String current_ip;

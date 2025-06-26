@@ -5,7 +5,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 
 import java.util.Arrays;
@@ -50,22 +49,22 @@ public class FishItems {
         if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
 
         index = Arrays.stream(FishItemList.COMMMON_FISH_LIST).toList().indexOf(name);
-        if(index!=-1) return (Item)COMMON_FISH[index].get();
+        if(index!=-1) return COMMON_FISH[index].get();
 
         index = Arrays.stream(FishItemList.UNCOMMON_FISH_LIST).toList().indexOf(name);
-        if(index!=-1) return (Item)UNCOMMON_FISH[index].get();
+        if(index!=-1) return UNCOMMON_FISH[index].get();
 
         index = Arrays.stream(FishItemList.RARE_FISH_LIST).toList().indexOf(name);
-        if(index!=-1) return (Item)RARE_FISH[index].get();
+        if(index!=-1) return RARE_FISH[index].get();
 
         index = Arrays.stream(FishItemList.EPIC_FISH_LIST).toList().indexOf(name);
-        if(index!=-1) return (Item)EPIC_FISH[index].get();
+        if(index!=-1) return EPIC_FISH[index].get();
 
         index = Arrays.stream(FishItemList.LEGENDARY_FISH_LIST).toList().indexOf(name);
-        if(index!=-1) return (Item)LEGENDARY_FISH[index].get();
+        if(index!=-1) return LEGENDARY_FISH[index].get();
 
         index = Arrays.stream(FishItemList.MYTHIC_FISH_LIST).toList().indexOf(name);
-        if(index!=-1) return (Item)MYTHIC_FISH[index].get();
+        if(index!=-1) return MYTHIC_FISH[index].get();
 
         return null;
     }
@@ -76,12 +75,7 @@ public class FishItems {
         if(!(itemStack.getItem().toString().equals("minecraft:cod"))) return null;
         if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
 
-        try {
-            index = client.getLastSelectedQuest().getQuestData().keySet().stream().toList().indexOf(name);
-            if(!client.getLastSelectedQuest().isNotStarted) return null;
-            if (index != -1) return QUEST.asItem();
-        }
-        catch (NullPointerException ignored){}
+        if (client.deliveryQuests.isFishExistQuestData(name)) return QUEST.asItem();
 
         return null;
     }

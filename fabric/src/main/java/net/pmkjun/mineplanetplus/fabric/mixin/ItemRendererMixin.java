@@ -215,13 +215,8 @@ public class ItemRendererMixin {
                     }
                 }
 
-                else if(fishhelper.getLastSelectedQuest() != null){
-                    if(fishhelper.getLastSelectedQuest().isQuestTooltipEqual(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))){
-                        var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
-                    }
-                    else {
-                        return;
-                    }
+                else if(fishhelper.deliveryQuests.findMatchQuestTooltip(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))!=-1){
+                    var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
                 }
 
                 else {
@@ -229,8 +224,7 @@ public class ItemRendererMixin {
                 }
 
                 ClientLevel var10005;
-                if (level instanceof ClientLevel) {
-                    ClientLevel clientLevel = (ClientLevel) level;
+                if (level instanceof ClientLevel clientLevel) {
                     var10005 = clientLevel;
                 } else {
                     var10005 = null;

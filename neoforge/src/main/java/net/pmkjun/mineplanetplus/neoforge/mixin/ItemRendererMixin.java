@@ -210,21 +210,15 @@ public class ItemRendererMixin {
                         extraItemModel = modelGetter.apply(new ItemStack(FishItems.getQuestItem(stack, fishHelper), stack.getCount()).get(DataComponents.ITEM_MODEL));
                     }
                 }
-                else if(fishHelper.getLastSelectedQuest() != null){
-                    if(fishHelper.getLastSelectedQuest().isQuestTooltipEqual(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))){
-                        var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
-                    }
-                    else {
-                        return;
-                    }
+                else if(fishHelper.deliveryQuests.findMatchQuestTooltip(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))!=-1){
+                    var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
                 }
                 else {
                     return;
                 }
 
                 ClientLevel var10005;
-                if (level instanceof ClientLevel) {
-                    ClientLevel clientLevel = (ClientLevel) level;
+                if (level instanceof ClientLevel clientLevel) {
                     var10005 = clientLevel;
                 } else {
                     var10005 = null;

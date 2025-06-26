@@ -108,7 +108,7 @@ public class FishHelperConfigScreen extends Screen{
         if(client.data.toggleDeliveryHelper){
             toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_disable"));
             client.data.toggleDeliveryHelper = false;
-            client.deleteLastSelectedQuest();
+            client.deliveryQuests.resetQuestData();
         }
         else{
             toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_enable"));

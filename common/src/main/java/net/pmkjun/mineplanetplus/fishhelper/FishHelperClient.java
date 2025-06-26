@@ -2,7 +2,6 @@ package net.pmkjun.mineplanetplus.fishhelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.config.ConfigManage;
 import net.pmkjun.mineplanetplus.fishhelper.file.Data;
 import net.pmkjun.mineplanetplus.fishhelper.gui.FishCounterGui;
@@ -20,7 +19,7 @@ public class FishHelperClient {
     private final FishCounterGui fishCounterGui;
     private final Timer timer = new Timer();
 
-    private DeliveryQuest lastSelectedQuest;
+    public final DeliveryQuest deliveryQuests;
 
     public FishHelperClient(){
         this.mc = Minecraft.getInstance();
@@ -33,6 +32,7 @@ public class FishHelperClient {
         }
         this.totemcooltimeGui = new totemCooltimeGui();
         this.fishCounterGui = new FishCounterGui();
+        deliveryQuests = new DeliveryQuest();
     }
     public void init(){
 
@@ -58,29 +58,6 @@ public class FishHelperClient {
 
     public String getUsername(){
         return this.mc.getUser().getName();
-    }
-
-    public void updateLastSelectedQuest(DeliveryQuest lastSelectedQuest) {
-        if(this.lastSelectedQuest == null) {
-            //mc.player.displayClientMessage(Component.literal("퀘스트가 선택되었습니다."), false);
-            this.lastSelectedQuest = lastSelectedQuest;
-        }
-        else if(lastSelectedQuest.getQuestTooltip().equals(this.lastSelectedQuest.getQuestTooltip())){
-            //mc.player.displayClientMessage(Component.literal("퀘스트 선택이 해제되었습니다."), false);
-            this.lastSelectedQuest = null;
-        }
-        else{
-            //mc.player.displayClientMessage(Component.literal("선택된 퀘스트가 변경되었습니다."), false);
-            this.lastSelectedQuest = lastSelectedQuest;
-        }
-    }
-
-    public void deleteLastSelectedQuest(){
-        this.lastSelectedQuest = null;
-    }
-
-    public DeliveryQuest getLastSelectedQuest() {
-        return lastSelectedQuest;
     }
 
     public static  FishHelperClient getInstance(){
