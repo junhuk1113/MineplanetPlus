@@ -16,7 +16,7 @@
     "homepage": "https://modrinth.com/mod/mineplanetplus",
     "sources": "https://github.com/junhuk1113/MineplanetPlus"
   },
-  "license": "CC0-1.0",
+  "license": "Unlicense",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
