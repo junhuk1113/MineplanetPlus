@@ -18,6 +18,7 @@ public class FishItems {
     public static final DeferredItem<?>[] LEGENDARY_FISH = new DeferredItem<?>[FishItemList.LEGENDARY_FISH_LIST.length];
     public static final DeferredItem<?>[] MYTHIC_FISH = new DeferredItem<?>[FishItemList.MYTHIC_FISH_LIST.length];
     public static final DeferredItem<Item> QUEST = ITEMS.registerItem("quest", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> QUEST_NEED = ITEMS.registerItem("quest_need", Item::new, new Item.Properties());
 
     public static void register(){
         int i;
@@ -75,7 +76,12 @@ public class FishItems {
         if(!(itemStack.getItem().toString().equals("minecraft:cod"))) return null;
         if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
 
-        if (client.deliveryQuests.isFishExistQuestData(name)) return QUEST.asItem();
+        if (client.deliveryQuests.isFishExistQuestData(name)){
+            if(client.deliveryQuests.hasEnoughFishToDeliver(name))
+                return QUEST.asItem();
+            else
+                return QUEST_NEED.asItem();
+        }
 
         return null;
     }

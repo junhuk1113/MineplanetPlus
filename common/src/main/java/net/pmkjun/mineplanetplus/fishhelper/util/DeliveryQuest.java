@@ -1,12 +1,17 @@
 package net.pmkjun.mineplanetplus.fishhelper.util;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class DeliveryQuest {
+    private final Minecraft mc = Minecraft.getInstance();
+
     private final List<List<Component>> questTooltipList = new ArrayList<>();
     private final List<HashMap<String,Integer>> questDataList = new ArrayList<>();
     private List<Component> lastSelectedQuestTooltip;
@@ -66,6 +71,25 @@ public class DeliveryQuest {
             }
         }
         return false;
+    }
+
+    public boolean hasEnoughFishToDeliver(String fishName){
+        int fishCount = 0, holdfishCount = 0;
+        for(HashMap<String,Integer> questData : questDataList){
+            if(questData.containsKey(fishName)){
+                fishCount += questData.get(fishName);
+            }
+        }
+        try {
+            NonNullList<ItemStack> items = mc.player.getInventory().items;
+            for(ItemStack item : items){
+                if(item.getHoverName().getString().equals(fishName)){
+                    holdfishCount += item.getCount();
+                }
+            }
+        }
+        catch (NullPointerException ignored){return false;}
+        return fishCount <= holdfishCount;
     }
 
     public void resetQuestData(){

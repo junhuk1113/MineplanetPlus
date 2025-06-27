@@ -23,8 +23,11 @@ public class FishItems {
     public static final Item[] LEGENDARY_FISH = new Item[FishItemList.LEGENDARY_FISH_LIST.length];
     public static final Item[] MYTHIC_FISH = new Item[FishItemList.MYTHIC_FISH_LIST.length];
     public static final ResourceKey<Item> QUEST_KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("pyrofishinghelper", "quest"));
+    public static final ResourceKey<Item> QUEST_NEED_KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("pyrofishinghelper", "quest_need"));
 
     public static final Item QUEST = registerItem(QUEST_KEY, new Item(new Item.Properties().setId(QUEST_KEY)));
+    public static final Item QUEST_NEED = registerItem(QUEST_NEED_KEY, new Item(new Item.Properties().setId(QUEST_NEED_KEY)));
+
     private static Item registerItem(ResourceKey<Item> key, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
@@ -98,8 +101,12 @@ public class FishItems {
         if(!(itemStack.getItem().toString().equals("minecraft:cod"))) return null;
         if(!FishHelperClient.getInstance().data.toggleCustomTexture) return null;
 
-
-        if (client.deliveryQuests.isFishExistQuestData(name)) return QUEST;
+        if (client.deliveryQuests.isFishExistQuestData(name)){
+            if(client.deliveryQuests.hasEnoughFishToDeliver(name))
+                return QUEST.asItem();
+            else
+                return QUEST_NEED.asItem();
+        }
 
         return null;
     }
