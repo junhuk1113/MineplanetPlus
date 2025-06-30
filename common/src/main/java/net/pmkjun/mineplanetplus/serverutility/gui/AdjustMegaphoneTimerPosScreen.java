@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 
@@ -62,8 +63,13 @@ public class AdjustMegaphoneTimerPosScreen extends Screen{
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-            guiGraphics.drawCenteredString(mc.font,"서버 접속 후 설정 할 수 있습니다.",mc.getWindow().getGuiScaledWidth()/2, mc.getWindow().getGuiScaledHeight()/2, 0xFFFFFF);
+            guiGraphics.drawCenteredString(mc.font,"서버 접속 후 설정 할 수 있습니다.",mc.getWindow().getGuiScaledWidth()/2, mc.getWindow().getGuiScaledHeight()/2, ARGB.white(1));
         }
+    }
+
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
     }
 
     private int getXpos(){

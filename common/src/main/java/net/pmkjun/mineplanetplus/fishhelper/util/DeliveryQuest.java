@@ -81,7 +81,7 @@ public class DeliveryQuest {
             }
         }
         try {
-            NonNullList<ItemStack> items = mc.player.getInventory().items;
+            NonNullList<ItemStack> items = mc.player.getInventory().getNonEquipmentItems();
             for(ItemStack item : items){
                 if(item.getHoverName().getString().equals(fishName)){
                     holdfishCount += item.getCount();

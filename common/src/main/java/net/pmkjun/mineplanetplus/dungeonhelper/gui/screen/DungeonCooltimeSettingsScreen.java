@@ -23,7 +23,7 @@ public class DungeonCooltimeSettingsScreen extends Screen {
     private Button toggleDungeonCooltimeButton;
     private Button DungeonTypeButton;
     private Button CooltimeAxisButton;
-    private Button[] toggleDungeonCooltimeOptionButtons = new Button[2];	// text, fade
+    private final Button[] toggleDungeonCooltimeOptionButtons = new Button[2];	// text, fade
     private Slider XPosSlider, YPosSlider, ScaleSlider;
     private final Screen parentScreen;
 
@@ -193,6 +193,11 @@ public class DungeonCooltimeSettingsScreen extends Screen {
         background.setPosition(getRegularX(), getRegularY());
         background.setSize(width, height);
         background.render(guiGraphics);
+    }
+
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
     }
 
     private void onToggleDungeonCooltimePress() {

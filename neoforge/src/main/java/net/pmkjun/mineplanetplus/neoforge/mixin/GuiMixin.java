@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.profiling.Profiler;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
@@ -31,7 +30,7 @@ public class GuiMixin {
     PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
     ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
 
-    @Inject(method = "render", at = {@At("RETURN")}, cancellable = false)
+    @Inject(method = "render", at = {@At("RETURN")})
     private void renderMixin(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
         if(!minecraft.options.hideGui && serverutility.isHereMineplanet()) { //F1 눌렀을 때 모드 gui 렌더링 비활성화
             dungeonhelper.renderEvent(guiGraphics, title, overlayMessageString);
@@ -39,29 +38,5 @@ public class GuiMixin {
             skilltimer.renderEvent(guiGraphics);
             serverutility.renderEvent(guiGraphics);
         }
-    }
-
-    @Inject(method = "renderExperienceBar(Lnet/minecraft/client/gui/GuiGraphics;I)V", at = {@At("HEAD")}, cancellable  = true)
-    public void renderExperienceBarMixin(GuiGraphics guiGraphics, int i, CallbackInfo info){
-        int l;
-        int m;
-        if(dungeonhelper.ishereDungeon)
-        {
-            info.cancel();
-
-            if (this.minecraft.player.experienceLevel > 0 && dungeonhelper.data.toggleVanillaLevelView) {
-                Profiler.get().push("expLevel");
-                String string = "" + this.minecraft.player.experienceLevel;
-                l = (guiGraphics.guiWidth() - this.minecraft.font.width(string)) / 2;
-                m = guiGraphics.guiHeight() - 32 + 3 - 18;
-                guiGraphics.drawString(this.minecraft.font, string, l + 1, m, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l - 1, m, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l, m + 1, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l, m - 1, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l, m, 8453920, false);
-                Profiler.get().pop();
-            }
-        }
-
     }
 }

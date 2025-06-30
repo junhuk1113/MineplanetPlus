@@ -1,17 +1,17 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonCoolAxis;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
+import org.joml.Matrix3x2fStack;
 
 public class DungeonCooltimeGui {
     private final Minecraft mc;
@@ -62,8 +62,7 @@ public class DungeonCooltimeGui {
                     }
                 }
             }
-            catch(Exception e) {
-                e.printStackTrace();
+            catch(Exception ignored) {
             }
 
             lastTitle = title;
@@ -111,33 +110,33 @@ public class DungeonCooltimeGui {
     }
 
     private void renderDungeonsAndCooltime(int i, int id, GuiGraphics guiGraphics, int x, int y, int second) {
-        PoseStack poseStack = guiGraphics.pose();
-        poseStack.pushPose();
+        Matrix3x2fStack poseStack = guiGraphics.pose();
+        poseStack.pushMatrix();
         
         // 수정된 위치 계산
         if(client.data.coolAxis == DungeonCoolAxis.VERTICAL)
-            poseStack.translate(x, y + (client.data.dungeonCooltime_uiScale + 2) * i, 0);
+            poseStack.translate(x, y + (client.data.dungeonCooltime_uiScale + 2) * i);
         else {
-            poseStack.translate(x + (client.data.dungeonCooltime_uiScale + 2) * i, y, 0);
+            poseStack.translate(x + (client.data.dungeonCooltime_uiScale + 2) * i, y);
         }
         
         // 수정된 스케일 적용
-        poseStack.scale(client.data.dungeonCooltime_uiScale /256f, client.data.dungeonCooltime_uiScale /256f, client.data.dungeonCooltime_uiScale /256f);
+        poseStack.scale(client.data.dungeonCooltime_uiScale /256f, client.data.dungeonCooltime_uiScale /256f);
 
         ResourceLocation texture;
         if((texture = getDungeonTexture(id)) == null)
             return;
 
-        guiGraphics.blit(RenderType::guiTextured, texture, 0, 0, 0, 0, 256, 256, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0, 0, 256, 256, 256, 256);
 
         if(client.data.toggleDungeonCooltimeFade) {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            guiGraphics.blit(RenderType::guiTextured, BLACK_ICON, 0, 0, 0, 0, 256, (int)(256 * (float)second / 3600f), 256, 256);
+            //RenderSystem.enableBlend();
+            //RenderSystem.defaultBlendFunc();
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, BLACK_ICON, 0, 0, 0, 0, 256, (int)(256 * (float)second / 3600f), 256, 256);
         }
 
-        poseStack.scale(256f/client.data.dungeonCooltime_uiScale, 256f/client.data.dungeonCooltime_uiScale, 256f/client.data.dungeonCooltime_uiScale);
-        poseStack.popPose();
+        poseStack.scale(256f/client.data.dungeonCooltime_uiScale, 256f/client.data.dungeonCooltime_uiScale);
+        poseStack.popMatrix();
 
         // 텍스트 크기도 UI 크기에 맞게 조정
         if(client.data.toggleDungeonCooltimeText) {
@@ -146,23 +145,23 @@ public class DungeonCooltimeGui {
             int minute = second / 60;
             second -= minute * 60;
 
-            poseStack.pushPose();
+            poseStack.pushMatrix();
             if(client.data.coolAxis == DungeonCoolAxis.VERTICAL)
-                poseStack.translate(x + client.data.dungeonCooltime_uiScale + 2, y + (client.data.dungeonCooltime_uiScale /4) + (client.data.dungeonCooltime_uiScale + 2) * i, 0);
+                poseStack.translate(x + client.data.dungeonCooltime_uiScale + 2, y + (client.data.dungeonCooltime_uiScale /4) + (client.data.dungeonCooltime_uiScale + 2) * i);
             else {
-                poseStack.translate(x + (client.data.dungeonCooltime_uiScale /2) + (client.data.dungeonCooltime_uiScale + 2) * i, y + client.data.dungeonCooltime_uiScale + 2, 0);
+                poseStack.translate(x + (client.data.dungeonCooltime_uiScale /2) + (client.data.dungeonCooltime_uiScale + 2) * i, y + client.data.dungeonCooltime_uiScale + 2);
             }
 
             float textScale = client.data.dungeonCooltime_uiScale /16f; // UI 크기에 비례하여 텍스트 크기 조정
-            poseStack.scale(textScale/1.1f, textScale/1.1f, textScale/1.1f);
+            poseStack.scale(textScale/1.1f, textScale/1.1f);
 
             if(client.data.coolAxis == DungeonCoolAxis.VERTICAL)
-                guiGraphics.drawString(font, Component.literal(String.format("%d:%d", minute, second)), 0, 0, 0xFFFFFF);
+                guiGraphics.drawString(font, Component.literal(String.format("%d:%d", minute, second)), 0, 0, ARGB.white(1));
             else
-                guiGraphics.drawCenteredString(font, Component.literal(String.format("%d", minute)), 0, 0, 0xFFFFFF);
+                guiGraphics.drawCenteredString(font, Component.literal(String.format("%d", minute)), 0, 0, ARGB.white(1));
 
-            poseStack.scale(1.1f, 1.1f, 1.1f);
-            poseStack.popPose();
+            poseStack.scale(1.1f, 1.1f);
+            poseStack.popMatrix();
         }
     }
 

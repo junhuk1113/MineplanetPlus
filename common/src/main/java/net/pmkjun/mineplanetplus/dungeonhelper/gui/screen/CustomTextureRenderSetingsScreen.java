@@ -113,6 +113,11 @@ public class CustomTextureRenderSetingsScreen extends Screen {
         background.render(guiGraphics);
     }
 
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
+    }
+
     private void onToggleCustomEnchantRenderPress() {
         client.data.toggleCustomEnchantRender = !client.data.toggleCustomEnchantRender;
 

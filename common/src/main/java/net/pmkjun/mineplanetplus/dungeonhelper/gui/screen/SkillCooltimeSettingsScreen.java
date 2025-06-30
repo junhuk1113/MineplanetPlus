@@ -152,6 +152,11 @@ public class SkillCooltimeSettingsScreen extends Screen {
         background.render(guiGraphics);
     }
 
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
+    }
+
     private void onToggleSkillCooltimePress() {
         this.client.data.toggleSkillCooltime = !this.client.data.toggleSkillCooltime;
         if (this.client.data.toggleSkillCooltime) {

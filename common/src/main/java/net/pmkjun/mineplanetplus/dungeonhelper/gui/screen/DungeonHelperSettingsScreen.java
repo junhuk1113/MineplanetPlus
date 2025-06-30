@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -86,7 +86,12 @@ public class DungeonHelperSettingsScreen extends Screen {
         if(mc.level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
-        guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
+    }
+
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
     }
 
     private void onDungeonCooltimeSettingsPress() {

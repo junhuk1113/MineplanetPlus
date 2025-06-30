@@ -53,33 +53,8 @@ public class DungeonHelperClient {
 
     public void renderEvent(GuiGraphics guiGraphics, Component title, Component message) {
         dungeonCooltimeGui.renderTick(guiGraphics, title, timer);
-        skillCooltimeGui.renderTick(guiGraphics, timer);
-
-        timer.updateTime();
+        skillCooltimeGui.renderTick(guiGraphics);
     }
-    /*public void updateLastComboSkillTime() {
-        skillCooltimeGui.updateLastComboSkillTime(timer);
-    }
-    public void updateLastLV30SkillTime() {
-        skillCooltimeGui.updateLastLV30SkillTime(timer);
-    }
-    public void updateLastLV30SkillTime(float plustime){
-        long plustimeLong = (long)(plustime * 1000);
-        skillCooltimeGui.updateLastLV30SkillTime(timer, plustimeLong);
-    }
-    public void updateLastLV40SkillTime(){
-        skillCooltimeGui.updateLastLV40SkillTime(timer);
-    }
-    public void updateLastLV40SkillTime(float plustime){
-        long plustimeLong = (long)(plustime * 1000);
-        skillCooltimeGui.updateLastLV40SkillTime(timer, plustimeLong);
-    }
-    public void updateLastUltimateTime() {
-        skillCooltimeGui.updateLastUltimateTime(timer);
-    }
-    public void resetLastComboSkillTime() {
-        skillCooltimeGui.resetLastComboSkillTime();
-    }*/
 
     public void updateLeftComboSkillTime(float cooldown){
         skillCooltimeGui.updateLeftComboSkillTime(cooldown);
@@ -96,9 +71,6 @@ public class DungeonHelperClient {
 
     public DungeonHelperSettingsScreen getSettingsScreen() {
         return settingsScreen;
-    }
-    public void delayLastSkilltime(long delay){
-        skillCooltimeGui.delayLastSkilltime(delay);
     }
 
     public static DungeonHelperClient getInstance(){

@@ -1,12 +1,12 @@
 package net.pmkjun.mineplanetplus.gui;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.MineplanetPlus;
 
 public class StretchableBackground {
-    private final ResourceLocation BACKGROUND_LOCATION = ResourceLocation.fromNamespaceAndPath(MineplanetPlus.MOD_ID, "textures/gui/mineplanetplus_settings_background.png");;
+    private final ResourceLocation BACKGROUND_LOCATION = ResourceLocation.fromNamespaceAndPath(MineplanetPlus.MOD_ID, "textures/gui/mineplanetplus_settings_background.png");
     private final int originalWidth = 147;
     private final int originalHeight = 96;
     private int currentWidth;
@@ -14,7 +14,6 @@ public class StretchableBackground {
     private int x;
     private int y;
 
-    private static final int CORNER_SIZE = 4;
     private static final int TOP_HEIGHT = 4;
     private static final int BOTTOM_HEIGHT = 4;
 
@@ -35,7 +34,7 @@ public class StretchableBackground {
 
     public void render(GuiGraphics guiGraphics) {
         // 상단 부분
-        guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION,
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOCATION,
                 x, y,
                 0, 0,
                 currentWidth, TOP_HEIGHT,
@@ -48,7 +47,7 @@ public class StretchableBackground {
 
         while (remainingHeight > 0) {
             int stretchHeight = Math.min(remainingHeight, originalHeight - (TOP_HEIGHT + BOTTOM_HEIGHT));
-            guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION,
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOCATION,
                     x, y + (currentHeight - remainingHeight) - TOP_HEIGHT,
                     0, textureY,
                     currentWidth, stretchHeight,
@@ -57,7 +56,7 @@ public class StretchableBackground {
         }
 
         // 하단 부분
-        guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION,
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOCATION,
                 x, y + currentHeight - BOTTOM_HEIGHT,
                 0, originalHeight - BOTTOM_HEIGHT,
                 currentWidth, BOTTOM_HEIGHT,

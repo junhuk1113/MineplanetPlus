@@ -1,13 +1,14 @@
 package net.pmkjun.mineplanetplus.fishhelper.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.Earning;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
+import org.joml.Matrix3x2fStack;
 
 import java.util.Arrays;
 
@@ -80,29 +81,29 @@ public class FishCounterGui {
     }
 
     private void renderWithoutTexture(int i, GuiGraphics context,int x, int y, String left_field, String right_field){
-        PoseStack poseStack = context.pose();
+        Matrix3x2fStack poseStack = context.pose();
         Font font = this.mc.font;
         int width = 50, text_width;
 
         text_width = font.width(left_field);
 
-        poseStack.pushPose();
-        poseStack.translate((x + 2), y+4 + (12) * i, 0.0D);
-        poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
-        context.drawString(font, Component.literal(left_field), width - text_width, 0, 0xFFFFFF);
-        poseStack.scale(1.1f, 1.1f, 1.1f);
+        poseStack.pushMatrix();
+        poseStack.translate((x + 2), y+4 + (12) * i);
+        poseStack.scale(1f/1.1f, 1f/1.1f);
+        context.drawString(font, Component.literal(left_field), width - text_width, 0, ARGB.white(1));
+        poseStack.scale(1.1f, 1.1f);
 		
-        poseStack.popPose();
+        poseStack.popMatrix();
 
         text_width = font.width(right_field);
-        poseStack.pushPose();
-        poseStack.translate((x + 2 + 50 + 16), y+4 + (12) * i, 0.0D);
-        poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
-        context.drawString(font, Component.literal(right_field), width - text_width, 0, 0xFFFFFF);
+        poseStack.pushMatrix();
+        poseStack.translate((x + 2 + 50 + 16), y+4 + (12) * i);
+        poseStack.scale(1f/1.1f, 1f/1.1f);
+        context.drawString(font, Component.literal(right_field), width - text_width, 0, ARGB.white(1));
         
-        poseStack.scale(1.1f, 1.1f, 1.1f);
+        poseStack.scale(1.1f, 1.1f);
 			
-        poseStack.popPose();
+        poseStack.popMatrix();
         
     }
 }

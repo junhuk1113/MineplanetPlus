@@ -151,6 +151,11 @@ public class CurrencyHudConfigScreen extends Screen{
     }
 
     @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
+    }
+
+    @Override
     public void onClose() {
         this.mc.setScreen(parentScreen);
     }

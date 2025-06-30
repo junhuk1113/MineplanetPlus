@@ -1,18 +1,17 @@
 package net.pmkjun.mineplanetplus.serverutility.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ARGB;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timeformat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
+import org.joml.Matrix3x2fStack;
 
 public class ServerUtilityGui {
     private final Minecraft mc;
@@ -50,29 +49,29 @@ public class ServerUtilityGui {
 
 
     private void renderMegaphone(GuiGraphics guiGraphics, ResourceLocation texture, long remaining_cooldowntime) {
-        PoseStack poseStack = guiGraphics.pose();
+        Matrix3x2fStack poseStack = guiGraphics.pose();
 
-        RenderSystem.enableBlend(); // 블렌딩 활성화
-        RenderSystem.defaultBlendFunc();
-        guiGraphics.blitSprite(RenderType::guiTextured ,WIDGETS, getMegaphoneXpos(), getMegaphoneYpos()-1, 29, 24);
-        RenderSystem.disableBlend();
+        //RenderSystem.enableBlend(); // 블렌딩 활성화
+        //RenderSystem.defaultBlendFunc();
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, WIDGETS, getMegaphoneXpos(), getMegaphoneYpos()-1, 29, 24);
+        //RenderSystem.disableBlend();
 
-        poseStack.pushPose();
-        poseStack.translate(3+ getMegaphoneXpos(), getMegaphoneYpos()+4-1,0.0D);
-        poseStack.scale(0.0625F, 0.0625F, 0.0625F);
+        poseStack.pushMatrix();
+        poseStack.translate(3+ getMegaphoneXpos(), getMegaphoneYpos()+4-1);
+        poseStack.scale(0.0625F, 0.0625F);
 
-        RenderSystem.setShaderTexture(0,texture);
-        guiGraphics.blit(RenderType::guiTextured, texture, 0, 0, 0, 0, 256, 256, 256, 256);
-        poseStack.scale(16.0F, 16.0F, 16.0F);
-        poseStack.popPose();
+        //RenderSystem.setShaderTexture(0,texture);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0, 0, 256, 256, 256, 256);
+        poseStack.scale(16.0F, 16.0F);
+        poseStack.popMatrix();
         //System.out.println("남은 스킬 지속시간 : "+ (remaining_activatetime/(double)1000) +"초");
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
         if(remaining_cooldowntime > 0){
-            poseStack.pushPose();
-            poseStack.translate((getMegaphoneXpos() + 2 + 9), getMegaphoneYpos()+7, 0.0D);
-            poseStack.scale(1F/1.1F, 1F/1.1F, 1F/1.1F);
-            guiGraphics.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
-            poseStack.popPose();
+            poseStack.pushMatrix();
+            poseStack.translate((getMegaphoneXpos() + 2 + 9), getMegaphoneYpos()+7);
+            poseStack.scale(1F/1.1F, 1F/1.1F);
+            guiGraphics.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ARGB.white(1));
+            poseStack.popMatrix();
             if (client.data.toggleAlertSound) {
                 if (remaining_cooldowntime / (double) 1000 < 0.1 && remaining_cooldowntime / (double) 1000 > 0.05 && coolend == 0) {
                     this.mc.level.playSound(this.mc.player, this.mc.player.getX(), this.mc.player.getY(), this.mc.player.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1f, 1f);
@@ -87,14 +86,14 @@ public class ServerUtilityGui {
     }
 
     private void renderCurrency(GuiGraphics guiGraphics, ResourceLocation texture) {
-        RenderSystem.enableBlend(); // 블렌딩 활성화
-        RenderSystem.defaultBlendFunc();
-        guiGraphics.blit(RenderType::guiTextured ,texture, getCurrencyDisplayXpos(), getCurrencyDisplayYpos(), 0, 0, 80, 41, 80, 41);
-        RenderSystem.disableBlend();
+        //RenderSystem.enableBlend(); // 블렌딩 활성화
+        //RenderSystem.defaultBlendFunc();
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA ,texture, getCurrencyDisplayXpos(), getCurrencyDisplayYpos(), 0, 0, 80, 41, 80, 41);
+        //RenderSystem.disableBlend();
         try {
-            guiGraphics.drawString(mc.font, Component.literal(client.money.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5, client.money.getStyle().getColor().getValue(), false);
-            guiGraphics.drawString(mc.font, Component.literal(client.coin.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 12, client.coin.getStyle().getColor().getValue(), false);
-            guiGraphics.drawString(mc.font, Component.literal(client.credit.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 24, client.credit.getStyle().getColor().getValue(), false);
+            guiGraphics.drawString(mc.font, Component.literal(client.money.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5, ARGB.color(1, client.money.getStyle().getColor().getValue()), false);
+            guiGraphics.drawString(mc.font, Component.literal(client.coin.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 12, ARGB.color(1, client.coin.getStyle().getColor().getValue()), false);
+            guiGraphics.drawString(mc.font, Component.literal(client.credit.getString()), getCurrencyDisplayXpos() + 16, getCurrencyDisplayYpos() + 5 + 24, ARGB.color(1, client.credit.getStyle().getColor().getValue()), false);
         }
         catch (NullPointerException e) {
             //System.out.println("Mineplanet+ : 재화 정보 로드 실패");

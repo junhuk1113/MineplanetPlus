@@ -26,7 +26,7 @@ public class FishCounterConfigScreen extends Screen{
     private final int width;
     private final int height;
 
-    String toggleFishCounter, toggleCounterMode, toggleEarningCalculator, resetCounter;
+    String toggleFishCounter, toggleCounterMode, toggleEarningCalculator;
 
     public FishCounterConfigScreen(Screen parentScreen) {
         super(Component.translatable("fishhelper.config.title"));
@@ -189,6 +189,11 @@ public class FishCounterConfigScreen extends Screen{
         background.setSize(width, height);
         background.setPosition(getRegularX(), getRegularY());
         background.render(guiGraphics);
+    }
+
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
     }
 
     @Override

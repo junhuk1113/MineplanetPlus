@@ -3,7 +3,6 @@ package net.pmkjun.mineplanetplus.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.TpsTracker;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +24,5 @@ public abstract class ClientPacketListenerMixin {
         catch (NullPointerException e){
             serverUtilityClient.updateCurrentIP("null");
         }
-
-        TpsTracker.INSTANCE.onGameJoined();
     }
 }

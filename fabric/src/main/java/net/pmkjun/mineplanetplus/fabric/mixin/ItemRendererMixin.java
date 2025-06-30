@@ -2,6 +2,7 @@ package net.pmkjun.mineplanetplus.fabric.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
@@ -36,8 +37,8 @@ import java.util.function.Function;
 @Mixin(ItemModelResolver.class)
 public class ItemRendererMixin {
     @Shadow
-    private static void fixupSkullProfile(ItemStack stack) {
-    }
+    @Final
+    private Function<ResourceLocation, ClientItem.Properties> clientProperties;
 
     @Shadow
     @Final
@@ -56,7 +57,6 @@ public class ItemRendererMixin {
 
             CustomEnchantType cetype;
             RuneofFortuneType rftype;
-            Item changed_item;
             List<Component> ItemText;
             String Itemname = null;
             String levelString;
@@ -141,9 +141,10 @@ public class ItemRendererMixin {
                 }
             }
 
-            fixupSkullProfile(stack);
             ResourceLocation resourceLocation = stack.get(DataComponents.ITEM_MODEL);
             if (resourceLocation != null) {
+                renderState.setOversizedInGui(this.clientProperties.apply(resourceLocation).oversizedInGui());
+
                 ItemModel var10000;
                 ItemModel extraItemModel = null;
 
@@ -151,7 +152,7 @@ public class ItemRendererMixin {
                     try {
                         float customModelData = stack.get(DataComponents.CUSTOM_MODEL_DATA).getFloat(0);
                         if (customModelData == 2513.0f) return; //칭호 렌더링 하지 않음
-                    } catch (NullPointerException e) {
+                    } catch (NullPointerException ignored) {
                     }
                     switch (cetype) {
                         case COMMON ->
@@ -174,7 +175,7 @@ public class ItemRendererMixin {
                     try {
                         float customModelData = stack.get(DataComponents.CUSTOM_MODEL_DATA).getFloat(0);
                         if (customModelData == 2658.0f || customModelData == 2293.0f) return; //만료된 아이템은 렌더하지 않음
-                    } catch (NullPointerException e) {
+                    } catch (NullPointerException ignored) {
                     }
 
                     if (!DungeonHelperClient.getInstance().data.toggleRuneArrowEmpty) {

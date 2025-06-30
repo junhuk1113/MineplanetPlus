@@ -21,8 +21,7 @@ public class SkillTimerConfigScreen extends Screen{
 
     private Button toggleSkillTimerButton;
     private Button toggleAlertSoundButton;
-    private Button[] toggleSkillsButton = new Button[4];
-    private Button toggleTpsCorrectionButton;
+    private final Button[] toggleSkillsButton = new Button[4];
     String[] SkillList = {"farming","felling","mining","digging"};
     private Slider XPosSlider;
     private Slider YPosSlider;
@@ -35,7 +34,7 @@ public class SkillTimerConfigScreen extends Screen{
         this.client = PlanetSkillTimerClient.getInstance();
 
         this.width = 147;
-        this.height = 8 + (20 + 2) * 9;
+        this.height = 8 + (20 + 2) * 8;
     }
     @Override
     protected void init() {
@@ -144,15 +143,6 @@ public class SkillTimerConfigScreen extends Screen{
         };
         YPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
         this.addRenderableWidget(YPosSlider);
-        toggleTpsCorrectionButton = Button.builder(Component.translatable("planetskilltimer.config.tpscorrection"), button -> {
-            toggleTpsCorrection();
-            setTpsCorrectionButtonText();
-        }).pos(5+getRegularX(), 5+getRegularY()+(20+2)*8)
-                .size(137, 20)
-                .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.tpscorrection.tooltip")))
-                .build();
-        setTpsCorrectionButtonText();
-        this.addRenderableWidget(toggleTpsCorrectionButton);
     }
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         //this.renderBackground(guiGraphics);
@@ -206,20 +196,6 @@ public class SkillTimerConfigScreen extends Screen{
         }
     }
 
-    private void toggleTpsCorrection(){
-        client.data.toggleTpsCorrection = !client.data.toggleTpsCorrection;
-    }
-    private void setTpsCorrectionButtonText(){
-        if(client.data.toggleTpsCorrection){
-            toggleTpsCorrectionButton.setMessage(Component.translatable("planetskilltimer.config.tpscorrection").append(
-                Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-        }
-        else{
-            toggleTpsCorrectionButton.setMessage(Component.translatable("planetskilltimer.config.tpscorrection").append(
-                Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-        }
-    }
-
     int getRegularX() {
         return  mc.getWindow().getGuiScaledWidth() / 2 - width / 2;
     }
@@ -236,6 +212,11 @@ public class SkillTimerConfigScreen extends Screen{
         background.setSize(width, height);
         background.setPosition(getRegularX(), getRegularY());
         background.render(guiGraphics);
+    }
+
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
     }
 
     @Override

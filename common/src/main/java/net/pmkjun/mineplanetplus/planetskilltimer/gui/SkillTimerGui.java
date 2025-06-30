@@ -1,11 +1,9 @@
 package net.pmkjun.mineplanetplus.planetskilltimer.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -15,6 +13,7 @@ import net.pmkjun.mineplanetplus.planetskilltimer.file.Stat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.SkillLevel;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timeformat;
 import net.pmkjun.mineplanetplus.planetskilltimer.util.Timer;
+import org.joml.Matrix3x2fStack;
 
 public class SkillTimerGui {
     private final Minecraft mc;
@@ -54,7 +53,7 @@ public class SkillTimerGui {
 
 
     private void render(GuiGraphics context,ResourceLocation texture,int i,int skilltype, long ms) {
-        PoseStack poseStack = context.pose();
+        Matrix3x2fStack poseStack = context.pose();
         long remaining_activatetime, remaining_cooldowntime;
         int activatetime, cooldowntime;
 
@@ -63,26 +62,26 @@ public class SkillTimerGui {
         remaining_activatetime = activatetime - ms;
         remaining_cooldowntime = cooldowntime - (ms - activatetime);
 
-        RenderSystem.enableBlend(); // 블렌딩 활성화
-        RenderSystem.defaultBlendFunc();
-        context.blitSprite(RenderType::guiTextured, WIDGETS, getXpos()+22*i,getYpos()-1, 29, 24);
-        RenderSystem.disableBlend();
+        //RenderSystem.enableBlend(); // 블렌딩 활성화
+        //RenderSystem.defaultBlendFunc();
+        context.blitSprite(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, WIDGETS, getXpos()+22*i,getYpos()-1, 29, 24);
+        //RenderSystem.disableBlend();
 
-        poseStack.pushPose();
-        poseStack.translate(3+getXpos()+22*i,getYpos()+4-1,0.0D);
-        poseStack.scale(0.0625F, 0.0625F, 0.0625F);
+        poseStack.pushMatrix();
+        poseStack.translate(3+getXpos()+22*i,getYpos()+4-1);
+        poseStack.scale(0.0625F, 0.0625F);
 
-        RenderSystem.setShaderTexture(0,texture);
-        context.blit(RenderType::guiTextured, texture, 0, 0, 0, 0, 256, 256, 256, 256);
-        poseStack.scale(16.0F, 16.0F, 16.0F);
-        poseStack.popPose();
+        //RenderSystem.setShaderTexture(0,texture);
+        context.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, texture, 0, 0, 0, 0, 256, 256, 256, 256);
+        poseStack.scale(16.0F, 16.0F);
+        poseStack.popMatrix();
         //System.out.println("남은 스킬 지속시간 : "+ (remaining_activatetime/(double)1000) +"초");
         if(remaining_activatetime > 0){
             //남은 지속시간
             //System.out.println("남은 스킬 지속시간 : "+ (remaining_activatetime/(double)1000) +"초");
-            poseStack.pushPose();
-            poseStack.translate((3+getXpos()+22*i+8), (getYpos() + 8-1), 0.0F);
-            poseStack.scale(0.9090909F, 0.9090909F, 0.9090909F);
+            poseStack.pushMatrix();
+            poseStack.translate((3+getXpos()+22*i+8), (getYpos() + 8-1));
+            poseStack.scale(0.9090909F, 0.9090909F);
             context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_activatetime)), 0, 0, ChatFormatting.WHITE.getColor());
             if (client.data.toggleAlertSound) {
                 if(remaining_activatetime/(double)1000 <= 1 && one == 0 && remaining_activatetime/(double)1000 > 0.2){
@@ -112,16 +111,16 @@ public class SkillTimerGui {
             }
 
             //System.out.println("one: " + one + " two:" + two + " three: " + thr);
-            poseStack.popPose();
+            poseStack.popMatrix();
         }
         else if(remaining_cooldowntime > 0){
 
             //System.out.println("남은 스킬 쿨타임 : "+(remaining_cooldowntime/(double)1000)+"초");
-            poseStack.pushPose();
-            poseStack.translate((3+getXpos()+22*i+8), (getYpos() + 8-1), 0.0F);
-            poseStack.scale(0.9090909F, 0.9090909F, 0.9090909F);
-            context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, ChatFormatting.WHITE.getColor());
-            poseStack.popPose();
+            poseStack.pushMatrix();
+            poseStack.translate((3+getXpos()+22*i+8), (getYpos() + 8-1));
+            poseStack.scale(0.9090909F, 0.9090909F);
+            context.drawCenteredString(this.mc.font, Component.literal(Timeformat.getString(remaining_cooldowntime)), 0, 0, 0xFFFFFFFF);
+            poseStack.popMatrix();
             if (client.data.toggleAlertSound) {
                 if (remaining_cooldowntime / (double) 1000 < 0.1 && remaining_cooldowntime / (double) 1000 > 0.05 && coolend == 0) {
                     this.mc.level.playSound(this.mc.player, this.mc.player.getX(), this.mc.player.getY(), this.mc.player.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1f, 1f);
@@ -143,7 +142,7 @@ public class SkillTimerGui {
         }
         return count;
     }
-    public boolean isSkillCooldown(int skilltype, Timer timer){
+    /*public boolean isSkillCooldown(int skilltype, Timer timer){
         long ms = timer.getDifference(client.data.lastSkillTime[skilltype]);
 
         long remaining_activatetime, remaining_cooldowntime;
@@ -155,7 +154,7 @@ public class SkillTimerGui {
         remaining_cooldowntime = cooldowntime - (ms - activatetime);
 
         return remaining_activatetime > 0 || remaining_cooldowntime > 0;
-    }
+    }*/
     private int getXpos(){
         return (this.mc.getWindow().getGuiScaledWidth()-(22*getEnabledSkillCount())) * this.client.data.SkillTimerXpos / 1000;
     }

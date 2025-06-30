@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
@@ -77,7 +77,12 @@ public class SettingsScreen extends Screen {
         if(Minecraft.getInstance().level == null) {
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
-        guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOCATION, getRegularX(), getRegularY(), 0, 0, width, height, 256, 256);
+    }
+
+    @Override
+    protected void renderBlurredBackground(GuiGraphics guiGraphics) {
+        //pass
     }
 
     private void onDungeonHelperSettingsPress() {

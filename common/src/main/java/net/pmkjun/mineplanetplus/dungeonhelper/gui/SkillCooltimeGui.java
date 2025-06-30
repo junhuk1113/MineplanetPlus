@@ -1,18 +1,17 @@
 package net.pmkjun.mineplanetplus.dungeonhelper.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonSkill;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.SkillCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
+import org.joml.Matrix3x2fStack;
 
 public class SkillCooltimeGui {
 
@@ -25,10 +24,6 @@ public class SkillCooltimeGui {
     private static final ResourceLocation MANA_RUNOUT_ICON = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/mana_runout.png");
 
     private static final int SKILL_GUI_SIZE = 16;
-    private static final float ASSASSIN_SKILL_REACTIVATION_TIME = 0.5f;
-    private static final float DRAGON_WARRIOR_SKILL_REACTIVATION_TIME = 1;
-    private static final float MARTIAL_ARTIST_SKILL_REACTIVATION_TIME = 1;
-    private static final float BATTLE_MAGE_SKILL_REACTIVATION_TIME = 0.7f;
 
     private static final float BLADE_SPIN_SKILL_COOLTIME = 7.3f;
     private static final float DRAGON_SMASH_COOLTIME = 6.4f;
@@ -40,13 +35,8 @@ public class SkillCooltimeGui {
     private static final float MULTIPLE_BLOW_COOLTIME = 27.0F;
     private static final float ARCANE_DEMOLITION_COOLTIME = 25.7F;
 
-    private long lastComboSkillTime = 0;
-    private long lastLV40SkillTime = 0;
-    private long lastUltimateTime = 0;
-    private long lastLV30SkillTime = 0;
-    private float leftLV30SkillTime=0;
-
     private float leftComboSkillTime;
+    private float leftLV30SkillTime=0;
     private float leftLV40SkillTime;
     private float leftUltimateTime;
 
@@ -58,42 +48,6 @@ public class SkillCooltimeGui {
         mc = Minecraft.getInstance();
         client = DungeonHelperClient.getInstance();
         dungeonSkill = new DungeonSkill();
-    }
-
-    public void updateLastComboSkillTime(Timer timer){
-        lastComboSkillTime = timer.getCurrentTime();
-    }
-    public void updateLastLV40SkillTime(Timer timer){
-        lastLV40SkillTime = timer.getCurrentTime();
-    }
-    public void updateLastLV40SkillTime(Timer timer, long plustime)
-    {
-        lastLV40SkillTime = timer.getCurrentTime() + plustime;
-    }
-    public void updateLastUltimateTime(Timer timer) {
-        lastUltimateTime = timer.getCurrentTime();
-    }
-    public void resetLastComboSkillTime() {
-        lastComboSkillTime = 0;
-    }
-    public void delayLastSkilltime(long delay){
-        if(isComboSkillUseable()){
-            lastComboSkillTime += delay;
-        }
-        if(isLV40SkillCooltime()){
-            lastLV40SkillTime += delay;
-        }
-        if(isUltimateCooltime()){
-            lastUltimateTime += delay;
-        }
-    }
-
-    public void updateLastLV30SkillTime(Timer timer) {
-        lastLV30SkillTime = timer.getCurrentTime();
-    }
-
-    public void updateLastLV30SkillTime(Timer timer, long plustime) {
-        lastLV30SkillTime = timer.getCurrentTime() + plustime;
     }
 
     public void updateLeftComboSkillTime(float cooldown) {
@@ -109,7 +63,7 @@ public class SkillCooltimeGui {
         leftUltimateTime = cooldown;
     }
 
-    public void renderTick(GuiGraphics guiGraphics, Timer timer) {
+    public void renderTick(GuiGraphics guiGraphics) {
         if(!client.data.toggleSkillCooltime)
             return;
 
@@ -136,15 +90,15 @@ public class SkillCooltimeGui {
             yOffset = screenHeight - 22;
         }
 
-        RenderSystem.setShaderTexture(0, WIDGETS);
+        //RenderSystem.setShaderTexture(0, WIDGETS);
 
         int i = 0;
         for(int skillNum = 0 ; skillNum < 5 ; skillNum++){
             if(dungeonSkill.isComboSkill(client.data.classType,skillNum) && isComboSkillUseable()){
                 skillNum++;
             }
-            guiGraphics.blitSprite(RenderType::guiTexturedOverlay, WIDGETS, xOffset + (22)* i, yOffset-1, 29, 24);
-            ResourceLocation texture = null;
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, WIDGETS, xOffset + (22)* i, yOffset-1, 29, 24);
+            ResourceLocation texture;
 
             texture = dungeonSkill.getSkillTexture(client.data.classType, skillNum);
 
@@ -152,9 +106,9 @@ public class SkillCooltimeGui {
 
             if(isManaRunout(client.data.classType, dungeonSkill.getSkillCategory(skillNum))
                 &&!(skillNum==3&&isLV40SkillCooltime())&&!(skillNum==4&&isUltimateCooltime())){
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.setShaderTexture(0, MANA_RUNOUT_ICON);
+                //RenderSystem.enableBlend();
+                //RenderSystem.defaultBlendFunc();
+                //RenderSystem.setShaderTexture(0, MANA_RUNOUT_ICON);
 
                 drawSkillTexture(guiGraphics, MANA_RUNOUT_ICON, xOffset + (22) * i + 3, yOffset + 3);
             }
@@ -180,24 +134,6 @@ public class SkillCooltimeGui {
             x = screenWidth / 2 + xOffset + 3;
             y = screenHeight - 22 + 4;
         }
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShaderTexture(0, BLACK_ICON);
-
-        /*float comboSkillReactivationTime = 0;
-        if(client.data.classType == ClassCategory.ASSASSIN) {
-            comboSkillReactivationTime = ASSASSIN_SKILL_REACTIVATION_TIME;
-        }
-        else if(client.data.classType == ClassCategory.DRAGON_WARRIOR) {
-            comboSkillReactivationTime = DRAGON_WARRIOR_SKILL_REACTIVATION_TIME;
-        }
-        else if (this.client.data.classType == ClassCategory.MARTIAL_ARTIST) {
-            comboSkillReactivationTime = MARTIAL_ARTIST_SKILL_REACTIVATION_TIME;
-        }
-        else if (this.client.data.classType == ClassCategory.BATTLE_MAGE){
-            comboSkillReactivationTime = BATTLE_MAGE_SKILL_REACTIVATION_TIME;
-        }*/
 
         float lv30SkillCooltime = 0;
         if(client.data.classType == ClassCategory.ASSASSIN) {
@@ -237,69 +173,68 @@ public class SkillCooltimeGui {
         else if (this.client.data.classType == ClassCategory.BATTLE_MAGE) {
             ultimateCooltime = ARCANE_DEMOLITION_COOLTIME;
         }
-        //if(isComboSkillUseable())
-        //    guiGraphics.blit(BLACK_ICON, x + 22 * dungeonSkill.getComboSkill(client.data.classType), y + (int) (SKILL_GUI_SIZE * (1 - leftComboSkillTime / comboSkillReactivationTime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftComboSkillTime / comboSkillReactivationTime)));
-        guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 1, y + (int) (SKILL_GUI_SIZE * (1 - leftLV30SkillTime / lv30SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV30SkillTime / lv30SkillCooltime)), 256, 256);
-        guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 2, y + (int) (SKILL_GUI_SIZE * (1 - leftLV40SkillTime / lv40SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV40SkillTime / lv40SkillCooltime)),256, 256);
-        guiGraphics.blit(RenderType::guiTexturedOverlay, BLACK_ICON, x + 22 * 3, y + (int) (SKILL_GUI_SIZE * (1 - leftUltimateTime / ultimateCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftUltimateTime / ultimateCooltime)),256, 256);
 
-        PoseStack poseStack = guiGraphics.pose();
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, BLACK_ICON, x + 22 * 1, y + (int) (SKILL_GUI_SIZE * (1 - leftLV30SkillTime / lv30SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV30SkillTime / lv30SkillCooltime)), 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, BLACK_ICON, x + 22 * 2, y + (int) (SKILL_GUI_SIZE * (1 - leftLV40SkillTime / lv40SkillCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftLV40SkillTime / lv40SkillCooltime)),256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, BLACK_ICON, x + 22 * 3, y + (int) (SKILL_GUI_SIZE * (1 - leftUltimateTime / ultimateCooltime)), 0, 0, SKILL_GUI_SIZE, (int) (SKILL_GUI_SIZE * (leftUltimateTime / ultimateCooltime)),256, 256);
+
+        Matrix3x2fStack poseStack = guiGraphics.pose();
         if(isComboSkillUseable()) {
-            poseStack.pushPose();
-            poseStack.translate(x + 8 + 22 * dungeonSkill.getComboSkill(client.data.classType), y + 4, 0);
-            poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
+            poseStack.pushMatrix();
+            poseStack.translate(x + 8 + 22 * dungeonSkill.getComboSkill(client.data.classType), y + 4);
+            poseStack.scale(1f/1.1f, 1f/1.1f);
 
             String cooldownText = String.format("%.1f", leftComboSkillTime);
 
-            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
-            poseStack.popPose();
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, ARGB.white(1));
+            poseStack.popMatrix();
         }
 
         if(isLV30SkillCooltime()) {
-            poseStack.pushPose();
-            poseStack.translate(x + 2 + 22 * 1 + 6, y + 4, 0);
-            poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
+            poseStack.pushMatrix();
+            poseStack.translate(x + 2 + 22 * 1 + 6, y + 4);
+            poseStack.scale(1f/1.1f, 1f/1.1f);
             
             String cooldownText = String.format("%.1f", leftLV30SkillTime);
             
-            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
-            poseStack.popPose();
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, ARGB.white(1));
+            poseStack.popMatrix();
         }
 
         if(isLV40SkillCooltime()) {
-            poseStack.pushPose();
-            poseStack.translate(x + 2 + 22 * 2 + 6, y + 4, 0);
-            poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
+            poseStack.pushMatrix();
+            poseStack.translate(x + 2 + 22 * 2 + 6, y + 4);
+            poseStack.scale(1f/1.1f, 1f/1.1f);
 
             String cooldownText = String.format("%.1f", leftLV40SkillTime);
 
-            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
-            poseStack.popPose();
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, ARGB.white(1));
+            poseStack.popMatrix();
         }
 
         if(isUltimateCooltime()) {
-            poseStack.pushPose();
-            poseStack.translate(x + 2 + 22 * 3 + 6, y + 4, 0);
-            poseStack.scale(1f/1.1f, 1f/1.1f, 1f/1.1f);
+            poseStack.pushMatrix();
+            poseStack.translate(x + 2 + 22 * 3 + 6, y + 4);
+            poseStack.scale(1f/1.1f, 1f/1.1f);
 
             String cooldownText = String.format("%.1f", leftUltimateTime);
 
-            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, 0xFFFFFF);
-            poseStack.popPose();
+            guiGraphics.drawCenteredString(mc.font, Component.literal(cooldownText), 0, 0, ARGB.white(1));
+            poseStack.popMatrix();
         }
     }
 
     private void drawSkillTexture(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y) {
         float scaleRatio = SKILL_GUI_SIZE / 256f;
 
-        PoseStack poseStack = guiGraphics.pose();
-        poseStack.pushPose();
-        poseStack.translate(x, y, 0);
-        poseStack.scale(scaleRatio, scaleRatio, 1);
+        Matrix3x2fStack poseStack = guiGraphics.pose();
+        poseStack.pushMatrix();
+        poseStack.translate(x, y);
+        poseStack.scale(scaleRatio, scaleRatio);
 
-        guiGraphics.blit(RenderType::guiTexturedOverlay, texture, 0, 0, 0, 0, 256, 256, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0, 0, 256, 256, 256, 256);
 
-        poseStack.popPose();
+        poseStack.popMatrix();
     }
 
     public boolean isManaRunout(ClassCategory classtype, SkillCategory skilltype){

@@ -34,7 +34,7 @@ subprojects {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.layered() {
             officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-1.21.4:2025.03.23@zip")
+            parchment("org.parchmentmc.data:parchment-1.21.6:2025.06.29@zip")
         }
         implementation 'com.google.code.gson:gson:2.12.1'
     }
