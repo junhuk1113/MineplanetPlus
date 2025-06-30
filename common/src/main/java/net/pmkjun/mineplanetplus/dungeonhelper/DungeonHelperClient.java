@@ -54,6 +54,7 @@ public class DungeonHelperClient {
     public void renderEvent(GuiGraphics guiGraphics, Component title, Component message) {
         dungeonCooltimeGui.renderTick(guiGraphics, title, timer);
         skillCooltimeGui.renderTick(guiGraphics);
+        timer.updateTime();
     }
 
     public void updateLeftComboSkillTime(float cooldown){
