@@ -7,21 +7,27 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.serverutility.util.FeeCalculator;
 
 public class MineplanetplusCommand {
     public MineplanetplusCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("송금수수료")
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("송금수수료").executes(MineplanetplusCommand::executeSendFee_noArg)
                         .then(Commands.argument("골드 입력", LongArgumentType.longArg(0))
                                 .executes(MineplanetplusCommand::executeSendFee)));
 
-        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("판매수수료")
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("판매수수료").executes(MineplanetplusCommand::executeSellFee_noArg)
                 .then(Commands.argument("골드 입력", LongArgumentType.longArg(0))
                         .executes(MineplanetplusCommand::executeSellFee)));
 
-        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("크레딧판매수수료")
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("크레딧판매수수료").executes(MineplanetplusCommand::executeCreditSellFee_noArg)
                 .then(Commands.argument("크레딧 입력", IntegerArgumentType.integer(0))
                         .executes(MineplanetplusCommand::executeCreditSellFee)));
+    }
+
+    private static int executeSendFee_noArg(CommandContext<CommandSourceStack> context) {
+        context.getSource().sendSystemMessage(Component.literal("송금 수수료를 미리 계산해보세요!\n사용법 : /송금수수료 [송금할 금액]\n(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+        return 1;
     }
 
     private static int executeSendFee(CommandContext<CommandSourceStack> objectCommandContext) {
@@ -29,8 +35,18 @@ public class MineplanetplusCommand {
         return 1;
     }
 
+    private static int executeSellFee_noArg(CommandContext<CommandSourceStack> context){
+        context.getSource().sendSystemMessage(Component.literal("거래소에서 아이템을 판매할 때 차감되는 수수료를 미리 계산해보세요!\n사용법 : /판매수수료 [판매금액]\n(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+        return 1;
+    }
+
     private static int executeSellFee(CommandContext<CommandSourceStack> objectCommandContext) {
         objectCommandContext.getSource().sendSystemMessage(FeeCalculator.getSellFeeMessage(LongArgumentType.getLong(objectCommandContext, "골드 입력")));
+        return 1;
+    }
+
+    private static int executeCreditSellFee_noArg(CommandContext<CommandSourceStack> context){
+        context.getSource().sendSystemMessage(Component.literal("거래소에서 아이템을 판매할 때 차감되는 수수료를 미리 계산해보세요!\n사용법 : /크레딧판매수수료 [판매금액]\n(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
         return 1;
     }
 
