@@ -68,4 +68,22 @@ public class FeeCalculator {
                         .append(Component.literal("\uE3B8").withStyle(ChatFormatting.WHITE))
                         .append(Component.literal("에 올리세요.").withColor(0xCAD1E0));
     }
+
+    public static Component getSendFeeDescriptionMessage() {
+        return Component.literal("송금 수수료를 미리 계산해보세요!\n사용법 : ").withColor(0xCAD1E0)
+                .append(Component.literal("/송금수수료 [송금할 금액]\n").withColor(0xFFE679))
+                .append(Component.literal("(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+    }
+
+    public static Component getSellFeeDescriptionMessage() {
+        return Component.literal("거래소에서 아이템을 판매할 때 차감되는 수수료를 미리 계산해보세요!\n사용법 : ").withColor(0xCAD1E0)
+                .append(Component.literal("/판매수수료 [판매금액]\n").withColor(0xFFE679)).
+                append(Component.literal("(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+    }
+
+    public static Component getCreditFeeDescriptionMessage() {
+        return Component.literal("거래소에서 아이템을 판매할 때 차감되는 수수료를 미리 계산해보세요!\n사용법 : ").withColor(0xCAD1E0)
+                .append(Component.literal("/크레딧판매수수료 [판매금액]\n").withColor(0xFFE679)).
+                append(Component.literal("(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+    }
 }

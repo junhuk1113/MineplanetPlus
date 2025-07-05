@@ -55,7 +55,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
         });
     }
     private static int executeSendFee_noArg(CommandContext<FabricClientCommandSource> context) {
-        context.getSource().sendFeedback(Component.literal("송금 수수료를 미리 계산해보세요!\n사용법 : /송금수수료 [송금할 금액]\n(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+        context.getSource().sendFeedback(FeeCalculator.getSendFeeDescriptionMessage());
         return 1;
     }
 
@@ -66,7 +66,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
     }
 
     private static int executeSellFee_noArg(CommandContext<FabricClientCommandSource> context){
-        context.getSource().sendFeedback(Component.literal("거래소에서 아이템을 판매할 때 차감되는 수수료를 미리 계산해보세요!\n사용법 : /판매수수료 [판매금액]\n(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+        context.getSource().sendFeedback(FeeCalculator.getSellFeeDescriptionMessage());
         return 1;
     }
 
@@ -77,7 +77,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
     }
 
     private static int executeCreditSellFee_noArg(CommandContext<FabricClientCommandSource> context){
-        context.getSource().sendFeedback(Component.literal("거래소에서 아이템을 판매할 때 차감되는 수수료를 미리 계산해보세요!\n사용법 : /크레딧판매수수료 [판매금액]\n(오류 발생 시 모드 개발자 PMKJun에게 문의 주세요)").withColor(0xCAD1E0));
+        context.getSource().sendFeedback(FeeCalculator.getCreditFeeDescriptionMessage());
         return 1;
     }
 
