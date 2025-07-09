@@ -16,6 +16,7 @@
 
   "gui.dungeonhelper.settings.on": "켜기",
   "gui.dungeonhelper.settings.off": "끄기",
+  "gui.dungeonhelper.settings.at_dungeon" : "던전에서 켜기",
   "gui.dungeonhelper.settings.horizontal": "가로",
   "gui.dungeonhelper.settings.vertical": "세로",
 

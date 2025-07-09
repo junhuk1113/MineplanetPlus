@@ -9,10 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.DungeonSkill;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.SkillCategory;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.Timer;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.*;
 
 public class SkillCooltimeGui {
 
@@ -30,15 +27,15 @@ public class SkillCooltimeGui {
     private static final float MARTIAL_ARTIST_SKILL_REACTIVATION_TIME = 1;
     private static final float BATTLE_MAGE_SKILL_REACTIVATION_TIME = 0.7f;
 
-    private static final float BLADE_SPIN_SKILL_COOLTIME = 7.3f;
-    private static final float DRAGON_SMASH_COOLTIME = 6.4f;
-    private static final float MARTIAL_DRIVE_COOLTIME = 7.9f;
+    private static final float BLADE_SPIN_SKILL_COOLTIME = 8f;
+    private static final float DRAGON_SMASH_COOLTIME = 8f;
+    private static final float MARTIAL_DRIVE_COOLTIME = 8f;
     private static final float INFERNO_CHAIN_COOLTIME = 10.0f;
 
     private static final float BLADE_DANCE_COOLTIME = 30f;
-    private static final float DRAGON_FURY_COOLTIME = 27.5f;
-    private static final float MULTIPLE_BLOW_COOLTIME = 27.0F;
-    private static final float ARCANE_DEMOLITION_COOLTIME = 25.7F;
+    private static final float DRAGON_FURY_COOLTIME = 30f;
+    private static final float MULTIPLE_BLOW_COOLTIME = 30F;
+    private static final float ARCANE_DEMOLITION_COOLTIME = 30F;
 
     private long lastComboSkillTime = 0;
     private long lastLV40SkillTime = 0;
@@ -52,7 +49,7 @@ public class SkillCooltimeGui {
 
     private static final float DAGGER_THROW_COOLTIME = 0.4f;      // 어쌔신
     private static final float DRAGON_BREATH_COOLTIME = 0.4f;    // 드래곤워리어
-    private static final float ARCANE_SPIN_COOLTIME = 6.3f;     // 배틀메이지
+    private static final float ARCANE_SPIN_COOLTIME = 8f;     // 배틀메이지
     
     public SkillCooltimeGui() {
         mc = Minecraft.getInstance();
@@ -110,7 +107,7 @@ public class SkillCooltimeGui {
     }
 
     public void renderTick(GuiGraphics guiGraphics, Timer timer) {
-        if(!client.data.toggleSkillCooltime)
+        if(client.data.skillCooltimeState == SkillCooltimeState.OFF || (client.data.skillCooltimeState == SkillCooltimeState.AT_DUNGEON && !client.ishereDungeon))
             return;
 
         render(guiGraphics);
@@ -150,8 +147,7 @@ public class SkillCooltimeGui {
 
             drawSkillTexture(guiGraphics, texture, xOffset + (22) * i + 3, yOffset + 3);
 
-            if(isManaRunout(client.data.classType, dungeonSkill.getSkillCategory(skillNum))
-                &&!(skillNum==3&&isLV40SkillCooltime())&&!(skillNum==4&&isUltimateCooltime())){
+            if(isManaRunout(client.data.classType, dungeonSkill.getSkillCategory(skillNum))){
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.setShaderTexture(0, MANA_RUNOUT_ICON);
