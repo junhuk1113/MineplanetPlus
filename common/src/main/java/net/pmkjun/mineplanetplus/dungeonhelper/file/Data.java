@@ -13,7 +13,6 @@ public class Data{
     public boolean toggleRuneOFFortuneRender = true;
     public boolean toggleRuneArrowEmpty = false;
 
-    public boolean toggleSkillCooltime = false;
     public SkillCooltimeState skillCooltimeState = SkillCooltimeState.OFF;
     public boolean toggleCustomSkillGUIPos = false;
     public boolean toggleVanillaLevelView = false;

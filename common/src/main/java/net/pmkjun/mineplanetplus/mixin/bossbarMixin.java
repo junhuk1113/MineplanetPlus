@@ -9,6 +9,7 @@ import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DefaultSkillUI;
+import net.pmkjun.mineplanetplus.dungeonhelper.util.SkillCooltimeState;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -131,7 +132,9 @@ public class bossbarMixin {
 
             client.ishereDungeon = dungeonExp;
             boolean currencyDisplayHide = !(serverUtilityClient.data.toggleCurrencyDisplay && !serverUtilityClient.data.toggleCurrencyDisplayCustompos);
-            boolean dungeonhudHide = (client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO && client.data.toggleSkillCooltime || client.data.toggleDefaultSkillUI == DefaultSkillUI.OFF);
+            boolean dungeonhudHide = (client.data.toggleDefaultSkillUI == DefaultSkillUI.AUTO &&
+                    (client.data.skillCooltimeState == SkillCooltimeState.ON || client.data.skillCooltimeState == SkillCooltimeState.AT_DUNGEON)
+                    || client.data.toggleDefaultSkillUI == DefaultSkillUI.OFF);
             if (currencyDisplayHide || (dungeonhudHide && client.ishereDungeon)) {
                 List<Component> modifiedList = new ArrayList<>();
                 boolean skipNext = false;
