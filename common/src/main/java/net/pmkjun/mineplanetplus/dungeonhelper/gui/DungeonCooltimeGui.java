@@ -17,7 +17,7 @@ public class DungeonCooltimeGui {
     private final Minecraft mc;
     private final DungeonHelperClient client;
 
-    public static final int DUNGEON_COUNT = 8;
+    public static final int DUNGEON_COUNT = 9;
     private static final ResourceLocation[] DUNGEON_ICONS = new ResourceLocation[] {
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/one_dungeon_icon.png"),
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/two_dungeon_icon.png"),
@@ -26,6 +26,7 @@ public class DungeonCooltimeGui {
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_one_dungeon_icon.png"),
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_two_dungeon_icon.png"),
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_three_dungeon_icon.png"),
+            ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_four_dungeon_icon.png"),
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_four_dungeon_icon.png")
     };
     private static final String[] DUNGEON_NAMES = {
@@ -36,7 +37,8 @@ public class DungeonCooltimeGui {
             "망자의 묘지",
             "고블린의 요새",
             "마천루 : 네온시티",
-            "헤럴드의 성채"
+            "헤럴드의 성채",
+            "도전의 탑"
     };
 
     private static final ResourceLocation BLACK_ICON = ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/black.png");
@@ -54,7 +56,7 @@ public class DungeonCooltimeGui {
             {
                 if (title != lastTitle) {
                     for (int i = 0; i < DUNGEON_COUNT; i++) {
-                        if (title.getString().contains(DUNGEON_NAMES[i])) {
+                        if (title.getString().contains(DUNGEON_NAMES[i])) { // 레이드 시작 감지 시 시작 시점 기록
                             client.data.lastDungeonTime[i] = timer.getCurrentTime();
                             client.settings.save();
                             break;
@@ -71,19 +73,20 @@ public class DungeonCooltimeGui {
 
         int[] seconds = new int[DUNGEON_COUNT];
         for(int i = 0; i < seconds.length; i++) {
-            seconds[i] = 3600 - (int) timer.getDifference(client.data.lastDungeonTime[i]);
+            seconds[i] = 3600 - (int) timer.getDifference(client.data.lastDungeonTime[i]); //시작 시점과 현재 시간을 비교해 남은 시간 계산
             if(seconds[i] < 0)
                 seconds[i] = 0;
         }
 
         if(client.data.toggleDungeonCooltime)
-            render(guiGraphics, seconds);
+            render(guiGraphics, seconds); //던전 쿨타임 렌더링 명령 실행
     }
 
     private void render(GuiGraphics guiGraphics, int[] seconds) {
         float scale = client.data.dungeonCooltime_uiScale;
         int dungeon_count = DUNGEON_COUNT;
         int id = 0;
+        int[] queued_dungeon_count = new int[DUNGEON_COUNT];
 
         if(client.data.dungeontype == DungeonCategory.NORMAL) dungeon_count = 4;
         else if(client.data.dungeontype == DungeonCategory.CHAOS) {

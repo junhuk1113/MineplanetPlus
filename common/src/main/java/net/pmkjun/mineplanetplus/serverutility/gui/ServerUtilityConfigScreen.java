@@ -47,38 +47,22 @@ public class ServerUtilityConfigScreen extends Screen{
                 .build();
         this.addRenderableWidget(toggleCurrencyDisplayButton);
 
-        Component text2;
-        if (client.data.toggleFeeCalcalator) {
-            text2 = Component.translatable("serverutility.fee_calculator").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text2 = Component.translatable("serverutility.fee_calculator").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleFeeCalculatorButton = Button.builder(text2, button -> {
+        toggleFeeCalculatorButton = Button.builder(Component.empty(), button -> {
             toggleFeeCalculator();
         }).pos(5+getRegularX(),5+getRegularY()+(20+2)*2)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("serverutility.fee_calculator.tooltip")))
                 .build();
+        setToggleFeeCalculatorButtonText();
         this.addRenderableWidget(toggleFeeCalculatorButton);
 
-        Component text3;
-        if (client.data.toggleForceModEnable) {
-            text3 = Component.translatable("serverutility.forcemodenable").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text3 = Component.translatable("serverutility.forcemodenable").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleForceModEnableButton = Button.builder(text3, button -> {
+        toggleForceModEnableButton = Button.builder(Component.empty(), button -> {
                     toggleForceModEnable();
                 }).pos(5+getRegularX(),5+getRegularY()+(20+2)*3)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("serverutility.forcemodenable.tooltip")))
                 .build();
+        setToggleForceModEnableButtonText();
         this.addRenderableWidget(toggleForceModEnableButton);
     }
 
@@ -94,30 +78,35 @@ public class ServerUtilityConfigScreen extends Screen{
         mc.setScreen(new CurrencyHudConfigScreen(mc.screen));
     }
     private void toggleFeeCalculator(){
-        if(client.data.toggleFeeCalcalator){
-            toggleFeeCalculatorButton.setMessage(Component.translatable("serverutility.fee_calculator").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleFeeCalcalator = false;
-        }
-        else{
-            toggleFeeCalculatorButton.setMessage( Component.translatable("serverutility.fee_calculator").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleFeeCalcalator = true;
-        }
+        client.data.toggleFeeCalcalator = !client.data.toggleFeeCalcalator;
+        setToggleFeeCalculatorButtonText();
         client.settings.save();
     }
-    private void toggleForceModEnable(){
-        if(client.data.toggleForceModEnable){
-            toggleForceModEnableButton.setMessage(Component.translatable("serverutility.forcemodenable").append(
+    private void setToggleFeeCalculatorButtonText(){
+        if(client.data.toggleFeeCalcalator){
+            toggleFeeCalculatorButton.setMessage( Component.translatable("serverutility.fee_calculator").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
+        }
+        else{
+            toggleFeeCalculatorButton.setMessage(Component.translatable("serverutility.fee_calculator").append(
                     Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleForceModEnable = false;
+        }
+    }
+
+    private void toggleForceModEnable(){
+        client.data.toggleForceModEnable = !client.data.toggleForceModEnable;
+        setToggleForceModEnableButtonText();
+        client.settings.save();
+    }
+    private void setToggleForceModEnableButtonText(){
+        if(client.data.toggleForceModEnable){
+            toggleForceModEnableButton.setMessage( Component.translatable("serverutility.forcemodenable").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
             toggleForceModEnableButton.setMessage(Component.translatable("serverutility.forcemodenable").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleForceModEnable = true;
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
-        client.settings.save();
     }
 
     int getRegularX() {

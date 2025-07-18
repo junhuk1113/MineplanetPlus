@@ -45,14 +45,6 @@ public class TotemTimerConfigScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        String toggleTotem;
-
-        if(client.data.toggleTotemtime){
-            toggleTotem = "fishhelper.config.enable";
-        }
-        else{
-            toggleTotem = "fishhelper.config.disable";
-        }
 
         activateTimeSlider = new Slider(getRegularX() + 5, getRegularY() + 5, 137, 20,Component.literal("") , Component.literal(""),0,25,ConvertActivateTime.asLevel(this.client.data.valueTotemActivetime), true){
             @Override
@@ -85,9 +77,10 @@ public class TotemTimerConfigScreen extends Screen {
         this.CooldownReduction_TextField.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.cooldownreductionfield.tooltip")));
         this.addRenderableWidget(this.CooldownReduction_TextField);
 
-        toggleTotemButton = Button.builder(Component.translatable(toggleTotem),button -> {
+        toggleTotemButton = Button.builder(Component.empty(),button -> {
             toggleTotemtime();
         }).pos(getRegularX() + 5,5+getRegularY()+(20 + 2)*2+(10+4)).size(137,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.totemtimer.tooltip"))).build();
+        setToggleTotemButtonText();
         this.addRenderableWidget(toggleTotemButton);
 
         timerXSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*4+(10+2),137,20,Component.literal("X : "), Component.literal(""),1,1000,this.client.data.Timer_xpos, true){
@@ -158,14 +151,21 @@ public class TotemTimerConfigScreen extends Screen {
 
     private void toggleTotemtime(){
         if(client.data.toggleTotemtime){
-            toggleTotemButton.setMessage(Component.translatable("fishhelper.config.disable"));
             client.data.toggleTotemtime = false;
         }
         else{
-            toggleTotemButton.setMessage(Component.translatable("fishhelper.config.enable"));
             client.data.toggleTotemtime = true;
         }
+        setToggleTotemButtonText();
         client.configManage.save();
+    }
+    private void setToggleTotemButtonText(){
+        if(client.data.toggleTotemtime){
+            toggleTotemButton.setMessage(Component.translatable("fishhelper.config.enable"));
+        }
+        else{
+            toggleTotemButton.setMessage(Component.translatable("fishhelper.config.disable"));
+        }
     }
 
     int getRegularX() {

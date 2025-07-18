@@ -37,38 +37,22 @@ public class CurrencyHudConfigScreen extends Screen{
 
     @Override
     protected void init(){
-        Component text;
-        if(client.data.toggleCurrencyDisplay){
-            text = Component.translatable("serverutility.currency_display.main").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text =  Component.translatable("serverutility.currency_display.main").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleCurrencyDisplayButton = Button.builder(text, button -> {
+        toggleCurrencyDisplayButton = Button.builder(Component.empty(), button -> {
                     toggleCurrencyDisplay();
                 }).pos(5+getRegularX(),5+getRegularY()+(20+2)*0)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("serverutility.currency_display.main.tooltip")))
                 .build();
+        setToggleCurrencyDisplayButtonText();
         this.addRenderableWidget(toggleCurrencyDisplayButton);
 
-        Component text2;
-        if(client.data.toggleCurrencyDisplayCustompos){
-            text2 = Component.translatable("serverutility.currency_display.customguipos").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text2 =  Component.translatable("serverutility.currency_display.customguipos").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleCurrencyDisplayCustomposButton = Button.builder(text2, button -> {
+        toggleCurrencyDisplayCustomposButton = Button.builder(Component.empty(), button -> {
                     toggleCurrencyDisplayCustompos();
                 }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("serverutility.currency_display.customguipos.tooltip")))
                 .build();
+        setToggleCurrencyDisplayCustomposButtonText();
         this.addRenderableWidget(toggleCurrencyDisplayCustomposButton);
 
         Button exitButton = Button.builder(Component.translatable("planetskilltimer.config.exit"), button -> {
@@ -98,31 +82,35 @@ public class CurrencyHudConfigScreen extends Screen{
     }
 
     private void toggleCurrencyDisplay(){
+        client.data.toggleCurrencyDisplay = !client.data.toggleCurrencyDisplay;
+        setToggleCurrencyDisplayButtonText();
+        client.settings.save();
+    }
+    private void setToggleCurrencyDisplayButtonText(){
         if(client.data.toggleCurrencyDisplay){
-            toggleCurrencyDisplayButton.setMessage(Component.translatable("serverutility.currency_display.main").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleCurrencyDisplay = false;
-        }
-        else{
             toggleCurrencyDisplayButton.setMessage( Component.translatable("serverutility.currency_display.main").append(
                     Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleCurrencyDisplay = true;
         }
-        client.settings.save();
+        else{
+            toggleCurrencyDisplayButton.setMessage(Component.translatable("serverutility.currency_display.main").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+        }
     }
 
     private void toggleCurrencyDisplayCustompos(){
+        client.data.toggleCurrencyDisplayCustompos = !client.data.toggleCurrencyDisplayCustompos;
+        setToggleCurrencyDisplayCustomposButtonText();
+        client.settings.save();
+    }
+    private void setToggleCurrencyDisplayCustomposButtonText(){
         if(client.data.toggleCurrencyDisplayCustompos){
             toggleCurrencyDisplayCustomposButton.setMessage(Component.translatable("serverutility.currency_display.customguipos").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleCurrencyDisplayCustompos = false;
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
-            toggleCurrencyDisplayCustomposButton.setMessage( Component.translatable("serverutility.currency_display.customguipos").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleCurrencyDisplayCustompos = true;
+            toggleCurrencyDisplayCustomposButton.setMessage(Component.translatable("serverutility.currency_display.customguipos").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
-        client.settings.save();
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {

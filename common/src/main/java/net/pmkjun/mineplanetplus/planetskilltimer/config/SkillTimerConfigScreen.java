@@ -22,7 +22,6 @@ public class SkillTimerConfigScreen extends Screen{
     private Button toggleSkillTimerButton;
     private Button toggleAlertSoundButton;
     private Button[] toggleSkillsButton = new Button[4];
-    private Button toggleTpsCorrectionButton;
     String[] SkillList = {"farming","felling","mining","digging"};
     private Slider XPosSlider;
     private Slider YPosSlider;
@@ -35,56 +34,32 @@ public class SkillTimerConfigScreen extends Screen{
         this.client = PlanetSkillTimerClient.getInstance();
 
         this.width = 147;
-        this.height = 8 + (20 + 2) * 9;
+        this.height = 8 + (20 + 2) * 8;
     }
     @Override
     protected void init() {
-        Component text;
-        if(client.data.toggleSkilltimer){
-            text = Component.translatable("planetskilltimer.config.skilltimer").append(
-                    Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text = Component.translatable("planetskilltimer.config.skilltimer").append(
-                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleSkillTimerButton = Button.builder(text,button -> {
+        toggleSkillTimerButton = Button.builder(Component.empty(),button -> {
             toggleSkilltimer();
         }).pos(5+getRegularX(), 5+getRegularY())
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.skilltimer.tooltip")))
                 .build();
+        setSkillTimerButtonText();
         this.addRenderableWidget(toggleSkillTimerButton);
 
-        Component text2;
-        if(client.data.toggleAlertSound){
-            text2 = Component.translatable("planetskilltimer.config.sound").append(
-                    Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text2 = Component.translatable("planetskilltimer.config.sound").append(
-                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleAlertSoundButton = Button.builder(text2,button -> {
+        toggleAlertSoundButton = Button.builder(Component.empty(),button -> {
             toggleAlertSound();
         }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.sound.tooltip")))
                 .build();
+        setToggleAlertSoundButtonText();
         this.addRenderableWidget(toggleAlertSoundButton);
 
         for(int i = 0; i < 4 ; i++){
-            if(client.data.toggleSkills[i]){
-                text = Component.translatable("planetskilltimer.config."+SkillList[i]).append(
-                        Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-            }
-            else{
-                text = Component.translatable("planetskilltimer.config."+SkillList[i]).append(
-                        Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-            }
             switch (i){
                 case 0:
-                    toggleSkillsButton[i] = Button.builder(text,button -> {
+                    toggleSkillsButton[i] = Button.builder(Component.empty(),button -> {
                         toggleSkills(0);
                     }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
                             .size(137,20)
@@ -92,7 +67,7 @@ public class SkillTimerConfigScreen extends Screen{
                             .build();
                     break;
                 case 1:
-                    toggleSkillsButton[i] = Button.builder(text,button -> {
+                    toggleSkillsButton[i] = Button.builder(Component.empty(),button -> {
                         toggleSkills(1);
                     }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
                             .size(137,20)
@@ -100,7 +75,7 @@ public class SkillTimerConfigScreen extends Screen{
                             .build();
                     break;
                 case 2:
-                    toggleSkillsButton[i] = Button.builder(text,button -> {
+                    toggleSkillsButton[i] = Button.builder(Component.empty(),button -> {
                         toggleSkills(2);
                     }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
                             .size(137,20)
@@ -108,7 +83,7 @@ public class SkillTimerConfigScreen extends Screen{
                             .build();
                     break;
                 case 3:
-                    toggleSkillsButton[i] = Button.builder(text,button -> {
+                    toggleSkillsButton[i] = Button.builder(Component.empty(),button -> {
                         toggleSkills(3);
                     }).pos(5+getRegularX(),5+getRegularY()+(20+2)*(i+2))
                             .size(137,20)
@@ -117,7 +92,7 @@ public class SkillTimerConfigScreen extends Screen{
                     break;
 
             }
-
+            setSkillsButtonText(i);
             this.addRenderableWidget(toggleSkillsButton[i]);
         }
 
@@ -144,15 +119,6 @@ public class SkillTimerConfigScreen extends Screen{
         };
         YPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
         this.addRenderableWidget(YPosSlider);
-        toggleTpsCorrectionButton = Button.builder(Component.translatable("planetskilltimer.config.tpscorrection"), button -> {
-            toggleTpsCorrection();
-            setTpsCorrectionButtonText();
-        }).pos(5+getRegularX(), 5+getRegularY()+(20+2)*8)
-                .size(137, 20)
-                .tooltip(Tooltip.create(Component.translatable("planetskilltimer.config.tpscorrection.tooltip")))
-                .build();
-        setTpsCorrectionButtonText();
-        this.addRenderableWidget(toggleTpsCorrectionButton);
     }
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         //this.renderBackground(guiGraphics);
@@ -163,61 +129,66 @@ public class SkillTimerConfigScreen extends Screen{
 
     private void toggleSkilltimer(){
         if(client.data.toggleSkilltimer){
-            toggleSkillTimerButton.setMessage(Component.translatable("planetskilltimer.config.skilltimer").append(
-                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
             client.data.toggleSkilltimer = false;
-            client.configManage.save();
+        }
+        else{
+            client.data.toggleSkilltimer = true ;
+        }
+        setSkillTimerButtonText();
+        this.client.configManage.save();
+    }
+    private void setSkillTimerButtonText(){
+        if(client.data.toggleSkilltimer){
+            toggleSkillTimerButton.setMessage(Component.translatable("planetskilltimer.config.skilltimer").append(
+                    Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
             toggleSkillTimerButton.setMessage(Component.translatable("planetskilltimer.config.skilltimer").append(
-                    Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleSkilltimer = true ;
-            client.configManage.save();
+                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
     }
 
     private void toggleAlertSound(){
         if(client.data.toggleAlertSound){
-            toggleAlertSoundButton.setMessage(Component.translatable("planetskilltimer.config.sound").append(
-                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
             client.data.toggleAlertSound = false;
-            client.configManage.save();
+        }
+        else{
+            client.data.toggleAlertSound = true ;
+        }
+        setToggleAlertSoundButtonText();
+        client.configManage.save();
+    }
+    private void setToggleAlertSoundButtonText(){
+        if(client.data.toggleAlertSound){
+            toggleAlertSoundButton.setMessage(Component.translatable("planetskilltimer.config.sound").append(
+                    Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
             toggleAlertSoundButton.setMessage(Component.translatable("planetskilltimer.config.sound").append(
-                    Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleAlertSound = true ;
-            client.configManage.save();
+                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
     }
 
     private void toggleSkills(int skilltype){
         if(client.data.toggleSkills[skilltype]){
-            toggleSkillsButton[skilltype].setMessage(Component.translatable("planetskilltimer.config."+SkillList[skilltype]).append(
-                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
             client.data.toggleSkills[skilltype] = false;
-            client.configManage.save();
         }
         else{
+            client.data.toggleSkills[skilltype] = true ;
+        }
+        setSkillsButtonText(skilltype);
+        client.configManage.save();
+    }
+    private void setSkillsButtonText(int skilltype){
+        if(client.data.toggleSkills[skilltype]){
             toggleSkillsButton[skilltype].setMessage(Component.translatable("planetskilltimer.config."+SkillList[skilltype]).append(
                     Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleSkills[skilltype] = true ;
-            client.configManage.save();
-        }
-    }
-
-    private void toggleTpsCorrection(){
-        client.data.toggleTpsCorrection = !client.data.toggleTpsCorrection;
-    }
-    private void setTpsCorrectionButtonText(){
-        if(client.data.toggleTpsCorrection){
-            toggleTpsCorrectionButton.setMessage(Component.translatable("planetskilltimer.config.tpscorrection").append(
-                Component.translatable("planetskilltimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
-            toggleTpsCorrectionButton.setMessage(Component.translatable("planetskilltimer.config.tpscorrection").append(
-                Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+            toggleSkillsButton[skilltype].setMessage(Component.translatable("planetskilltimer.config."+SkillList[skilltype]).append(
+                    Component.translatable("planetskilltimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
+
     }
 
     int getRegularX() {

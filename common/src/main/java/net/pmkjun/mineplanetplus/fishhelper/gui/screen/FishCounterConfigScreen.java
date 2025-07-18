@@ -26,8 +26,6 @@ public class FishCounterConfigScreen extends Screen{
     private final int width;
     private final int height;
 
-    String toggleFishCounter, toggleCounterMode, toggleEarningCalculator, resetCounter;
-
     public FishCounterConfigScreen(Screen parentScreen) {
         super(Component.translatable("fishhelper.config.title"));
         this.parentScreen = parentScreen;
@@ -41,30 +39,32 @@ public class FishCounterConfigScreen extends Screen{
     @Override
     protected void init() {
         super.init();
-        initButtonkey();
 
-        toggleFishCounterButton = Button.builder(Component.translatable(toggleFishCounter),button -> {
+        toggleFishCounterButton = Button.builder(Component.empty(),button -> {
             toggleFishCounter();
         }).pos(getRegularX() + 5, 5+getRegularY())
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.tooltip")))
                 .build();
+        setToggleFishCounterButtonText();
         this.addRenderableWidget(toggleFishCounterButton);
 
-        toggleCounterModeButton = Button.builder(Component.translatable(toggleCounterMode),button -> {
+        toggleCounterModeButton = Button.builder(Component.empty(),button -> {
             toggleCounterMode();
         }).pos(getRegularX() + 5, 5+getRegularY()+(20+2))
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.mode.tooltip")))
                 .build();
+        setToggleCounterModeButtonText();
         this.addRenderableWidget(toggleCounterModeButton);
 
-        toggleEarningCalculatorButton = Button.builder(Component.translatable(toggleEarningCalculator), button ->{
+        toggleEarningCalculatorButton = Button.builder(Component.empty(), button ->{
             toggleEarningCalculator();
         }).pos(getRegularX()+5,5+getRegularY()+(20+2)*2)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.toggleEarningCalculator.tooltip")))
                 .build();
+        setToggleEarningCalculatorButtonText();
         this.addRenderableWidget(toggleEarningCalculatorButton);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.fishcounter_reset"), button ->{
@@ -109,67 +109,64 @@ public class FishCounterConfigScreen extends Screen{
     //버튼 눌렀을 때 동작
     private void toggleFishCounter(){
         if(client.data.toggleFishCounter){
-            toggleFishCounterButton.setMessage(Component.translatable("fishhelper.config.fishcounter_disable"));
             client.data.toggleFishCounter = false;
         }
         else{
-            toggleFishCounterButton.setMessage(Component.translatable("fishhelper.config.fishcounter_enable"));
             client.data.toggleFishCounter = true;
         }
+        setToggleFishCounterButtonText();
         client.configManage.save();
+    }
+    private void setToggleFishCounterButtonText(){
+        if(client.data.toggleFishCounter){
+            toggleFishCounterButton.setMessage(Component.translatable("fishhelper.config.fishcounter_enable"));
+        }
+        else{
+            toggleFishCounterButton.setMessage(Component.translatable("fishhelper.config.fishcounter_disable"));
+        }
     }
     
     private void toggleCounterMode(){
         if(client.data.toggleCounterMode == FishCounterMode.PERCENTAGE){
-            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.count"));
             client.data.toggleCounterMode = FishCounterMode.COUNT;
         }
         else if(client.data.toggleCounterMode == FishCounterMode.COUNT){
-            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.all"));
             client.data.toggleCounterMode = FishCounterMode.ALL;
         }
         else if(client.data.toggleCounterMode == FishCounterMode.ALL){
-            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.percentage"));
             client.data.toggleCounterMode = FishCounterMode.PERCENTAGE;
         }
+        setToggleCounterModeButtonText();
         client.configManage.save();
+    }
+    private void setToggleCounterModeButtonText(){
+        if(client.data.toggleCounterMode == FishCounterMode.COUNT){
+            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.count"));
+        }
+        else if(client.data.toggleCounterMode == FishCounterMode.ALL){
+            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.all"));
+        }
+        else if(client.data.toggleCounterMode == FishCounterMode.PERCENTAGE){
+            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.percentage"));
+        }
     }
 
     private void toggleEarningCalculator(){
         if(client.data.toggleEarningCalculator){
-            toggleEarningCalculatorButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.toggleEarningCalculator_disable"));
             client.data.toggleEarningCalculator = false;
         }
         else{
-            toggleEarningCalculatorButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.toggleEarningCalculator_enable"));
             client.data.toggleEarningCalculator = true;
         }
+        setToggleEarningCalculatorButtonText();
         client.configManage.save();
     }
-
-    void initButtonkey(){
-        if(client.data.toggleFishCounter){
-            toggleFishCounter = "fishhelper.config.fishcounter_enable";
-        }
-        else {
-            toggleFishCounter = "fishhelper.config.fishcounter_disable";
-        }
-
-        if(client.data.toggleCounterMode == FishCounterMode.PERCENTAGE){
-            toggleCounterMode = "fishhelper.config.fishcounter_setting.mode.percentage";
-        }
-        else if(client.data.toggleCounterMode == FishCounterMode.COUNT){
-            toggleCounterMode = "fishhelper.config.fishcounter_setting.mode.count";
-        }
-        else{
-            toggleCounterMode = "fishhelper.config.fishcounter_setting.mode.all";
-        }
-
+    private void setToggleEarningCalculatorButtonText(){
         if(client.data.toggleEarningCalculator){
-            toggleEarningCalculator = "fishhelper.config.fishcounter_setting.toggleEarningCalculator_enable";
+            toggleEarningCalculatorButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.toggleEarningCalculator_enable"));
         }
         else{
-            toggleEarningCalculator = "fishhelper.config.fishcounter_setting.toggleEarningCalculator_disable";
+            toggleEarningCalculatorButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.toggleEarningCalculator_disable"));
         }
     }
 

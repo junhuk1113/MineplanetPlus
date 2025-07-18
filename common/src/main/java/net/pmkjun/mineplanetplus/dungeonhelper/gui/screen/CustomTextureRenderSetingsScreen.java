@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.config.ConfigManage;
 import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 
 public class CustomTextureRenderSetingsScreen extends Screen {
@@ -39,59 +40,27 @@ public class CustomTextureRenderSetingsScreen extends Screen {
     protected void init() {
         super.init();
 
-        Component toggleCustomEnchantRenderButtonComponent;
-        if (client.data.toggleCustomEnchantRender)
-            toggleCustomEnchantRenderButtonComponent = 
-                     Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main").append(
-                     Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))
-            );
-        else
-            toggleCustomEnchantRenderButtonComponent = 
-                     Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main").append(
-                     Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
-            );
-
-        toggleCustomEnchantRenderButton = this.addRenderableWidget(new Button.Builder(toggleCustomEnchantRenderButtonComponent, btn -> onToggleCustomEnchantRenderPress())
+        toggleCustomEnchantRenderButton = this.addRenderableWidget(new Button.Builder(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main"), btn -> onToggleCustomEnchantRenderPress())
                 .pos(getRegularX() + 5, getRegularY() + 5)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main.tooltip")))
                 .build());
+        setToggleCustomEnchantRenderButtonText();
 
-        Component toggleRuneOfFortuneRenderButtonComponent;
-        if (client.data.toggleRuneOFFortuneRender)
-            toggleRuneOfFortuneRenderButtonComponent =
-                    Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runeoffortune").append(
-                            Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))
-                    );
-        else
-            toggleRuneOfFortuneRenderButtonComponent =
-                    Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runeoffortune").append(
-                            Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
-                    );
-
-        toggleRuneOfFortuneRenderButton = this.addRenderableWidget(new Button.Builder(toggleRuneOfFortuneRenderButtonComponent, btn -> onToggleRuneOfFortuneRenderPress())
+        toggleRuneOfFortuneRenderButton = this.addRenderableWidget(new Button.Builder(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runeoffortune"), btn -> onToggleRuneOfFortuneRenderPress())
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2))
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runeoffortune.tooltip")))
                 .build());
+        setToggleRuneOfFortuneRenderButtonText();
 
-        Component toggleRuneArrowEmptyButtonComponent;
-        if (!client.data.toggleRuneArrowEmpty)
-            toggleRuneArrowEmptyButtonComponent =
-                    Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow").append(
-                            Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow.fill").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))
-                    );
-        else
-            toggleRuneArrowEmptyButtonComponent =
-                    Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow").append(
-                            Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow.empty").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
-                    );
 
-        toggleRuneArrowEmptyButton = this.addRenderableWidget(new Button.Builder(toggleRuneArrowEmptyButtonComponent, btn -> onToggleRuneArrowEmptyPress())
+        toggleRuneArrowEmptyButton = this.addRenderableWidget(new Button.Builder(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow"), btn -> onToggleRuneArrowEmptyPress())
                 .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*2)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow.tooltip")))
                 .build());
+        setToggleRuneArrowEmptyButtonText();
 
     }
 
@@ -115,26 +84,30 @@ public class CustomTextureRenderSetingsScreen extends Screen {
 
     private void onToggleCustomEnchantRenderPress() {
         client.data.toggleCustomEnchantRender = !client.data.toggleCustomEnchantRender;
-
+        setToggleCustomEnchantRenderButtonText();
+        client.settings.save();
+    }
+    private void setToggleCustomEnchantRenderButtonText(){
         if(client.data.toggleCustomEnchantRender) {
             toggleCustomEnchantRenderButton.setMessage(
-                     Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main").append(
-                     Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))
-            ));
+                    Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main").append(
+                            Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))
+                    ));
         }
         else {
             toggleCustomEnchantRenderButton.setMessage(
-                     Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main").append(
-                     Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
-            ));
+                    Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.main").append(
+                            Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
+                    ));
         }
-
-        client.settings.save();
     }
 
     private void onToggleRuneOfFortuneRenderPress() {
         client.data.toggleRuneOFFortuneRender = !client.data.toggleRuneOFFortuneRender;
-
+        setToggleRuneOfFortuneRenderButtonText();
+        client.settings.save();
+    }
+    private void setToggleRuneOfFortuneRenderButtonText(){
         if(client.data.toggleRuneOFFortuneRender) {
             toggleRuneOfFortuneRenderButton.setMessage(
                     Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runeoffortune").append(
@@ -147,13 +120,15 @@ public class CustomTextureRenderSetingsScreen extends Screen {
                             Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
                     ));
         }
-
-        client.settings.save();
     }
 
     private void onToggleRuneArrowEmptyPress() {
         client.data.toggleRuneArrowEmpty = !client.data.toggleRuneArrowEmpty;
+        setToggleRuneArrowEmptyButtonText();
 
+        client.settings.save();
+    }
+    private void setToggleRuneArrowEmptyButtonText(){
         if(!client.data.toggleRuneArrowEmpty) {
             toggleRuneArrowEmptyButton.setMessage(
                     Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow").append(
@@ -166,8 +141,6 @@ public class CustomTextureRenderSetingsScreen extends Screen {
                             Component.translatable("gui.dungeonhelper.custom_enchant_render_settings.runearrow.empty").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))
                     ));
         }
-
-        client.settings.save();
     }
 
     @Override

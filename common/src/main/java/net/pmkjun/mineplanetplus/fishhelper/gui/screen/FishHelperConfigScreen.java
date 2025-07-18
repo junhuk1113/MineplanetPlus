@@ -32,15 +32,6 @@ public class FishHelperConfigScreen extends Screen{
 
     protected void init(){
         super.init();
-        String toggleTexture;
-
-        if(client.data.toggleCustomTexture){
-            toggleTexture = "fishhelper.config.customtexture_enable";
-        }
-        else{
-            toggleTexture = "fishhelper.config.customtexture_disable";
-        }
-
 
         // translatable 키로 변경 필요
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.totemtimer_setting"), btn -> {
@@ -51,28 +42,22 @@ public class FishHelperConfigScreen extends Screen{
             mc.setScreen(new FishCounterConfigScreen(mc.screen));
         }).pos(getRegularX() + 5, getRegularY() + 5 + 20 + 2).size(137, 20).build());
 
-        toggleCustomTextureButton = Button.builder(Component.translatable(toggleTexture), btn -> {
+        toggleCustomTextureButton = Button.builder(Component.translatable("fishhelper.config.customtexture_enable"), btn -> {
             onCustomTexturePress();
         }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.customtexture.tooltip")))
                 .build();
+        setCustomTextureButtonText();
         addRenderableWidget(toggleCustomTextureButton);
 
-        Component deliveryHelperComponent;
-        if(this.client.data.toggleDeliveryHelper){
-            deliveryHelperComponent = Component.translatable("fishhelper.config.deliveryhelper_enable");
-        }
-        else{
-            deliveryHelperComponent = Component.translatable("fishhelper.config.deliveryhelper_disable");
-        }
-
-        toggleDeliveryHelperButton = Button.builder(deliveryHelperComponent, btn -> {
+        toggleDeliveryHelperButton = Button.builder(Component.translatable("fishhelper.config.deliveryhelper_enable"), btn -> {
             onDeliveryHelperPress();
         }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.deliveryhelper.tooltip")))
                 .build();
+        setDeliveryHelperButtonText();
         addRenderableWidget(toggleDeliveryHelperButton);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
@@ -95,26 +80,41 @@ public class FishHelperConfigScreen extends Screen{
 
     private void onCustomTexturePress(){
         if(client.data.toggleCustomTexture){
-            toggleCustomTextureButton.setMessage(Component.translatable("fishhelper.config.customtexture_disable"));
             client.data.toggleCustomTexture = false;
         }
         else{
-            toggleCustomTextureButton.setMessage(Component.translatable("fishhelper.config.customtexture_enable"));
             client.data.toggleCustomTexture = true;
         }
+        setCustomTextureButtonText();
         client.configManage.save();
     }
+    private void setCustomTextureButtonText(){
+        if(client.data.toggleCustomTexture){
+            toggleCustomTextureButton.setMessage(Component.translatable("fishhelper.config.customtexture_enable"));
+        }
+        else{
+            toggleCustomTextureButton.setMessage(Component.translatable("fishhelper.config.customtexture_disable"));
+        }
+    }
+
     private void onDeliveryHelperPress(){
         if(client.data.toggleDeliveryHelper){
-            toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_disable"));
             client.data.toggleDeliveryHelper = false;
             client.deliveryQuests.resetQuestData();
         }
         else{
-            toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_enable"));
             client.data.toggleDeliveryHelper = true;
         }
+        setDeliveryHelperButtonText();
         client.configManage.save();
+    }
+    private void setDeliveryHelperButtonText(){
+        if(client.data.toggleDeliveryHelper){
+            toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_enable"));
+        }
+        else{
+            toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_disable"));
+        }
     }
 
     @Override

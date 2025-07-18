@@ -38,38 +38,22 @@ public class MegaphoneTimerConfigScreen extends Screen{
 
     @Override
     protected void init(){
-        Component text;
-        if(client.data.toggleMegaphonetimer){
-            text = Component.translatable("megaphonetimer.config.megaphonetimer").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text = Component.translatable("megaphonetimer.config.megaphonetimer").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleMegaphonetimerButton = Button.builder(text,button -> {
+        toggleMegaphonetimerButton = Button.builder(Component.empty(),button -> {
             toggleMegaphonetimer();
         }).pos(5+getRegularX(), 5+getRegularY())
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.megaphonetimer.tooltip")))
                 .build();
+        setToggleMegaphonetimerButtonText();
         this.addRenderableWidget(toggleMegaphonetimerButton);
 
-        Component text2;
-        if(client.data.toggleAlertSound){
-            text2 = Component.translatable("megaphonetimer.config.sound").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true)));
-        }
-        else{
-            text2 = Component.translatable("megaphonetimer.config.sound").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true)));
-        }
-        toggleAlertSoundButton = Button.builder(text2,button -> {
+        toggleAlertSoundButton = Button.builder(Component.empty(),button -> {
             toggleAlertSound();
         }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.sound.tooltip")))
                 .build();
+        setToggleAlertSoundButtonText();
         this.addRenderableWidget(toggleAlertSoundButton);
 
         Button exitButton = Button.builder(Component.translatable("planetskilltimer.config.exit"), button -> {
@@ -112,32 +96,34 @@ public class MegaphoneTimerConfigScreen extends Screen{
     }
 
     private void toggleMegaphonetimer(){
+        client.data.toggleMegaphonetimer = !client.data.toggleMegaphonetimer;
+        setToggleMegaphonetimerButtonText();
+        client.settings.save();
+    }
+    private void setToggleMegaphonetimerButtonText(){
         if(client.data.toggleMegaphonetimer){
             toggleMegaphonetimerButton.setMessage(Component.translatable("megaphonetimer.config.megaphonetimer").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleMegaphonetimer = false;
-            client.settings.save();
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
             toggleMegaphonetimerButton.setMessage(Component.translatable("megaphonetimer.config.megaphonetimer").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleMegaphonetimer = true ;
-            client.settings.save();
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
     }
 
     private void toggleAlertSound(){
+        client.data.toggleAlertSound = !client.data.toggleAlertSound;
+        setToggleAlertSoundButtonText();
+        client.settings.save();
+    }
+    private void setToggleAlertSoundButtonText(){
         if(client.data.toggleAlertSound){
             toggleAlertSoundButton.setMessage(Component.translatable("megaphonetimer.config.sound").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-            client.data.toggleAlertSound = false;
-            client.settings.save();
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
             toggleAlertSoundButton.setMessage(Component.translatable("megaphonetimer.config.sound").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-            client.data.toggleAlertSound = true ;
-            client.settings.save();
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
     }
 
