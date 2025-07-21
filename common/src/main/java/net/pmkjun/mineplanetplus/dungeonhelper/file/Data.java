@@ -8,6 +8,9 @@ public class Data{
     public boolean toggleDungeonCooltime = true;
     public boolean toggleDungeonCooltimeText = true;
     public boolean toggleDungeonCooltimeFade = true;
+    public boolean toggleNormalDungeon = true;
+    public boolean toggleChaosDungeon = true;
+    public boolean toggleChallengeTower = true;
 
     public boolean toggleCustomEnchantRender = true;
     public boolean toggleRuneOFFortuneRender = true;

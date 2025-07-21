@@ -60,7 +60,6 @@ public class DungeonCooltimeSettingsScreen extends Screen {
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype.tooltip")))
                 .build());
-        setDungeonTypeButtonText();
 
         // Text
         toggleDungeonCooltimeOptionButtons[0] = this.addRenderableWidget(new Button.Builder(Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.text"), btn -> onToggleDungeonCooltimeOptionPress(0))
@@ -190,38 +189,7 @@ public class DungeonCooltimeSettingsScreen extends Screen {
     }
 
     private void onDungeonTypeButtonPress(){
-        if(this.client.data.dungeontype == DungeonCategory.ALL){
-            this.client.data.dungeontype = DungeonCategory.NORMAL;
-        }
-        else if(this.client.data.dungeontype == DungeonCategory.NORMAL){
-            this.client.data.dungeontype = DungeonCategory.CHAOS;
-        }
-        else if(this.client.data.dungeontype == DungeonCategory.CHAOS){
-            this.client.data.dungeontype = DungeonCategory.ALL;
-        }
-        setDungeonTypeButtonText();
-        client.settings.save();
-    }
-
-    private void setDungeonTypeButtonText(){
-        if(this.client.data.dungeontype == DungeonCategory.NORMAL){
-            this.DungeonTypeButton.setMessage(
-                    Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype").append(
-                            Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype.normal").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GOLD).withBold(true))
-                    ));
-        }
-        else if(this.client.data.dungeontype == DungeonCategory.CHAOS){
-            this.DungeonTypeButton.setMessage(
-                    Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype").append(
-                            Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype.chaos").withStyle(Style.EMPTY.applyFormat(ChatFormatting.LIGHT_PURPLE).withBold(true))
-                    ));
-        }
-        else if(this.client.data.dungeontype == DungeonCategory.ALL){
-            this.DungeonTypeButton.setMessage(
-                    Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype").append(
-                            Component.translatable("gui.dungeonhelper.dungeon_cooltime_settings.dungeontype.all").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))
-                    ));
-        }
+        this.mc.setScreen(new DungeonTypeSettingScreen(this));
     }
 
     private void onToggleDungeonCooltimeOptionPress(int id) {

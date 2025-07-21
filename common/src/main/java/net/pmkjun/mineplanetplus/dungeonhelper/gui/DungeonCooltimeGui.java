@@ -27,7 +27,7 @@ public class DungeonCooltimeGui {
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_two_dungeon_icon.png"),
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_three_dungeon_icon.png"),
             ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_four_dungeon_icon.png"),
-            ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/n_four_dungeon_icon.png")
+            ResourceLocation.fromNamespaceAndPath("dungeonhelper", "textures/icon/dungeon/challengetower_icon.png")
     };
     private static final String[] DUNGEON_NAMES = {
             "그루트의 골짜기",
@@ -84,15 +84,16 @@ public class DungeonCooltimeGui {
 
     private void render(GuiGraphics guiGraphics, int[] seconds) {
         float scale = client.data.dungeonCooltime_uiScale;
-        int dungeon_count = DUNGEON_COUNT;
+        int dungeon_count = 8;
         int id = 0;
-        int[] queued_dungeon_count = new int[DUNGEON_COUNT];
 
-        if(client.data.dungeontype == DungeonCategory.NORMAL) dungeon_count = 4;
-        else if(client.data.dungeontype == DungeonCategory.CHAOS) {
+        if(client.data.toggleNormalDungeon && !client.data.toggleChaosDungeon) dungeon_count = 4;
+        else if(client.data.toggleChaosDungeon && !client.data.toggleNormalDungeon){
             id = 4;
             dungeon_count = 4;
         }
+        if(!client.data.toggleNormalDungeon && !client.data.toggleChaosDungeon) dungeon_count = 0;
+        if(client.data.toggleChallengeTower) dungeon_count += 1;
 
         // scale에 따른 텍스트 공간 계산 (27/16 비율 적용)
         float textOffset = 1.458333f * scale + 3.66667f;
@@ -107,10 +108,14 @@ public class DungeonCooltimeGui {
                 x = 2 + (mc.getWindow().getGuiScaledWidth() - (int)((scale + 2) * dungeon_count - 2)) * client.data.DungeonCooltimeXpos / 1000;
                 y = 2 + (mc.getWindow().getGuiScaledHeight() - (int)(2 + textOffset)) * client.data.DungeonCooltimeYpos / 1000;
             }
-
-            renderDungeonsAndCooltime(i, id, guiGraphics, x, y, seconds[id]);
+            if(i == dungeon_count - 1 && client.data.toggleChallengeTower)
+                renderDungeonsAndCooltime(i, 8, guiGraphics, x, y, seconds[8]);
+            else
+                renderDungeonsAndCooltime(i, id, guiGraphics, x, y, seconds[id]);
             id++;
         }
+
+
     }
 
     private void renderDungeonsAndCooltime(int i, int id, GuiGraphics guiGraphics, int x, int y, int second) {
