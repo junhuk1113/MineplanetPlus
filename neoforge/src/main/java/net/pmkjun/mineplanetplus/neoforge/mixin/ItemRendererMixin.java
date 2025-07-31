@@ -146,6 +146,7 @@ public class ItemRendererMixin {
                     try {
                         float customModelData = stack.get(DataComponents.CUSTOM_MODEL_DATA).getFloat(0);
                         if (customModelData == 2513.0f) return; //칭호 렌더링 하지 않음
+                        if (customModelData >= 2370 && customModelData <= 2375) return; //만료된 커인 북 렌더링 하지 않음
                     } catch (NullPointerException e) {
                         //System.out.println("커인 북 : null pointer exception");
                     }
