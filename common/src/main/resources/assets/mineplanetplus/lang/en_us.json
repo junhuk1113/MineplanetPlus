@@ -12,7 +12,8 @@
   "gui.dungeonhelper.settings.dungeon_cooltime_settings": "던전 쿨타임 설정",
   "gui.dungeonhelper.settings.custom_texture_render_settings": "커스텀 텍스쳐 표시 설정",
   "gui.dungeonhelper.settings.skill_cooltime_settings": "스킬 쿨타임 설정",
-  "gui.dungeonhelper.settings.vanilla_level_view": "바닐라 레벨 표시 : ",
+  "gui.dungeonhelper.settings.defaultWeaponSound": "바닐라 공격 소리 : ",
+  "gui.dungeonhelper.settings.defaultWeaponSound.tooltip" : "던전 무기를 든 상태에서 바닐라 공격 소리를 활성화/비활성화합니다. (경고 : '끄기' 설정 시 강한 공격, 치명타 등등의 소리를 구별할 수 없습니다.)",
 
   "gui.dungeonhelper.settings.on": "켜기",
   "gui.dungeonhelper.settings.off": "끄기",

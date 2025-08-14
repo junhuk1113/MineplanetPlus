@@ -21,6 +21,7 @@ public class Data{
     public boolean toggleVanillaLevelView = false;
     public boolean toggleAutoClassDetect = true;
     public DefaultSkillUI toggleDefaultSkillUI = DefaultSkillUI.AUTO;
+    public boolean toggleDefaultWeaponSound = true;
 
     public ClassCategory classType = ClassCategory.ASSASSIN;
     public DungeonCategory dungeontype = DungeonCategory.ALL;

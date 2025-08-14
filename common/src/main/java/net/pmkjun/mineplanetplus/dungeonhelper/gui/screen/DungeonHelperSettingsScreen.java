@@ -22,7 +22,7 @@ public class DungeonHelperSettingsScreen extends Screen {
     private final int height;
     private final Screen parentScreen;
 
-    private Button toggleVanillaLevelViewButton;
+    private Button toggleDefaultWeaponSoundButton;
 
     public DungeonHelperSettingsScreen() {
         super(Component.literal("DungeonHelperSettingScreen"));
@@ -64,13 +64,13 @@ public class DungeonHelperSettingsScreen extends Screen {
                 .size(137, 20)
                 .build());
 
-        toggleVanillaLevelViewButton = new Button.Builder(Component.translatable("gui.dungeonhelper.settings.vanilla_level_view"), btn -> onToggleVanillaLevelViewPress())
+        toggleDefaultWeaponSoundButton = new Button.Builder(Component.translatable("gui.dungeonhelper.settings.defaultWeaponSound"), btn -> onToggleDefaultWeaponSoundPress())
         .pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
         .size(137, 20)
-        .tooltip(Tooltip.create(Component.literal("현재 작동하지 않습니다.")))
+        .tooltip(Tooltip.create(Component.translatable("gui.dungeonhelper.settings.defaultWeaponSound.tooltip")))
         .build();
-        setToggleVanillaLevelViewButtonText();
-        this.addRenderableWidget(toggleVanillaLevelViewButton);
+        setToggleDefaultWeaponSoundButtonText();
+        this.addRenderableWidget(toggleDefaultWeaponSoundButton);
     }
 
 
@@ -101,20 +101,20 @@ public class DungeonHelperSettingsScreen extends Screen {
         mc.setScreen(new SkillCooltimeSettingsScreen(mc.screen));
     }
 
-    private void setToggleVanillaLevelViewButtonText(){
-        if(client.data.toggleVanillaLevelView){
-            toggleVanillaLevelViewButton.setMessage(Component.translatable("gui.dungeonhelper.settings.vanilla_level_view")
+    private void setToggleDefaultWeaponSoundButtonText(){
+        if(client.data.toggleDefaultWeaponSound){
+            toggleDefaultWeaponSoundButton.setMessage(Component.translatable("gui.dungeonhelper.settings.defaultWeaponSound")
             .append(Component.translatable("gui.dungeonhelper.settings.on").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
         }
         else{
-            toggleVanillaLevelViewButton.setMessage(Component.translatable("gui.dungeonhelper.settings.vanilla_level_view")
+            toggleDefaultWeaponSoundButton.setMessage(Component.translatable("gui.dungeonhelper.settings.defaultWeaponSound")
             .append(Component.translatable("gui.dungeonhelper.settings.off").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
     }
     
-    private void onToggleVanillaLevelViewPress(){
-        client.data.toggleVanillaLevelView = !client.data.toggleVanillaLevelView;
-        setToggleVanillaLevelViewButtonText();
+    private void onToggleDefaultWeaponSoundPress(){
+        client.data.toggleDefaultWeaponSound = !client.data.toggleDefaultWeaponSound;
+        setToggleDefaultWeaponSoundButtonText();
     }
 
     @Override
