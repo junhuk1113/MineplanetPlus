@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.file.TotemData;
 import net.pmkjun.mineplanetplus.fishhelper.util.Timer;
 
 
@@ -31,12 +32,35 @@ public class totemCooltimeGui {
         activesecond = this.client.data.currentValueTotemActivetime * 60 - (int)timer.getDifference(this.client.data.lastTotemTime);
         cooldownsecond = this.client.data.currentValueTotemCooldown * 60 - (int)timer.getDifference(this.client.data.lastTotemCooldownTime);
 
-        if (activesecond < 0)
+        if (activesecond < 0){
             activesecond = 0;
+        }
+
 
 
         this.client.data.isTotemCooldown = cooldownsecond > 0 && cooldownsecond < this.client.data.valueTotemCooldown * 60;
+        try {
+            if (!client.remoteTotemDataList.isEmpty() && !client.remoteTotemDataList.getFirst().equals(mc.player.getName().getString())) {
+                TotemData totemData = client.remoteTotemDataList.getFirst();
 
+                activesecond = totemData.valueTotemActiveTime * 60 - (int) timer.getDifference(totemData.lastTotemtime);
+                long lastTotemCooldownTime = totemData.lastTotemtime + (long)totemData.valueTotemActiveTime * 60 * 1000;
+                cooldownsecond = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(lastTotemCooldownTime);
+                if (activesecond < 0){
+                    activesecond = 0;
+                }
+
+                boolean isTotemCooldown = cooldownsecond > 0 && cooldownsecond < totemData.valueTotemCooldown * 60;
+                if (this.client.data.toggleTotemtime && isTotemCooldown) {
+                    render(guiGraphics, TOTEM_SLEEP_ICON, cooldownsecond);
+                } else if (this.client.data.toggleTotemtime) {
+                    render(guiGraphics, TOTEM_ICON, activesecond);
+                }
+                return;
+            }
+        }
+        catch(NullPointerException ignored){
+        }
         if(this.client.data.toggleTotemtime&&this.client.data.isTotemCooldown){
             render(guiGraphics, TOTEM_SLEEP_ICON, cooldownsecond);
         }

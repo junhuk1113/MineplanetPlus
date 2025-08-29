@@ -10,6 +10,7 @@ import net.pmkjun.mineplanetplus.dungeonhelper.file.Mana;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.DefaultSkillUI;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.SkillCooltimeState;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,6 +25,7 @@ import java.util.List;
 public class bossbarMixin {
     Minecraft mc = Minecraft.getInstance();
     DungeonHelperClient client = DungeonHelperClient.getInstance();
+    FishHelperClient fishHelperClient = FishHelperClient.getInstance();
     ServerUtilityClient serverUtilityClient = ServerUtilityClient.getInstance();
 
     @Shadow
@@ -106,6 +108,13 @@ public class bossbarMixin {
                 }
                 else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && text.getString().equals("\uE016")){
                     isSlot5Manarunout = true;
+                }
+
+                if (text.getStyle().getFont().getPath().equals("layout/top_survival_channel/fonts/region_survival/region")){
+                    fishHelperClient.setCurrentWorld(text.getString());
+                }
+                else if (text.getStyle().getFont().getPath().equals("layout/top_survival/fonts/region_survival/region")){
+                    fishHelperClient.setCurrentWorld(text.getString());
                 }
 
             }

@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,7 @@ public class ItemPickupMixin {
 				if(carried.getHoverName().getString().equals("토템 발동")){
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();
+					ApiRequestManager.uploadTotemData();
 				}
 				else if(carried.getHoverName().getString().contains("배달 주문") && carried.getHoverName().getString().contains("시작하지 않음") && this.client.data.toggleDeliveryHelper){
 					client.deliveryQuests.addLastSelectedQuest(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));

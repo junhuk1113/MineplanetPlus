@@ -14,7 +14,8 @@
     "ConnectionMixin",
     "FishingMixin",
     "ItemPickupMixin",
-    "ChestMenuMixin"
+    "ChestMenuMixin",
+    "McMixin"
   ],
   "injectors": {
     "defaultRequire": 1

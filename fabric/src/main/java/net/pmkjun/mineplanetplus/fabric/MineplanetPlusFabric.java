@@ -7,6 +7,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.MineplanetPlus;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
@@ -52,6 +53,10 @@ public final class MineplanetPlusFabric implements ModInitializer {
                             .executes(MineplanetPlusFabric::executeCreditSellFee)
                     )
             );
+        });
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            ApiRequestManager.onClientTick();
         });
     }
     private static int executeSendFee_noArg(CommandContext<FabricClientCommandSource> context) {
