@@ -14,6 +14,7 @@ import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.FishHelperFabric;
 import net.pmkjun.mineplanetplus.fabric.input.KeyMappings;
 import net.pmkjun.mineplanetplus.fabric.planetskilltimer.PlanetSkillTimerFabric;
+import net.pmkjun.mineplanetplus.fishhelper.util.TotemList;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtility;
 import net.pmkjun.mineplanetplus.serverutility.util.FeeCalculator;
 
@@ -55,6 +56,11 @@ public final class MineplanetPlusFabric implements ModInitializer {
             );
         });
 
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(ClientCommandManager.literal("토템찾기").executes(MineplanetPlusFabric::loadNearTotem)
+            );
+        });
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ApiRequestManager.onClientTick();
         });
@@ -89,6 +95,11 @@ public final class MineplanetPlusFabric implements ModInitializer {
     private static int executeCreditSellFee(CommandContext<FabricClientCommandSource> context) {
         int credit = IntegerArgumentType.getInteger(context, "크레딧 입력");
         context.getSource().sendFeedback(FeeCalculator.getCreditFeeMessage(credit));
+        return 1;
+    }
+
+    private static int loadNearTotem(CommandContext<FabricClientCommandSource> context){
+        context.getSource().sendFeedback(Component.literal("주변에 있는 토템 : \n").append(TotemList.getComponent()));
         return 1;
     }
 }

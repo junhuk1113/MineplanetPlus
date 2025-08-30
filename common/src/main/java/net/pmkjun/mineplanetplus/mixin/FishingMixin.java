@@ -1,7 +1,10 @@
 package net.pmkjun.mineplanetplus.mixin;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
+import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +42,9 @@ public abstract class FishingMixin {
             if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername()) && client.data.isTotemCooldown) {
                 //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
                 client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
+                if(client.data.valueCooldownReduction>0){
+                    ApiRequestManager.reduceTotemCooldown();
+                }
                 client.configManage.save();
             }
         }

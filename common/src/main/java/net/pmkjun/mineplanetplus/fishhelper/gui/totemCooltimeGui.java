@@ -20,6 +20,8 @@ public class totemCooltimeGui {
 
     private static final ResourceLocation TOTEM_ICON = ResourceLocation.fromNamespaceAndPath("pyrofishinghelper","totem.png");
     private static final ResourceLocation TOTEM_SLEEP_ICON = ResourceLocation.fromNamespaceAndPath("pyrofishinghelper","sleepingtotem3.png");
+    private static final ResourceLocation TOTEM_ICON_SHARE = ResourceLocation.fromNamespaceAndPath("pyrofishinghelper","totem_share.png");
+    private static final ResourceLocation TOTEM_SLEEP_ICON_SHARE = ResourceLocation.fromNamespaceAndPath("pyrofishinghelper","sleepingtotem_share.png");
 
     public totemCooltimeGui(){
         this.mc = Minecraft.getInstance();
@@ -28,6 +30,7 @@ public class totemCooltimeGui {
 
     public void renderTick(GuiGraphics guiGraphics, Timer timer){
         int activesecond,cooldownsecond;
+        boolean isTotemNonActive;
 
         activesecond = this.client.data.currentValueTotemActivetime * 60 - (int)timer.getDifference(this.client.data.lastTotemTime);
         cooldownsecond = this.client.data.currentValueTotemCooldown * 60 - (int)timer.getDifference(this.client.data.lastTotemCooldownTime);
@@ -36,25 +39,29 @@ public class totemCooltimeGui {
             activesecond = 0;
         }
 
-
-
         this.client.data.isTotemCooldown = cooldownsecond > 0 && cooldownsecond < this.client.data.valueTotemCooldown * 60;
+        isTotemNonActive = System.currentTimeMillis() - this.client.data.lastTotemTime >= (this.client.data.currentValueTotemActivetime) * 1000 * 60L; //자신의 토템이 가동 중인지 판별
+
         try {
-            if (!client.remoteTotemDataList.isEmpty() && !client.remoteTotemDataList.getFirst().equals(mc.player.getName().getString())) {
-                TotemData totemData = client.remoteTotemDataList.getFirst();
+            if (!client.getRemoteTotemDataList().isEmpty() && isTotemNonActive && client.data.toggleViewRemoteTotemData) {
+                TotemData totemData;
+                int i;
+                totemData = client.getPrimaryRemoteTotemData();
 
                 activesecond = totemData.valueTotemActiveTime * 60 - (int) timer.getDifference(totemData.lastTotemtime);
-                long lastTotemCooldownTime = totemData.lastTotemtime + (long)totemData.valueTotemActiveTime * 60 * 1000;
-                cooldownsecond = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(lastTotemCooldownTime);
+                cooldownsecond = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(totemData.lastTotemCooldownTime);
                 if (activesecond < 0){
                     activesecond = 0;
                 }
 
                 boolean isTotemCooldown = cooldownsecond > 0 && cooldownsecond < totemData.valueTotemCooldown * 60;
                 if (this.client.data.toggleTotemtime && isTotemCooldown) {
-                    render(guiGraphics, TOTEM_SLEEP_ICON, cooldownsecond);
+                    render(guiGraphics, TOTEM_SLEEP_ICON_SHARE, cooldownsecond);
                 } else if (this.client.data.toggleTotemtime) {
-                    render(guiGraphics, TOTEM_ICON, activesecond);
+                    render(guiGraphics, TOTEM_ICON_SHARE, activesecond);
+                }
+                if(mc.options.keyPlayerList.isDown()){
+                    renderUsername(guiGraphics, totemData.username);
                 }
                 return;
             }
@@ -96,6 +103,29 @@ public class totemCooltimeGui {
 
             poseStack.popPose();
         }
+    }
+
+    private void renderUsername(GuiGraphics guiGraphics,String username){
+        PoseStack poseStack = guiGraphics.pose();
+        Font font = this.mc.font;
+        int Timer_xpos, Timer_ypos;
+        Timer_xpos = getXpos();
+        Timer_ypos = getYpos();
+        int usernameStringWidth = 0;
+        int timerStringWidth = 0;
+
+        if (client.data.Timer_xpos > 500) {
+            usernameStringWidth = font.width(username);
+            timerStringWidth = font.width("00:00") + 16;
+        }
+
+        poseStack.pushPose();
+        poseStack.translate((Timer_xpos) + timerStringWidth, Timer_ypos + 16 + 2, 0.0D);
+        poseStack.scale(1F/1.1F, 1F/1.1F, 1F/1.1F);
+        guiGraphics.drawString(font, Component.literal(username), -usernameStringWidth, 0, 16777215);
+        poseStack.scale(1.1F, 1.1F, 1.1F);
+
+        poseStack.popPose();
     }
     private int getXpos(){
         return 2 + (this.mc.getWindow().getGuiScaledWidth()-43-2) * this.client.data.Timer_xpos / 1000;

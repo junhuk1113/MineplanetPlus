@@ -80,8 +80,8 @@ public class ApiRequestManager {
                     Minecraft.getInstance().execute(() -> {
                          System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
                          Gson gson = new Gson();
-                         client.remoteTotemDataList = gson.fromJson(responseBody,
-                                 new TypeToken<ArrayList<TotemData>>() {}.getType());
+                         client.setRemoteTotemDataList(gson.fromJson(responseBody,
+                                 new TypeToken<ArrayList<TotemData>>() {}.getType()));
                     });
                 })
                 .exceptionally(error -> {

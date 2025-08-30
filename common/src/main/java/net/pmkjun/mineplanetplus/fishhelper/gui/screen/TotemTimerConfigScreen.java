@@ -22,6 +22,8 @@ public class TotemTimerConfigScreen extends Screen {
     private EditBox CooldownReduction_TextField;
 
     private Button toggleTotemButton;
+    private Button toggleShareTotemDataButton;
+    private Button toggleViewRemoteTotemData;
 
     private Slider activateTimeSlider;
     private Slider cooldownSlider;
@@ -39,7 +41,7 @@ public class TotemTimerConfigScreen extends Screen {
         this.client = FishHelperClient.getInstance();
 
         width = 147;
-        height = 152;
+        height = 152+44;
     }
 
     @Override
@@ -83,7 +85,20 @@ public class TotemTimerConfigScreen extends Screen {
         setToggleTotemButtonText();
         this.addRenderableWidget(toggleTotemButton);
 
-        timerXSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*4+(10+2),137,20,Component.literal("X : "), Component.literal(""),1,1000,this.client.data.Timer_xpos, true){
+        toggleShareTotemDataButton = Button.builder(Component.empty(),button -> {
+            toggleShareTotemData();
+        }).pos(getRegularX() + 5,5+getRegularY()+(20 + 2)*3+(10+4)).size(137,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata.tooltip"))).build();
+        setToggleShareTotemdataButtonText();
+        this.addRenderableWidget(toggleShareTotemDataButton);
+
+        toggleViewRemoteTotemData = Button.builder(Component.empty(),button -> {
+            toggleViewRemoteTotemData();
+        }).pos(getRegularX() + 5,5+getRegularY()+(20 + 2)*4+(10+4)).size(137,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.viewremotetotemdata.tooltip"))).build();
+        setToggleViewRemoteTotemData();
+        this.addRenderableWidget(toggleViewRemoteTotemData);
+
+
+        timerXSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*6+(10+2),137,20,Component.literal("X : "), Component.literal(""),1,1000,this.client.data.Timer_xpos, true){
             @Override
             protected void applyValue() {
                 client.data.Timer_xpos = getValueInt();
@@ -92,7 +107,7 @@ public class TotemTimerConfigScreen extends Screen {
         };
         timerXSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(timerXSlider);
-        timerYSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*5+(10+2),137,20,Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Timer_ypos,true){
+        timerYSlider = new Slider(getRegularX() + 5,5+getRegularY()+(20 + 2)*7+(10+2),137,20,Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Timer_ypos,true){
             @Override
             protected void applyValue() {
                 client.data.Timer_ypos = getValueInt();
@@ -125,7 +140,7 @@ public class TotemTimerConfigScreen extends Screen {
         super.render(context, mouseX, mouseY, delta);
 
         context.drawString(this.font, Component.translatable("fishhelper.config.cooldownreductionfield"), getRegularX() + 5, 5+getRegularY()+(20 + 2)*2+2, 0xFFFFFF);
-        context.drawString(this.font,Component.translatable("fishhelper.config.changepos"),getRegularX() + 5,5+getRegularY()+(20 + 2)*4,0xFFFFFF);
+        context.drawString(this.font,Component.translatable("fishhelper.config.changepos"),getRegularX() + 5,5+getRegularY()+(20 + 2)*6,0xFFFFFF);
 
         this.activateTimeSlider.render(context, mouseX, mouseY, delta);
         this.cooldownSlider.render(context, mouseX, mouseY, delta);
@@ -165,6 +180,43 @@ public class TotemTimerConfigScreen extends Screen {
         }
         else{
             toggleTotemButton.setMessage(Component.translatable("fishhelper.config.disable"));
+        }
+    }
+    private void toggleShareTotemData(){
+        if(client.data.toggleShareTotemData){
+            client.data.toggleShareTotemData = false;
+        }
+        else{
+            client.data.toggleShareTotemData = true;
+        }
+        setToggleShareTotemdataButtonText();
+        client.configManage.save();
+    }
+    private void setToggleShareTotemdataButtonText(){
+        if(client.data.toggleShareTotemData){
+            toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_enable"));
+        }
+        else{
+            toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_disable"));
+        }
+    }
+
+    private void toggleViewRemoteTotemData(){
+        if(client.data.toggleViewRemoteTotemData){
+            client.data.toggleViewRemoteTotemData = false;
+        }
+        else{
+            client.data.toggleViewRemoteTotemData = true;
+        }
+        setToggleViewRemoteTotemData();
+        client.configManage.save();
+    }
+    private void setToggleViewRemoteTotemData(){
+        if(client.data.toggleViewRemoteTotemData){
+            toggleViewRemoteTotemData.setMessage(Component.translatable("fishhelper.config.viewremotetotemdata_enable"));
+        }
+        else{
+            toggleViewRemoteTotemData.setMessage(Component.translatable("fishhelper.config.viewremotetotemdata_disable"));
         }
     }
 

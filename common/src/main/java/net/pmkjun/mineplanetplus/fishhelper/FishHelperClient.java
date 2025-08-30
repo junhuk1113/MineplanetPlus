@@ -23,7 +23,7 @@ public class FishHelperClient {
     private final Timer timer = new Timer();
 
     public final DeliveryQuest deliveryQuests;
-    public ArrayList<TotemData> remoteTotemDataList = new ArrayList<>();
+    private ArrayList<TotemData> remoteTotemDataList = new ArrayList<>();
 
     private int totem_X, totem_Z;
     private int totemRange;
@@ -93,7 +93,59 @@ public class FishHelperClient {
 
     public void updateFishCounter(int fish_type){}
 
-    public static  FishHelperClient getInstance(){
+    public void setRemoteTotemDataList(ArrayList<TotemData> remoteTotemDataList){
+        for(TotemData totemData : remoteTotemDataList){
+            if(totemData.username.equals(this.getUsername())){
+                remoteTotemDataList.remove(totemData);
+                break;
+            }
+        }
+
+        this.remoteTotemDataList = remoteTotemDataList;
+    }
+    public ArrayList<TotemData> getRemoteTotemDataList(){
+        return this.remoteTotemDataList;
+    }
+
+    public TotemData getPrimaryRemoteTotemData(){
+        int i = 0, maxTimeIndex, minTimeIndex = 0;
+        long maxTime = 0, minTime = 0, time;
+        TotemData totemData = null;
+
+        if(!this.remoteTotemDataList.isEmpty()){
+            maxTimeIndex = -1;
+            for(i = 0; i < remoteTotemDataList.size(); i++){
+                totemData = remoteTotemDataList.get(i);
+                if(remoteTotemDataList.get(i).isActive()){
+                    time = totemData.lastTotemtime + (long) totemData.valueTotemActiveTime * 60 * 1000;
+                    if(time > maxTime){
+                        maxTime = time;
+                        maxTimeIndex = i;
+                    }
+                }
+            }
+            if(maxTimeIndex != -1){
+                return remoteTotemDataList.get(maxTimeIndex);
+            }
+            for(i = 0; i < remoteTotemDataList.size(); i++){
+                time = totemData.lastTotemtime + (long) (totemData.valueTotemActiveTime+totemData.valueTotemCooldown) * 60 * 1000;
+                if(i == 0){
+                    minTime = time;
+                    minTimeIndex = i;
+                    continue;
+                }
+                if(time < minTime){
+                    minTime = time;
+                    minTimeIndex = i;
+                }
+            }
+            return remoteTotemDataList.get(minTimeIndex);
+        }
+
+        return null;
+    }
+
+    public static FishHelperClient getInstance(){
         return instance;
     }
 }
