@@ -94,6 +94,10 @@ public class FishHelperClient {
     public void updateFishCounter(int fish_type){}
 
     public void setRemoteTotemDataList(ArrayList<TotemData> remoteTotemDataList){
+        if(remoteTotemDataList == null){
+            this.remoteTotemDataList = new ArrayList<>();
+            return;
+        }
         for(TotemData totemData : remoteTotemDataList){
             if(totemData.username.equals(this.getUsername())){
                 remoteTotemDataList.remove(totemData);

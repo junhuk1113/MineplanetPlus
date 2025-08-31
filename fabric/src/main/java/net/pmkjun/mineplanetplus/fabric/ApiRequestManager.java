@@ -59,7 +59,7 @@ public class ApiRequestManager {
             encodedPlayerWorld = URLEncoder.encode(playerWorld, StandardCharsets.UTF_8);
         }
         catch (NullPointerException e){
-            System.out.println("월드 정보를 불러올 수 없습니다!");
+            //System.out.println("월드 정보를 불러올 수 없습니다!");
             return;
         }
 
@@ -78,7 +78,7 @@ public class ApiRequestManager {
                     // 마인크래프트 관련 작업(예: 채팅 메시지)은 반드시 메인 스레드에서 처리해야 합니다.
                     // MinecraftClient.getInstance().execute()를 사용해 작업을 예약합니다.
                     Minecraft.getInstance().execute(() -> {
-                         System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
+                         //System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
                          Gson gson = new Gson();
                          client.setRemoteTotemDataList(gson.fromJson(responseBody,
                                  new TypeToken<ArrayList<TotemData>>() {}.getType()));

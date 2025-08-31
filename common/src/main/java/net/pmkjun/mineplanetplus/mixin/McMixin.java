@@ -33,8 +33,8 @@ public class McMixin {
             if (level != null && level.getBlockState(blockHit.getBlockPos()).getBlock() == Blocks.OBSERVER) {
 
                 if (mc.player != null && mc.player.getMainHandItem().getItem() == Items.FISHING_ROD) {
-                    mc.player.displayClientMessage(Component.literal("관측기 블록을 우클릭했습니다!"),false);
-                    mc.player.displayClientMessage(Component.literal(blockHit.getBlockPos().toShortString()),false);
+                    //mc.player.displayClientMessage(Component.literal("관측기 블록을 우클릭했습니다!"),false);
+                    //mc.player.displayClientMessage(Component.literal(blockHit.getBlockPos().toShortString()),false);
 
                     client.setTotempos(blockHit.getBlockPos().getX(), blockHit.getBlockPos().getZ());
                 }

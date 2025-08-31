@@ -58,8 +58,8 @@ public class ApiRequestManager {
                     // 마인크래프트 관련 작업(예: 채팅 메시지)은 반드시 메인 스레드에서 처리해야 합니다.
                     // MinecraftClient.getInstance().execute()를 사용해 작업을 예약합니다.
                     mc.execute(() -> {
-                        mc.player.displayClientMessage(Component.literal("토템 데이터를 성공적으로 전송했습니다!"),false);
-                        System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
+                        //mc.player.displayClientMessage(Component.literal("토템 데이터를 성공적으로 전송했습니다!"),false);
+                        //System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
                     });
                 })
                 .exceptionally(error -> {
@@ -92,8 +92,8 @@ public class ApiRequestManager {
                     // 마인크래프트 관련 작업(예: 채팅 메시지)은 반드시 메인 스레드에서 처리해야 합니다.
                     // MinecraftClient.getInstance().execute()를 사용해 작업을 예약합니다.
                     mc.execute(() -> {
-                        mc.player.displayClientMessage(Component.literal("토템 쿨타임 감소를 성공적으로 적용했습니다!"),false);
-                        System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
+                        //mc.player.displayClientMessage(Component.literal("토템 쿨타임 감소를 성공적으로 적용했습니다!"),false);
+                        //System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
                     });
                 })
                 .exceptionally(error -> {
