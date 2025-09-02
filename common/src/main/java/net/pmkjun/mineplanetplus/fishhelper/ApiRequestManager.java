@@ -49,14 +49,9 @@ public class ApiRequestManager {
     + "&totemWorld=" + encodedPlayerWorld))
                 .build();
 
-        // ★★★반드시 비동기로 요청을 보내야 게임이 멈추지 않습니다!★★★
         httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(response -> {
-                    // 이 부분은 백그라운드 스레드에서 실행됩니다.
                     String responseBody = response.body();
-
-                    // 마인크래프트 관련 작업(예: 채팅 메시지)은 반드시 메인 스레드에서 처리해야 합니다.
-                    // MinecraftClient.getInstance().execute()를 사용해 작업을 예약합니다.
                     mc.execute(() -> {
                         //mc.player.displayClientMessage(Component.literal("토템 데이터를 성공적으로 전송했습니다!"),false);
                         //System.out.println("서버로부터 응답을 받았습니다: " + responseBody);
@@ -83,14 +78,11 @@ public class ApiRequestManager {
                         + "&lastTotemCooldownTime=" + lastTotemCooldownTime))
                 .build();
 
-        // ★★★반드시 비동기로 요청을 보내야 게임이 멈추지 않습니다!★★★
         httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(response -> {
                     // 이 부분은 백그라운드 스레드에서 실행됩니다.
                     String responseBody = response.body();
 
-                    // 마인크래프트 관련 작업(예: 채팅 메시지)은 반드시 메인 스레드에서 처리해야 합니다.
-                    // MinecraftClient.getInstance().execute()를 사용해 작업을 예약합니다.
                     mc.execute(() -> {
                         //mc.player.displayClientMessage(Component.literal("토템 쿨타임 감소를 성공적으로 적용했습니다!"),false);
                         //System.out.println("서버로부터 응답을 받았습니다: " + responseBody);

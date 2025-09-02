@@ -29,8 +29,7 @@ public class TotemList {
                 second -= minute * 60;
                 component = component.append(Component.literal("남은 시간 -> " + String.format("%02d:%02d", minute, second)));
             } else {
-                long lastTotemCooldownTime = totemData.lastTotemtime + (long) totemData.valueTotemActiveTime * 60 * 1000;
-                int second = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(lastTotemCooldownTime);
+                int second = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(totemData.lastTotemCooldownTime);
                 int minute = second / 60;
                 second -= minute * 60;
                 component = component.append(Component.literal("재사용 대기시간 -> " + String.format("%02d:%02d", minute, second)));

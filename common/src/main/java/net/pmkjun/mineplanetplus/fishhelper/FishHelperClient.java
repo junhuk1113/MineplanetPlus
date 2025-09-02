@@ -99,7 +99,7 @@ public class FishHelperClient {
             return;
         }
         for(TotemData totemData : remoteTotemDataList){
-            if(totemData.username.equals(this.getUsername())){
+            if(totemData.username.equals(this.mc.player.getName().getString())){
                 remoteTotemDataList.remove(totemData);
                 break;
             }
@@ -132,7 +132,7 @@ public class FishHelperClient {
                 return remoteTotemDataList.get(maxTimeIndex);
             }
             for(i = 0; i < remoteTotemDataList.size(); i++){
-                time = totemData.lastTotemtime + (long) (totemData.valueTotemActiveTime+totemData.valueTotemCooldown) * 60 * 1000;
+                time = totemData.lastTotemCooldownTime + (long) totemData.valueTotemCooldown * 60 * 1000;
                 if(i == 0){
                     minTime = time;
                     minTimeIndex = i;
