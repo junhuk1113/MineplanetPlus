@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.MineplanetPlus;
 import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.FishHelperFabric;
@@ -99,7 +100,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
     }
 
     private static int loadNearTotem(CommandContext<FabricClientCommandSource> context){
-        context.getSource().sendFeedback(Component.literal("주변에 있는 토템 : \n").append(TotemList.getComponent()));
+        context.getSource().sendFeedback(Component.literal("↓ 주변에 있는 토템 ↓\n").withStyle(Style.EMPTY.withColor(0x84CA77)).append(TotemList.getComponent()));
         return 1;
     }
 }
