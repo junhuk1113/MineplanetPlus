@@ -23,7 +23,8 @@ public class FishHelperClient {
     private final Timer timer = new Timer();
 
     public final DeliveryQuest deliveryQuests;
-    private ArrayList<TotemData> remoteTotemDataList = new ArrayList<>();
+    private final ArrayList<TotemData> emptyList = new ArrayList<>();
+    private ArrayList<TotemData> remoteTotemDataList = emptyList;
 
     private int totem_X, totem_Z;
     private int totemRange;
@@ -95,7 +96,7 @@ public class FishHelperClient {
 
     public void setRemoteTotemDataList(ArrayList<TotemData> remoteTotemDataList){
         if(remoteTotemDataList == null){
-            this.remoteTotemDataList = new ArrayList<>();
+            this.remoteTotemDataList = emptyList;
             return;
         }
         for(TotemData totemData : remoteTotemDataList){

@@ -29,58 +29,76 @@ public class totemCooltimeGui {
     }
 
     public void renderTick(GuiGraphics guiGraphics, Timer timer){
-        int activesecond,cooldownsecond;
-        boolean isTotemNonActive;
+        int activesecond,cooldownsecond, remote_activesecond = 0, remote_cooldownsecond = 0;
+        boolean isTotemActive, isTimerOperating, isRemoteTotemCooldown = false;
+        TotemData totemData = null;
 
         activesecond = this.client.data.currentValueTotemActivetime * 60 - (int)timer.getDifference(this.client.data.lastTotemTime);
         cooldownsecond = this.client.data.currentValueTotemCooldown * 60 - (int)timer.getDifference(this.client.data.lastTotemCooldownTime);
+        isTotemActive = activesecond >=0 && activesecond <= this.client.data.currentValueTotemActivetime * 60;
 
         if (activesecond < 0){
             activesecond = 0;
         }
 
         this.client.data.isTotemCooldown = cooldownsecond > 0 && cooldownsecond < this.client.data.valueTotemCooldown * 60;
-        isTotemNonActive = System.currentTimeMillis() - this.client.data.lastTotemTime >= (this.client.data.currentValueTotemActivetime) * 1000 * 60L; //자신의 토템이 가동 중인지 판별
+        isTimerOperating = isTotemActive || this.client.data.isTotemCooldown;
 
-        try {
-            if (!client.getRemoteTotemDataList().isEmpty() && isTotemNonActive && client.data.toggleViewRemoteTotemData) {
-                TotemData totemData;
-                int i;
-                totemData = client.getPrimaryRemoteTotemData();
-
-                activesecond = totemData.valueTotemActiveTime * 60 - (int) timer.getDifference(totemData.lastTotemtime);
-                cooldownsecond = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(totemData.lastTotemCooldownTime);
-                if (activesecond < 0){
-                    activesecond = 0;
-                }
-
-                boolean isTotemCooldown = cooldownsecond > 0 && cooldownsecond < totemData.valueTotemCooldown * 60;
-                if (this.client.data.toggleTotemtime && isTotemCooldown) {
-                    render(guiGraphics, TOTEM_SLEEP_ICON_SHARE, cooldownsecond);
-                } else if (this.client.data.toggleTotemtime) {
-                    render(guiGraphics, TOTEM_ICON_SHARE, activesecond);
-                }
-                if(mc.options.keyPlayerList.isDown()){
-                    renderUsername(guiGraphics, totemData.username);
-                }
-                return;
+        if(!client.getRemoteTotemDataList().isEmpty()){
+            totemData = client.getPrimaryRemoteTotemData();
+            remote_activesecond = totemData.valueTotemActiveTime * 60 - (int) timer.getDifference(totemData.lastTotemtime);
+            remote_cooldownsecond = totemData.valueTotemCooldown * 60 - (int) timer.getDifference(totemData.lastTotemCooldownTime);
+            if (remote_activesecond < 0){
+                remote_activesecond = 0;
             }
+            isRemoteTotemCooldown = remote_cooldownsecond > 0 && remote_cooldownsecond < totemData.valueTotemCooldown * 60;
         }
-        catch(NullPointerException ignored){
+
+        if(!this.client.data.toggleTotemtime) return;
+
+        if(this.client.data.toggleViewRemoteTotemData && totemData != null) { //외부 토템 데이터 감지 시
+            if (isTimerOperating) {
+                if(this.client.data.isTotemCooldown){
+                    render(guiGraphics, TOTEM_SLEEP_ICON, cooldownsecond, 0);
+                }
+                else{
+                    render(guiGraphics, TOTEM_ICON, activesecond, 0);
+                }
+                if (isRemoteTotemCooldown) {
+                    render(guiGraphics, TOTEM_SLEEP_ICON_SHARE, remote_cooldownsecond, 1);
+                } else {
+                    render(guiGraphics, TOTEM_ICON_SHARE, remote_activesecond, 1);
+                }
+                if (mc.options.keyPlayerList.isDown()) {
+                    renderUsername(guiGraphics, totemData.username,1);
+                }
+            }
+            else {
+                if (isRemoteTotemCooldown) {
+                    render(guiGraphics, TOTEM_SLEEP_ICON_SHARE, remote_cooldownsecond, 0);
+                } else {
+                    render(guiGraphics, TOTEM_ICON_SHARE, remote_activesecond, 0);
+                }
+                if (mc.options.keyPlayerList.isDown()) {
+                    renderUsername(guiGraphics, totemData.username,0);
+                }
+            }
+            return;
         }
-        if(this.client.data.toggleTotemtime&&this.client.data.isTotemCooldown){
-            render(guiGraphics, TOTEM_SLEEP_ICON, cooldownsecond);
+        //외부 토템 데이터가 없을 때
+        if(this.client.data.isTotemCooldown){
+            render(guiGraphics, TOTEM_SLEEP_ICON, cooldownsecond, 0);
         }
-        else if(this.client.data.toggleTotemtime){
-            render(guiGraphics, TOTEM_ICON, activesecond);
+        else {
+            render(guiGraphics, TOTEM_ICON, activesecond, 0);
         }
     }
 
-    private void render(GuiGraphics guiGraphics,ResourceLocation texture, int second){
+    private void render(GuiGraphics guiGraphics,ResourceLocation texture, int second, int slot){
         PoseStack poseStack = guiGraphics.pose();
         int Timer_xpos, Timer_ypos;
         Timer_xpos = getXpos();
-        Timer_ypos = getYpos();
+        Timer_ypos = getYpos() + (slot*(16+2));
 
         poseStack.pushPose();
         poseStack.translate(Timer_xpos,Timer_ypos,0.0D);
@@ -105,12 +123,12 @@ public class totemCooltimeGui {
         }
     }
 
-    private void renderUsername(GuiGraphics guiGraphics,String username){
+    private void renderUsername(GuiGraphics guiGraphics,String username, int slot){
         PoseStack poseStack = guiGraphics.pose();
         Font font = this.mc.font;
         int Timer_xpos, Timer_ypos;
         Timer_xpos = getXpos();
-        Timer_ypos = getYpos();
+        Timer_ypos = getYpos() + (slot*(16+2));
         int usernameStringWidth = 0;
         int timerStringWidth = 0;
 
