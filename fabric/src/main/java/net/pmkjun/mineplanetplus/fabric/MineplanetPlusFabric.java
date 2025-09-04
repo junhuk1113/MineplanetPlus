@@ -100,7 +100,9 @@ public final class MineplanetPlusFabric implements ModInitializer {
     }
 
     private static int loadNearTotem(CommandContext<FabricClientCommandSource> context){
-        context.getSource().sendFeedback(Component.literal("↓ 주변에 있는 토템 ↓\n").withStyle(Style.EMPTY.withColor(0x84CA77)).append(TotemList.getComponent()));
+        context.getSource().sendFeedback(Component.literal("↓ 주변에 있는 토템 ↓ ").withStyle(Style.EMPTY.withColor(0x84CA77))
+                        .append(Component.literal("(마우스를 올려 토템 스펙 확인)\n").withStyle(Style.EMPTY.withColor(0xCAD1E0)))
+                .append(TotemList.getComponent()));
         return 1;
     }
 }

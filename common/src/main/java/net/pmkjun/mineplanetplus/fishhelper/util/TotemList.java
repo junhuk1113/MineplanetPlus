@@ -59,7 +59,8 @@ public class TotemList {
                 component = component.append(Component.literal("재사용 대기시간 -> ").withColor(0x4CBDFF)
                         .append(Component.literal(String.format("%02d:%02d", minute, second)).withColor(0xFFE679))).withStyle(Style.EMPTY.withHoverEvent(event));
             }
-            component = component.append(Component.literal("\n"));
+            if(totemDataList.size()-1 != totemDataList.indexOf(totemData))
+                component = component.append(Component.literal("\n"));
         }
 
         return component;

@@ -54,8 +54,8 @@ public class ItemRendererMixin {
             Item changed_item;
             List<Component> ItemText;
             String Itemname = null;
-            String levelString;
-            int levelInt;
+            String levelString, rangeString;
+            int levelInt, rangeInt;
             double secondDouble;
             long secondLong;
 
@@ -64,13 +64,15 @@ public class ItemRendererMixin {
                 if (Itemname == null)
                     Itemname = text.getString();
 
-                if (!Itemname.equals("지속시간 업그레이드") && !Itemname.equals("쿨타임 감소") && !Itemname.contains("토템 리더 |"))
+                if (!Itemname.equals("지속시간 업그레이드") && !Itemname.equals("쿨타임 감소")
+                        && !Itemname.contains("토템 리더 |") && !Itemname.equals("범위 업그레이드"))
                     break;
 
                 if (text.getString().contains("현재 레벨 ➛ ")) {
                     levelString = text.getString().replace("현재 레벨 ➛ ", "");
                     levelInt = Integer.parseInt(levelString);
                     //System.out.println(Itemname +" : "+ levelString);
+
                     if (Itemname.equals("지속시간 업그레이드")) {
                         if (FishHelperClient.getInstance().data.valueTotemActivetime != ConvertActivateTime.asMinute(levelInt)) {
                             FishHelperClient.getInstance().data.valueTotemActivetime = ConvertActivateTime.asMinute(levelInt);
@@ -82,6 +84,15 @@ public class ItemRendererMixin {
                             FishHelperClient.getInstance().data.valueTotemCooldown = ConvertCooldown.asMinute(levelInt);
                             FishHelperClient.getInstance().configManage.save();
                         }
+                    }
+                }
+                if (text.getString().contains("현재 범위 ➛ ")){
+                    if (Itemname.equals("범위 업그레이드")){
+                        rangeString = text.getString().replace("현재 범위 ➛ ", "");
+                        rangeString = rangeString.replace("블록", "");
+
+                        rangeInt = Integer.parseInt(rangeString);
+                        fishHelper.setTotemRange(rangeInt);
                     }
                 }
                 if (Itemname.contains("토템 리더 |") && text.getString().contains("효과|") && !text.getString().contains("다음 레벨 효과")) {

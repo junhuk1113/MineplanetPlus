@@ -8,6 +8,8 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.pmkjun.mineplanetplus.fishhelper.util.TotemList;
 import net.pmkjun.mineplanetplus.serverutility.util.FeeCalculator;
 
 public class MineplanetplusCommand {
@@ -23,6 +25,8 @@ public class MineplanetplusCommand {
         dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("크레딧판매수수료").executes(MineplanetplusCommand::executeCreditSellFee_noArg)
                 .then(Commands.argument("크레딧 입력", IntegerArgumentType.integer(0))
                         .executes(MineplanetplusCommand::executeCreditSellFee)));
+
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("토템찾기").executes(MineplanetplusCommand::loadNearTotem));
     }
 
     private static int executeSendFee_noArg(CommandContext<CommandSourceStack> context) {
@@ -52,6 +56,11 @@ public class MineplanetplusCommand {
 
     private static int executeCreditSellFee(CommandContext<CommandSourceStack> objectCommandContext) {
         objectCommandContext.getSource().sendSystemMessage(FeeCalculator.getCreditFeeMessage(IntegerArgumentType.getInteger(objectCommandContext, "크레딧 입력")));
+        return 1;
+    }
+
+    private static int loadNearTotem(CommandContext<CommandSourceStack> context){
+        context.getSource().sendSystemMessage(Component.literal("↓ 주변에 있는 토템 ↓\n").withStyle(Style.EMPTY.withColor(0x84CA77)).append(TotemList.getComponent()));
         return 1;
     }
 }
