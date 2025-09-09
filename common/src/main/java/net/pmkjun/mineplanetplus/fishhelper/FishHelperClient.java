@@ -5,8 +5,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.pmkjun.mineplanetplus.fishhelper.config.ConfigManage;
 import net.pmkjun.mineplanetplus.fishhelper.file.Data;
 import net.pmkjun.mineplanetplus.fishhelper.file.TotemData;
+import net.pmkjun.mineplanetplus.fishhelper.gui.ComboCatcherGui;
 import net.pmkjun.mineplanetplus.fishhelper.gui.FishCounterGui;
 import net.pmkjun.mineplanetplus.fishhelper.gui.totemCooltimeGui;
+import net.pmkjun.mineplanetplus.fishhelper.util.ComboCatcher;
 import net.pmkjun.mineplanetplus.fishhelper.util.DeliveryQuest;
 import net.pmkjun.mineplanetplus.fishhelper.util.Timer;
 
@@ -20,6 +22,7 @@ public class FishHelperClient {
 
     private final totemCooltimeGui totemcooltimeGui;
     private final FishCounterGui fishCounterGui;
+    private final ComboCatcherGui comboCatcherGui;
     private final Timer timer = new Timer();
 
     public final DeliveryQuest deliveryQuests;
@@ -29,6 +32,8 @@ public class FishHelperClient {
     private int totem_X, totem_Z;
     private int totemRange;
     private String currentWorld;
+
+    public ComboCatcher comboCatcher = new ComboCatcher();
 
     public FishHelperClient(){
         this.mc = Minecraft.getInstance();
@@ -41,6 +46,7 @@ public class FishHelperClient {
         }
         this.totemcooltimeGui = new totemCooltimeGui();
         this.fishCounterGui = new FishCounterGui();
+        this.comboCatcherGui = new ComboCatcherGui();
         deliveryQuests = new DeliveryQuest();
     }
     public void init(){
@@ -50,6 +56,7 @@ public class FishHelperClient {
         this.totemcooltimeGui.renderTick(context,this.timer);
         this.timer.updateTime();
         this.fishCounterGui.renderTick(context);
+        this.comboCatcherGui.renderTick(context);
     }
     public void updateTotemtime(){
         this.data.lastTotemTime = this.timer.getCurrentTime();
