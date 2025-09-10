@@ -44,7 +44,7 @@ public class GuiMixin {
         }
     }
 
-    @Inject(method = "renderExperienceBar(Lnet/minecraft/client/gui/GuiGraphics;I)V", at = {@At("HEAD")}, cancellable  = true)
+    /*@Inject(method = "renderExperienceBar(Lnet/minecraft/client/gui/GuiGraphics;I)V", at = {@At("HEAD")}, cancellable  = true)
     public void renderExperienceBarMixin(GuiGraphics guiGraphics, int i, CallbackInfo info){
         int l;
         int m;
@@ -66,5 +66,5 @@ public class GuiMixin {
              }
         }
             
-    }
+    }*/
 }

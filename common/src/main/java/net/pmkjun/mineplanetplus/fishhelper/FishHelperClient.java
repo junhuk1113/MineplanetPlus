@@ -22,7 +22,7 @@ public class FishHelperClient {
 
     private final totemCooltimeGui totemcooltimeGui;
     private final FishCounterGui fishCounterGui;
-    private final ComboCatcherGui comboCatcherGui;
+    //private final ComboCatcherGui comboCatcherGui;
     private final Timer timer = new Timer();
 
     public final DeliveryQuest deliveryQuests;
@@ -46,7 +46,7 @@ public class FishHelperClient {
         }
         this.totemcooltimeGui = new totemCooltimeGui();
         this.fishCounterGui = new FishCounterGui();
-        this.comboCatcherGui = new ComboCatcherGui();
+        //this.comboCatcherGui = new ComboCatcherGui();
         deliveryQuests = new DeliveryQuest();
     }
     public void init(){
@@ -56,7 +56,7 @@ public class FishHelperClient {
         this.totemcooltimeGui.renderTick(context,this.timer);
         this.timer.updateTime();
         this.fishCounterGui.renderTick(context);
-        this.comboCatcherGui.renderTick(context);
+        //this.comboCatcherGui.renderTick(context);
     }
     public void updateTotemtime(){
         this.data.lastTotemTime = this.timer.getCurrentTime();
