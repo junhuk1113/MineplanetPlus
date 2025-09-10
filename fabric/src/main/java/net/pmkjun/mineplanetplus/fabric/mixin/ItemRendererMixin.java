@@ -111,6 +111,17 @@ public class ItemRendererMixin {
                     }
                 }
 
+                if (Itemname.contains("콤보 캐쳐")) {
+                    System.out.println("콤보 캐쳐");
+                    if(text.getString().contains("최대 콤보|")) {
+                        levelString = text.getString().replace("최대 콤보| ", "");
+                        levelString = levelString.replace(".0", "");
+                        levelInt = Integer.parseInt(levelString);
+                        System.out.println(levelString);
+                        fishhelper.comboCatcher.setMaxComboCount(levelInt);
+                    }
+                }
+
             }
 
             ItemStack mainhandStack = mc.player.getMainHandItem();

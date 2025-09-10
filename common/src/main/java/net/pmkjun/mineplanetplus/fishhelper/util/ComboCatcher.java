@@ -6,14 +6,14 @@ import net.minecraft.network.chat.Component;
 public class ComboCatcher {
     private long lastCaughtFishTime;
     private int comboCount = 0;
-    private int maxcomboCount = 30;
+    private int maxcomboCount = 0;
     Minecraft mc = Minecraft.getInstance();
 
     public void resetComboCount(){
         this.comboCount = 0;
     }
     public void addComboCount(){
-        if(this.comboCount < this.maxcomboCount) this.comboCount++;
+        if(this.comboCount < this.maxcomboCount || maxcomboCount == 0) this.comboCount++;
         lastCaughtFishTime = System.currentTimeMillis();
         mc.player.displayClientMessage(Component.literal("콤보 추가!"),false);
     }
@@ -35,5 +35,6 @@ public class ComboCatcher {
     }
     public void setMaxComboCount(int count){
         this.maxcomboCount = count;
+        if(comboCount > count) comboCount = count;
     }
 }
