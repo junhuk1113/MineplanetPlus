@@ -106,6 +106,15 @@
   "fishhelper.config.deliveryhelper_enable" : "배달 도우미 : 켜짐",
   "fishhelper.config.deliveryhelper_disable" : "배달 도우미 : 꺼짐",
   "fishhelper.config.deliveryhelper.tooltip" : "물고기 배달을 선택하면 필요한 물고기를 표시합니다. 물고기 배달 창에서 중앙 상단에 있는 초록색 책을 클릭해 선택한 배달을 초기화 할 수 있습니다.",
+  "fishhelper.config.combocounter" : "콤보 카운터 설정",
+  "fishhelper.config.combocounter.tooltip" : "콤보 캐쳐 카운트를 표시해주는 기능입니다.",
+  "fishhelper.config.combocounter.enable" : "콤보 카운터 : 켜짐",
+  "fishhelper.config.combocounter.disable" : "콤보 카운터 : 꺼짐",
+  "fishhelper.config.combocounter.onfishing" : "콤보 카운터 : 자동",
+  "fishhelper.config.combocounter.enable.tooltip" : "콤보 카운터가 켜졌습니다. 버튼을 눌러 자동 모드로 변경하세요.",
+  "fishhelper.config.combocounter.disable.tooltip" : "콤보 카운터가 꺼졌습니다. 버튼을 눌러 켜짐으로 설정하세요.",
+  "fishhelper.config.combocounter.onfishing.tooltip" : "콤보 카운터가 자동으로 설정되었습니다. 낚시대를 들었을 때 콤보 카운터가 켜집니다. 버튼을 눌러 꺼짐으로 설정하세요.",
+
 
   "fishhelper.key.category" : "피시 헬퍼",
   "fishhelper.key.open_settings" : "피시 헬퍼 설정열기",

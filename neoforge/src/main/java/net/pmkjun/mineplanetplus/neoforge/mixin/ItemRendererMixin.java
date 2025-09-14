@@ -115,6 +115,10 @@ public class ItemRendererMixin {
 
                 if (mainhandStack.getItem().getDescriptionId().equals("item.minecraft.fishing_rod")) {
                     FishingRod.updateSpec(mainhandStack);
+                    fishHelper.setHoldingFishingRod(true);
+                }
+                else{
+                    fishHelper.setHoldingFishingRod(false);
                 }
 
                 if (this.client.data.toggleAutoClassDetect) {

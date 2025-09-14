@@ -41,27 +41,12 @@ public class GuiMixin {
         }
     }
 
-    /*@Inject(method = "renderExperienceBar(Lnet/minecraft/client/gui/GuiGraphics;I)V", at = {@At("HEAD")}, cancellable  = true)
-    public void renderExperienceBarMixin(GuiGraphics guiGraphics, int i, CallbackInfo info){
-        int l;
-        int m;
-        if(dungeonhelper.ishereDungeon)
+    @Inject(method = "renderExperienceLevel", at = {@At("HEAD")}, cancellable  = true)
+    public void renderExperienceBarMixin(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info){
+        if(serverutility.isHereMineplanet())
         {
             info.cancel();
-
-            if (this.minecraft.player.experienceLevel > 0 && dungeonhelper.data.toggleVanillaLevelView) {
-                Profiler.get().push("expLevel");
-                String string = "" + this.minecraft.player.experienceLevel;
-                l = (guiGraphics.guiWidth() - this.minecraft.font.width(string)) / 2;
-                m = guiGraphics.guiHeight() - 32 + 3 - 18;
-                guiGraphics.drawString(this.minecraft.font, string, l + 1, m, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l - 1, m, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l, m + 1, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l, m - 1, 0, false);
-                guiGraphics.drawString(this.minecraft.font, string, l, m, 8453920, false);
-                Profiler.get().pop();
-            }
         }
 
-    }*/
+    }
 }

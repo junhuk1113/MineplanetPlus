@@ -35,7 +35,8 @@ public class FishHelperClient {
     private int fishing_level;
     public boolean isBiting = false;
 
-    public ComboCatcher comboCatcher = new ComboCatcher();
+    public ComboCatcher comboCatcher;
+    private boolean isHoldingFishingRod = false;
 
     public FishHelperClient(){
         this.mc = Minecraft.getInstance();
@@ -50,6 +51,7 @@ public class FishHelperClient {
         this.fishCounterGui = new FishCounterGui();
         this.comboCatcherGui = new ComboCatcherGui();
         deliveryQuests = new DeliveryQuest();
+        comboCatcher = new ComboCatcher();
     }
     public void init(){
 
@@ -168,6 +170,14 @@ public class FishHelperClient {
         int maxComboCount;
         maxComboCount = (this.fishing_level / 20) * 5 + 10;
         comboCatcher.setMaxComboCount(maxComboCount);
+    }
+
+    public void setHoldingFishingRod(boolean isHoldingFishingRod){
+        if(this.isHoldingFishingRod == isHoldingFishingRod) return;
+        this.isHoldingFishingRod = isHoldingFishingRod;
+    }
+    public boolean isHoldingFishingRod(){
+        return this.isHoldingFishingRod;
     }
 
     public static FishHelperClient getInstance(){

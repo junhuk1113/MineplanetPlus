@@ -27,7 +27,7 @@ public class FishHelperConfigScreen extends Screen{
         this.client = FishHelperClient.getInstance();
 
         width = 147;
-        height = 8 + 22*4;
+        height = 8 + 22*5;
     }
 
     protected void init(){
@@ -42,9 +42,16 @@ public class FishHelperConfigScreen extends Screen{
             mc.setScreen(new FishCounterConfigScreen(mc.screen));
         }).pos(getRegularX() + 5, getRegularY() + 5 + 20 + 2).size(137, 20).build());
 
+        this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.combocounter"), btn -> {
+            mc.setScreen(new ComboCounterConfigScreen(mc.screen));
+        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2)*2)
+                .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.combocounter.tooltip")))
+                .build());
+
         toggleCustomTextureButton = Button.builder(Component.translatable("fishhelper.config.customtexture_enable"), btn -> {
             onCustomTexturePress();
-        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 2)
+        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.customtexture.tooltip")))
                 .build();
@@ -53,7 +60,7 @@ public class FishHelperConfigScreen extends Screen{
 
         toggleDeliveryHelperButton = Button.builder(Component.translatable("fishhelper.config.deliveryhelper_enable"), btn -> {
             onDeliveryHelperPress();
-        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 3)
+        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 4)
                 .size(137, 20)
                 .tooltip(Tooltip.create(Component.translatable("fishhelper.config.deliveryhelper.tooltip")))
                 .build();

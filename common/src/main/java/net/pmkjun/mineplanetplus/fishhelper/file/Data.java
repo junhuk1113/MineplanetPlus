@@ -1,5 +1,6 @@
 package net.pmkjun.mineplanetplus.fishhelper.file;
 
+import net.pmkjun.mineplanetplus.fishhelper.util.ComboCounterMode;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
 
 public class Data{
@@ -37,4 +38,10 @@ public class Data{
     public int Counter_xpos = 1000;
     public int Counter_ypos = 100;
     public int[] fish_Count = {0,0,0,0,0,0};
+
+    public int maxComboCount = 0;
+
+    public ComboCounterMode toggleComboCounter = ComboCounterMode.OFF;
+    public int ComboCounter_xpos = 1000;
+    public int ComboCounter_ypos = 800;
 }

@@ -4,12 +4,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.util.ComboCounterMode;
 
 public class ComboCatcherGui {
     private final Minecraft mc;
@@ -29,16 +29,18 @@ public class ComboCatcherGui {
         client.comboCatcher.calcComboCount();
         int x, y;
 
-        x = mc.getWindow().getGuiScaledWidth()/2;
-        y = mc.getWindow().getGuiScaledHeight()/2;
+        x = getXpos();
+        y = getYpos();
 
-        renderBackground(guiGraphics, x, y);
-        renderFishingRod(guiGraphics, FISHING_ROD_ICON, x + 2, y + 1);
-        renderComboCount(guiGraphics, x+ 2, y + 1);
-        renderResetTime(guiGraphics, x + 2, y + 1);
+        if(client.data.toggleComboCounter == ComboCounterMode.ON || (client.data.toggleComboCounter == ComboCounterMode.ON_FISHING && client.isHoldingFishingRod())) {
+            renderBackground(guiGraphics, x, y);
+            renderFishingRod(guiGraphics, FISHING_ROD_ICON, x + 2, y + 1);
+            renderComboCount(guiGraphics, x + 2, y + 1);
+            renderResetTime(guiGraphics, x + 2, y + 1);
 
-        if(client.isBiting){
-            renderNotifyIcon(guiGraphics, x + 2 + 3, y + 1 + 1);
+            if (client.isBiting) {
+                renderNotifyIcon(guiGraphics, x + 2 + 3, y + 1 + 1);
+            }
         }
     }
 
@@ -80,7 +82,7 @@ public class ComboCatcherGui {
     public void renderResetTime(GuiGraphics guiGraphics, int x, int y){
         PoseStack poseStack = guiGraphics.pose();
         Font font = this.mc.font;
-        int text_width, reset_time_text_width;
+        int text_width;
 
         text_width = font.width("초기화까지 : ");
 
@@ -113,5 +115,12 @@ public class ComboCatcherGui {
 
     public void renderNotifyIcon(GuiGraphics guiGraphics, int x, int y){
         guiGraphics.blit(RenderType::guiTextured ,NOTIFY_ICON, x, y, 0, 0, 10, 14, 10, 14);
+    }
+
+    private int getXpos(){
+        return (this.mc.getWindow().getGuiScaledWidth()-60) * this.client.data.ComboCounter_xpos / 1000;
+    }
+    private int getYpos(){
+        return (this.mc.getWindow().getGuiScaledHeight()-30) * this.client.data.ComboCounter_ypos / 1000;
     }
 }
