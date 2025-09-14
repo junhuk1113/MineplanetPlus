@@ -58,19 +58,20 @@ public abstract class FishingMixin {
 
     @Inject(method = "onSyncedDataUpdated", at = @At("RETURN"))
     private void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor, CallbackInfo ci) {
-        String bobberOwner;
-        try {
-            bobberOwner = getPlayerOwner().getName().getString();
-        } catch (NullPointerException e) {
-            //System.out.println("null1!");
-            return;
-        }
+        if (serverutility.isHereMineplanet()) {
+            String bobberOwner;
+            try {
+                bobberOwner = getPlayerOwner().getName().getString();
+            } catch (NullPointerException e) {
+                //System.out.println("null1!");
+                return;
+            }
 
-        if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername())){
-            client.isBiting = true;
-        }
-        else{
-            client.isBiting = false;
+            if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername())) {
+                client.isBiting = true;
+            } else {
+                client.isBiting = false;
+            }
         }
     }
 }
