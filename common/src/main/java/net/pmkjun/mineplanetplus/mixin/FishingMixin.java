@@ -2,6 +2,8 @@ package net.pmkjun.mineplanetplus.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
@@ -39,17 +41,36 @@ public abstract class FishingMixin {
 
             //LOGGER.info("Fishing bobber entity removed."+caughtFish+" "+bobberOwner);
 
-            if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername()) && client.data.isTotemCooldown) {
-                //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
-                client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
-                if(client.data.valueCooldownReduction>0){
-                    ApiRequestManager.reduceTotemCooldown();
+            if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername())) {
+                if(client.data.isTotemCooldown) {
+                    //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
+                    client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
+                    if (client.data.valueCooldownReduction > 0) {
+                        ApiRequestManager.reduceTotemCooldown();
+                    }
+                    client.configManage.save();
                 }
-                client.configManage.save();
-            }
-            /*if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername())){
                 client.comboCatcher.addComboCount();
-            }*/
+            }
+            client.isBiting = false;
+        }
+    }
+
+    @Inject(method = "onSyncedDataUpdated", at = @At("RETURN"))
+    private void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor, CallbackInfo ci) {
+        String bobberOwner;
+        try {
+            bobberOwner = getPlayerOwner().getName().getString();
+        } catch (NullPointerException e) {
+            //System.out.println("null1!");
+            return;
+        }
+
+        if (biting && bobberOwner.equals(FishHelperClient.getInstance().getUsername())){
+            client.isBiting = true;
+        }
+        else{
+            client.isBiting = false;
         }
     }
 }

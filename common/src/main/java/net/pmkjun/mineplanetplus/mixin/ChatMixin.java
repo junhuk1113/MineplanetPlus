@@ -4,13 +4,16 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Skill;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -94,6 +97,24 @@ public abstract class ChatMixin {
             }
             else if(message.getString().contains("\uE2F8 해당 배달 주문을 삭제하였습니다.")){
                 this.fishhelper.deliveryQuests.popQuestData();
+            }
+
+            if(message.getString().contains("\uE2F8 낚시 숙련도가 상승하였습니다.")){
+                String level_String;
+                int fishing_level;
+
+                level_String = message.getString().replace("\uE2F8 낚시 숙련도가 상승하였습니다. (", "").replace(")", "");
+
+                try{
+                    fishing_level = Integer.parseInt(level_String);
+                    fishhelper.setFishingLevel(fishing_level);
+                    //fishhelper.setFishingLevel(fishing_level);mc.player.displayClientMessage(Component.literal("숙련도 상승 감지! : "+fishing_level), false);
+
+                }
+                catch(NumberFormatException e){
+                    mc.player.displayClientMessage(Component.literal("낚시 숙련도 인식 실패! PMKJun에게 문의하세요"), false);
+                }
+
             }
 
 

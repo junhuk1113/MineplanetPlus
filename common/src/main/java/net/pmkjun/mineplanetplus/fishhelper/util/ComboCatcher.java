@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 public class ComboCatcher {
     private long lastCaughtFishTime;
     private int comboCount = 0;
-    private int maxcomboCount = 0;
+    private int maxcomboCount = 105;
     Minecraft mc = Minecraft.getInstance();
 
     public void resetComboCount(){

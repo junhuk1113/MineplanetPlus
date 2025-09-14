@@ -70,7 +70,8 @@ public class ItemRendererMixin {
                     Itemname = text.getString();
 
                 if (!Itemname.equals("지속시간 업그레이드") && !Itemname.equals("쿨타임 감소")
-                        && !Itemname.contains("토템 리더 |") && !Itemname.equals("범위 업그레이드"))
+                        && !Itemname.contains("토템 리더 |") && !Itemname.equals("범위 업그레이드")
+                        && !Itemname.contains("콤보 캐쳐 |"))
                     break;
 
                 if (text.getString().contains("현재 레벨 ➛ ")) {
@@ -111,13 +112,12 @@ public class ItemRendererMixin {
                     }
                 }
 
-                if (Itemname.contains("콤보 캐쳐")) {
-                    System.out.println("콤보 캐쳐");
+                if (Itemname.contains("콤보 캐쳐 |")) {
                     if(text.getString().contains("최대 콤보|")) {
                         levelString = text.getString().replace("최대 콤보| ", "");
                         levelString = levelString.replace(".0", "");
                         levelInt = Integer.parseInt(levelString);
-                        System.out.println(levelString);
+                        //System.out.println(levelString);
                         fishhelper.comboCatcher.setMaxComboCount(levelInt);
                     }
                 }

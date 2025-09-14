@@ -33,7 +33,8 @@ public class ItemPickupMixin {
 		if (player instanceof LocalPlayer && serverutility.isHereMineplanet()) {
 			//if (!carried.isEmpty()&&carried.hasTag()) { 수정필요
 			if (!carried.isEmpty()) {
-				System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));
+				//System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));
+				System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL).getFirst().getString());
 				if(carried.getHoverName().getString().equals("토템 발동")){
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();

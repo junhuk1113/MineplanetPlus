@@ -22,7 +22,7 @@ public class FishHelperClient {
 
     private final totemCooltimeGui totemcooltimeGui;
     private final FishCounterGui fishCounterGui;
-    //private final ComboCatcherGui comboCatcherGui;
+    private final ComboCatcherGui comboCatcherGui;
     private final Timer timer = new Timer();
 
     public final DeliveryQuest deliveryQuests;
@@ -32,6 +32,8 @@ public class FishHelperClient {
     private int totem_X, totem_Z;
     private int totemRange;
     private String currentWorld;
+    private int fishing_level;
+    public boolean isBiting = false;
 
     public ComboCatcher comboCatcher = new ComboCatcher();
 
@@ -46,7 +48,7 @@ public class FishHelperClient {
         }
         this.totemcooltimeGui = new totemCooltimeGui();
         this.fishCounterGui = new FishCounterGui();
-        //this.comboCatcherGui = new ComboCatcherGui();
+        this.comboCatcherGui = new ComboCatcherGui();
         deliveryQuests = new DeliveryQuest();
     }
     public void init(){
@@ -56,7 +58,7 @@ public class FishHelperClient {
         this.totemcooltimeGui.renderTick(context,this.timer);
         this.timer.updateTime();
         this.fishCounterGui.renderTick(context);
-        //this.comboCatcherGui.renderTick(context);
+        this.comboCatcherGui.renderTick(context);
     }
     public void updateTotemtime(){
         this.data.lastTotemTime = this.timer.getCurrentTime();
@@ -155,6 +157,17 @@ public class FishHelperClient {
         }
 
         return null;
+    }
+
+    public void setFishingLevel(int fishing_level){
+        this.fishing_level = fishing_level;
+        updateFishingStat();
+    }
+
+    public void updateFishingStat(){
+        int maxComboCount;
+        maxComboCount = (this.fishing_level / 20) * 5 + 10;
+        comboCatcher.setMaxComboCount(maxComboCount);
     }
 
     public static FishHelperClient getInstance(){
