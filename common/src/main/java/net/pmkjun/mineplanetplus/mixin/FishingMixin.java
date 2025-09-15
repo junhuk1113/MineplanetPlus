@@ -52,7 +52,8 @@ public abstract class FishingMixin {
                 }
                 client.comboCatcher.addComboCount();
             }
-            client.isBiting = false;
+
+            if(bobberOwner.equals(FishHelperClient.getInstance().getUsername())) client.isBiting = false;
         }
     }
 
