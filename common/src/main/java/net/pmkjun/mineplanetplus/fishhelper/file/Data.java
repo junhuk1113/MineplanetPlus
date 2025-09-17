@@ -2,6 +2,7 @@ package net.pmkjun.mineplanetplus.fishhelper.file;
 
 import net.pmkjun.mineplanetplus.fishhelper.util.ComboCounterMode;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
+import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 
 public class Data{
     public String userName;
@@ -30,7 +31,7 @@ public class Data{
     public boolean toggleLog = false;
     public FishCounterMode toggleCounterMode = FishCounterMode.PERCENTAGE;
     public boolean toggleDeliveryHelper = true;
-    public boolean toggleShareTotemData = true;
+    public ShareMode toggleShareTotemData = ShareMode.ON;
     public boolean toggleViewRemoteTotemData = true;
 
     public int Timer_xpos = 1000;
@@ -40,8 +41,16 @@ public class Data{
     public int[] fish_Count = {0,0,0,0,0,0};
 
     public int maxComboCount = 0;
+    public String shareTotemPercentage;
 
     public ComboCounterMode toggleComboCounter = ComboCounterMode.OFF;
     public int ComboCounter_xpos = 1000;
     public int ComboCounter_ypos = 800;
+
+    public boolean isMythicalWaterActive = false;
+    public boolean isExpBoosterActive = false;
+    public boolean isOverHotspotActive = false;
+    public boolean isTreasureHunterActive = false;
+    public boolean isEntropyHoarder = false;
+    public String totemSlotString;
 }

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,7 +46,8 @@ public abstract class FishingMixin {
                 if(client.data.isTotemCooldown) {
                     //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
                     client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
-                    if (client.data.valueCooldownReduction > 0) {
+                    if (client.data.valueCooldownReduction > 0 &&
+                            (client.data.toggleShareTotemData == ShareMode.LIMIT || client.data.toggleShareTotemData == ShareMode.ON)) {
                         ApiRequestManager.reduceTotemCooldown();
                     }
                     client.configManage.save();

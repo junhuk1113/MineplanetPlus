@@ -10,6 +10,7 @@ import net.pmkjun.mineplanetplus.fishhelper.gui.FishCounterGui;
 import net.pmkjun.mineplanetplus.fishhelper.gui.totemCooltimeGui;
 import net.pmkjun.mineplanetplus.fishhelper.util.ComboCatcher;
 import net.pmkjun.mineplanetplus.fishhelper.util.DeliveryQuest;
+import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 import net.pmkjun.mineplanetplus.fishhelper.util.Timer;
 
 import java.util.ArrayList;
@@ -170,6 +171,13 @@ public class FishHelperClient {
         int maxComboCount;
         maxComboCount = (this.fishing_level / 20) * 5 + 10;
         comboCatcher.setMaxComboCount(maxComboCount);
+
+        double totemSharePercentage;
+        totemSharePercentage = (int)(this.fishing_level / 15) * 5 + 7.5D;
+        this.data.shareTotemPercentage = String.format("%.1f",totemSharePercentage);
+        this.configManage.save();
+        if(this.data.toggleShareTotemData == ShareMode.ON)
+            ApiRequestManager.updateShareTotemPercentage();
     }
 
     public void setHoldingFishingRod(boolean isHoldingFishingRod){

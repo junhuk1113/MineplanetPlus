@@ -15,7 +15,7 @@ import net.pmkjun.mineplanetplus.fabric.dungeonhelper.DungeonHelper;
 import net.pmkjun.mineplanetplus.fabric.fishhelper.FishHelperFabric;
 import net.pmkjun.mineplanetplus.fabric.input.KeyMappings;
 import net.pmkjun.mineplanetplus.fabric.planetskilltimer.PlanetSkillTimerFabric;
-import net.pmkjun.mineplanetplus.fishhelper.util.TotemList;
+import net.pmkjun.mineplanetplus.fishhelper.util.TotemCMD;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtility;
 import net.pmkjun.mineplanetplus.serverutility.util.FeeCalculator;
 
@@ -63,7 +63,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            ApiRequestManager.onClientTick();
+            ApiRefreshManager.onClientTick();
         });
     }
     private static int executeSendFee_noArg(CommandContext<FabricClientCommandSource> context) {
@@ -102,7 +102,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
     private static int loadNearTotem(CommandContext<FabricClientCommandSource> context){
         context.getSource().sendFeedback(Component.literal("↓ 주변에 있는 토템 ↓ ").withStyle(Style.EMPTY.withColor(0x84CA77))
                         .append(Component.literal("(마우스를 올려 토템 스펙 확인)\n").withStyle(Style.EMPTY.withColor(0xCAD1E0)))
-                .append(TotemList.getComponent()));
+                .append(TotemCMD.getComponent()));
         return 1;
     }
 }

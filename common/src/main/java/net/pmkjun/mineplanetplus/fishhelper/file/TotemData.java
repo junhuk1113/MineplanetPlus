@@ -10,6 +10,13 @@ public class TotemData {
     public int totem_X ;
     public int totem_Z ;
     public String totemWorld;
+    public String shareTotemPercentage;
+    public boolean isMythicalWaterActive = false;
+    public boolean isExpBoosterActive = false;
+    public boolean isOverHotspotActive = false;
+    public boolean isTreasureHunterActive = false;
+    public boolean isEntropyHoarder = false;
+    public String totemSlotString;
 
     public TotemData(String username, int valueTotemCooldown, int valueTotemActiveTime, int valueTotemRange, long lastTotemtime, long lastTotemCooldownTime, int totem_X, int totem_Z, String totemWorld){
         this.username = username;

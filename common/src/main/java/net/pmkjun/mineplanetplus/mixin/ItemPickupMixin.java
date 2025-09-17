@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,11 +35,11 @@ public class ItemPickupMixin {
 			//if (!carried.isEmpty()&&carried.hasTag()) { 수정필요
 			if (!carried.isEmpty()) {
 				//System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL));
-				System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL).getFirst().getString());
+				//System.out.println(carried.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL).getFirst().getString());
 				if(carried.getHoverName().getString().equals("토템 발동")){
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();
-					if(client.data.toggleShareTotemData) {
+					if(client.data.toggleShareTotemData == ShareMode.ON || client.data.toggleShareTotemData == ShareMode.LIMIT) {
 						ApiRequestManager.uploadTotemData();
 					}
 				}

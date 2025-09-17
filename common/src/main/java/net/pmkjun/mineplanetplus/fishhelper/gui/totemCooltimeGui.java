@@ -41,7 +41,7 @@ public class totemCooltimeGui {
             activesecond = 0;
         }
 
-        this.client.data.isTotemCooldown = cooldownsecond > 0 && cooldownsecond < this.client.data.valueTotemCooldown * 60;
+        this.client.data.isTotemCooldown = cooldownsecond > 0 && cooldownsecond < this.client.data.currentValueTotemCooldown * 60;
         isTimerOperating = isTotemActive || this.client.data.isTotemCooldown;
 
         if(!client.getRemoteTotemDataList().isEmpty()){

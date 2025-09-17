@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
+import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
 
@@ -87,7 +88,7 @@ public class TotemTimerConfigScreen extends Screen {
 
         toggleShareTotemDataButton = Button.builder(Component.empty(),button -> {
             toggleShareTotemData();
-        }).pos(getRegularX() + 5,5+getRegularY()+(20 + 2)*3+(10+4)).size(137,20).tooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata.tooltip"))).build();
+        }).pos(getRegularX() + 5,5+getRegularY()+(20 + 2)*3+(10+4)).size(137,20).build();
         setToggleShareTotemdataButtonText();
         this.addRenderableWidget(toggleShareTotemDataButton);
 
@@ -183,21 +184,30 @@ public class TotemTimerConfigScreen extends Screen {
         }
     }
     private void toggleShareTotemData(){
-        if(client.data.toggleShareTotemData){
-            client.data.toggleShareTotemData = false;
+        if(client.data.toggleShareTotemData == ShareMode.ON){
+            client.data.toggleShareTotemData = ShareMode.LIMIT;
         }
-        else{
-            client.data.toggleShareTotemData = true;
+        else if(client.data.toggleShareTotemData == ShareMode.LIMIT){
+            client.data.toggleShareTotemData = ShareMode.OFF;
+        }
+        else if(client.data.toggleShareTotemData == ShareMode.OFF){
+            client.data.toggleShareTotemData = ShareMode.ON;
         }
         setToggleShareTotemdataButtonText();
         client.configManage.save();
     }
     private void setToggleShareTotemdataButtonText(){
-        if(client.data.toggleShareTotemData){
+        if(client.data.toggleShareTotemData == ShareMode.ON){
             toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_enable"));
+            toggleShareTotemDataButton.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata_enable.tooltip")));
         }
-        else{
+        else if(client.data.toggleShareTotemData == ShareMode.LIMIT){
+            toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_limit"));
+            toggleShareTotemDataButton.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata_limit.tooltip")));
+        }
+        else if(client.data.toggleShareTotemData == ShareMode.OFF){
             toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_disable"));
+            toggleShareTotemDataButton.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata_disable.tooltip")));
         }
     }
 
