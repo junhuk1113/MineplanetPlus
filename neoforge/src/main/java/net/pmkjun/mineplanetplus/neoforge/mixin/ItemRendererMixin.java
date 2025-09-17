@@ -11,12 +11,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.*;
+import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertActivateTime;
 import net.pmkjun.mineplanetplus.fishhelper.util.ConvertCooldown;
 import net.pmkjun.mineplanetplus.fishhelper.util.FishingRod;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 import net.pmkjun.mineplanetplus.neoforge.fishhelper.item.FishItems;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import org.spongepowered.asm.mixin.Final;
@@ -28,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.pmkjun.mineplanetplus.neoforge.dungeonhelper.item.DungeonItems;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 @Mixin(ItemModelResolver.class)
@@ -42,7 +45,7 @@ public class ItemRendererMixin {
 
     private final Minecraft mc = Minecraft.getInstance();
     private final DungeonHelperClient client = DungeonHelperClient.getInstance();
-    private final FishHelperClient fishHelper = FishHelperClient.getInstance();
+    private final FishHelperClient fishhelper = FishHelperClient.getInstance();
     private final ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
     private ItemStack previousMainhandStack;
 
@@ -60,12 +63,86 @@ public class ItemRendererMixin {
             long secondLong;
 
             ItemText = stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL);
+            try {
+                boolean isActivate;
+                if (ItemText.getFirst().getString().contains("신비한 옹달샘")) {
+                    if (ItemText.getLast().getString().contains("활성화"))
+                        isActivate = true;
+                    else
+                        isActivate = false;
+
+                    if (isActivate != fishhelper.data.isMythicalWaterActive) {
+                        fishhelper.data.isMythicalWaterActive = isActivate;
+                        fishhelper.configManage.save();
+                        mc.player.displayClientMessage(Component.literal("신비한 옹달샘 : " + isActivate), false);
+                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                            ApiRequestManager.updateTotemSkill();
+                    }
+                } else if (ItemText.getFirst().getString().contains("숙련된 낚시꾼")) {
+                    if (ItemText.getLast().getString().contains("활성화"))
+                        isActivate = true;
+                    else
+                        isActivate = false;
+
+                    if (isActivate != fishhelper.data.isExpBoosterActive) {
+                        fishhelper.data.isExpBoosterActive = isActivate;
+                        fishhelper.configManage.save();
+                        mc.player.displayClientMessage(Component.literal("숙련된 낚시꾼 : " + isActivate), false);
+                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                            ApiRequestManager.updateTotemSkill();
+                    }
+                } else if (ItemText.getFirst().getString().contains("오버 핫스팟")) {
+                    if (ItemText.getLast().getString().contains("활성화"))
+                        isActivate = true;
+                    else
+                        isActivate = false;
+
+                    if (isActivate != fishhelper.data.isOverHotspotActive) {
+                        fishhelper.data.isOverHotspotActive = isActivate;
+                        fishhelper.configManage.save();
+                        mc.player.displayClientMessage(Component.literal("오버 핫스팟 : " + isActivate), false);
+                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                            ApiRequestManager.updateTotemSkill();
+                    }
+                } else if (ItemText.getFirst().getString().contains("트레져 헌터")) {
+                    if (ItemText.getLast().getString().contains("활성화"))
+                        isActivate = true;
+                    else
+                        isActivate = false;
+
+                    if (isActivate != fishhelper.data.isTreasureHunterActive) {
+                        fishhelper.data.isTreasureHunterActive = isActivate;
+                        fishhelper.configManage.save();
+                        mc.player.displayClientMessage(Component.literal("트레져 헌터 : " + isActivate), false);
+                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                            ApiRequestManager.updateTotemSkill();
+                    }
+                } else if (ItemText.getFirst().getString().contains("엔트로피 호더")) {
+                    if (ItemText.getLast().getString().contains("활성화"))
+                        isActivate = true;
+                    else
+                        isActivate = false;
+
+                    if (isActivate != fishhelper.data.isEntropyHoarder) {
+                        fishhelper.data.isEntropyHoarder = isActivate;
+                        fishhelper.configManage.save();
+                        mc.player.displayClientMessage(Component.literal("엔트로피 호더 : " + isActivate), false);
+                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                            ApiRequestManager.updateTotemSkill();
+                    }
+                }
+            }
+            catch (NoSuchElementException e){
+                //mc.player.displayClientMessage(Component.literal("그런 요소는 읎단다 예외 발생!"),false);
+            }
             for (Component text : ItemText) {
                 if (Itemname == null)
                     Itemname = text.getString();
 
                 if (!Itemname.equals("지속시간 업그레이드") && !Itemname.equals("쿨타임 감소")
-                        && !Itemname.contains("토템 리더 |") && !Itemname.equals("범위 업그레이드"))
+                        && !Itemname.contains("토템 리더 |") && !Itemname.equals("범위 업그레이드")
+                        && !Itemname.contains("콤보 캐쳐 |") && !Itemname.contains("패시브 슬롯 확장")
+                        && !Itemname.contains("부족의 외침 |"))
                     break;
 
                 if (text.getString().contains("현재 레벨 ➛ ")) {
@@ -92,7 +169,7 @@ public class ItemRendererMixin {
                         rangeString = rangeString.replace("블록", "");
 
                         rangeInt = Integer.parseInt(rangeString);
-                        fishHelper.setTotemRange(rangeInt);
+                        fishhelper.setTotemRange(rangeInt);
                     }
                 }
                 if (Itemname.contains("토템 리더 |") && text.getString().contains("효과|") && !text.getString().contains("다음 레벨 효과")) {
@@ -106,6 +183,41 @@ public class ItemRendererMixin {
                     }
                 }
 
+                if (Itemname.contains("콤보 캐쳐 |")) {
+                    if(text.getString().contains("최대 콤보|")) {
+                        levelString = text.getString().replace("최대 콤보| ", "");
+                        levelString = levelString.replace(".0", "");
+                        levelInt = Integer.parseInt(levelString);
+                        //System.out.println(levelString);
+                        fishhelper.comboCatcher.setMaxComboCount(levelInt);
+                    }
+                }
+
+                if(Itemname.contains("부족의 외침 |")){
+                    if(text.getString().contains("효과| ")){
+                        levelString = text.getString().replace("효과| ", "").replace("% 공유","");
+                        if(!levelString.equals(fishhelper.data.shareTotemPercentage)){
+                            fishhelper.data.shareTotemPercentage = levelString;
+                            fishhelper.configManage.save();
+                            //System.out.println("부족의 외침 효과 \""+fishhelper.data.shareTotemPercentage+"\"");
+                        }
+                    }
+                }
+
+                if(Itemname.contains("패시브 슬롯 확장")){
+                    if(text.getString().contains("사용중인 패시브 슬롯|")){
+                        String slotString;
+                        slotString = text.getString().replace("사용중인 패시브 슬롯| (","");
+                        slotString = slotString.replace(") 슬롯","");
+                        if(!slotString.equals(fishhelper.data.totemSlotString)){
+                            fishhelper.data.totemSlotString = slotString;
+                            fishhelper.configManage.save();
+                            //mc.player.displayClientMessage(Component.literal("토템 슬롯 데이터 저장됨 : " + slotString),false);
+                        }
+                    }
+
+                }
+
             }
 
             ItemStack mainhandStack = mc.player.getMainHandItem();
@@ -115,10 +227,10 @@ public class ItemRendererMixin {
 
                 if (mainhandStack.getItem().getDescriptionId().equals("item.minecraft.fishing_rod")) {
                     FishingRod.updateSpec(mainhandStack);
-                    fishHelper.setHoldingFishingRod(true);
+                    fishhelper.setHoldingFishingRod(true);
                 }
                 else{
-                    fishHelper.setHoldingFishingRod(false);
+                    fishhelper.setHoldingFishingRod(false);
                 }
 
                 if (this.client.data.toggleAutoClassDetect) {
@@ -222,11 +334,11 @@ public class ItemRendererMixin {
                     }
                 } else if (FishItems.getFishItem(stack) != null) {
                     var10000 = modelGetter.apply(new ItemStack(FishItems.getFishItem(stack), stack.getCount()).get(DataComponents.ITEM_MODEL));
-                    if(FishItems.getQuestItem(stack, fishHelper) != null){
-                        extraItemModel = modelGetter.apply(new ItemStack(FishItems.getQuestItem(stack, fishHelper), stack.getCount()).get(DataComponents.ITEM_MODEL));
+                    if(FishItems.getQuestItem(stack, fishhelper) != null){
+                        extraItemModel = modelGetter.apply(new ItemStack(FishItems.getQuestItem(stack, fishhelper), stack.getCount()).get(DataComponents.ITEM_MODEL));
                     }
                 }
-                else if(fishHelper.deliveryQuests.findMatchQuestTooltip(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))!=-1){
+                else if(fishhelper.deliveryQuests.findMatchQuestTooltip(stack.getTooltipLines(Item.TooltipContext.EMPTY, mc.player, TooltipFlag.NORMAL))!=-1){
                     var10000 = modelGetter.apply(new ItemStack(FishItems.getQuestItem(), stack.getCount()).get(DataComponents.ITEM_MODEL));
                 }
                 else {
