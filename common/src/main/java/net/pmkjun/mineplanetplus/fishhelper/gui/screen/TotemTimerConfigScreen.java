@@ -184,28 +184,28 @@ public class TotemTimerConfigScreen extends Screen {
         }
     }
     private void toggleShareTotemData(){
-        if(client.data.toggleShareTotemData == ShareMode.ON){
-            client.data.toggleShareTotemData = ShareMode.LIMIT;
+        if(client.data.toggleShareTotemDataMode == ShareMode.ON){
+            client.data.toggleShareTotemDataMode = ShareMode.LIMIT;
         }
-        else if(client.data.toggleShareTotemData == ShareMode.LIMIT){
-            client.data.toggleShareTotemData = ShareMode.OFF;
+        else if(client.data.toggleShareTotemDataMode == ShareMode.LIMIT){
+            client.data.toggleShareTotemDataMode = ShareMode.OFF;
         }
-        else if(client.data.toggleShareTotemData == ShareMode.OFF){
-            client.data.toggleShareTotemData = ShareMode.ON;
+        else if(client.data.toggleShareTotemDataMode == ShareMode.OFF){
+            client.data.toggleShareTotemDataMode = ShareMode.ON;
         }
         setToggleShareTotemdataButtonText();
         client.configManage.save();
     }
     private void setToggleShareTotemdataButtonText(){
-        if(client.data.toggleShareTotemData == ShareMode.ON){
+        if(client.data.toggleShareTotemDataMode == ShareMode.ON){
             toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_enable"));
             toggleShareTotemDataButton.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata_enable.tooltip")));
         }
-        else if(client.data.toggleShareTotemData == ShareMode.LIMIT){
+        else if(client.data.toggleShareTotemDataMode == ShareMode.LIMIT){
             toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_limit"));
             toggleShareTotemDataButton.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata_limit.tooltip")));
         }
-        else if(client.data.toggleShareTotemData == ShareMode.OFF){
+        else if(client.data.toggleShareTotemDataMode == ShareMode.OFF){
             toggleShareTotemDataButton.setMessage(Component.translatable("fishhelper.config.sharetotemdata_disable"));
             toggleShareTotemDataButton.setTooltip(Tooltip.create(Component.translatable("fishhelper.config.sharetotemdata_disable.tooltip")));
         }

@@ -2,7 +2,6 @@ package net.pmkjun.mineplanetplus.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -39,7 +38,7 @@ public class ItemPickupMixin {
 				if(carried.getHoverName().getString().equals("토템 발동")){
 					LOGGER.info("토템 발동 버튼 눌림");
 					client.updateTotemtime();
-					if(client.data.toggleShareTotemData == ShareMode.ON || client.data.toggleShareTotemData == ShareMode.LIMIT) {
+					if(client.data.toggleShareTotemDataMode == ShareMode.ON || client.data.toggleShareTotemDataMode == ShareMode.LIMIT) {
 						ApiRequestManager.uploadTotemData();
 					}
 				}

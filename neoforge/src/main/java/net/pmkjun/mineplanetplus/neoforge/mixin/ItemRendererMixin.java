@@ -75,7 +75,7 @@ public class ItemRendererMixin {
                         fishhelper.data.isMythicalWaterActive = isActivate;
                         fishhelper.configManage.save();
                         //mc.player.displayClientMessage(Component.literal("신비한 옹달샘 : " + isActivate), false);
-                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                        if(fishhelper.data.toggleShareTotemDataMode == ShareMode.ON)
                             ApiRequestManager.updateTotemSkill();
                     }
                 } else if (ItemText.getFirst().getString().contains("숙련된 낚시꾼")) {
@@ -88,7 +88,7 @@ public class ItemRendererMixin {
                         fishhelper.data.isExpBoosterActive = isActivate;
                         fishhelper.configManage.save();
                         //mc.player.displayClientMessage(Component.literal("숙련된 낚시꾼 : " + isActivate), false);
-                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                        if(fishhelper.data.toggleShareTotemDataMode == ShareMode.ON)
                             ApiRequestManager.updateTotemSkill();
                     }
                 } else if (ItemText.getFirst().getString().contains("오버 핫스팟")) {
@@ -101,7 +101,7 @@ public class ItemRendererMixin {
                         fishhelper.data.isOverHotspotActive = isActivate;
                         fishhelper.configManage.save();
                         //mc.player.displayClientMessage(Component.literal("오버 핫스팟 : " + isActivate), false);
-                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                        if(fishhelper.data.toggleShareTotemDataMode == ShareMode.ON)
                             ApiRequestManager.updateTotemSkill();
                     }
                 } else if (ItemText.getFirst().getString().contains("트레져 헌터")) {
@@ -114,7 +114,7 @@ public class ItemRendererMixin {
                         fishhelper.data.isTreasureHunterActive = isActivate;
                         fishhelper.configManage.save();
                         //mc.player.displayClientMessage(Component.literal("트레져 헌터 : " + isActivate), false);
-                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                        if(fishhelper.data.toggleShareTotemDataMode == ShareMode.ON)
                             ApiRequestManager.updateTotemSkill();
                     }
                 } else if (ItemText.getFirst().getString().contains("엔트로피 호더")) {
@@ -127,7 +127,7 @@ public class ItemRendererMixin {
                         fishhelper.data.isEntropyHoarder = isActivate;
                         fishhelper.configManage.save();
                         //mc.player.displayClientMessage(Component.literal("엔트로피 호더 : " + isActivate), false);
-                        if(fishhelper.data.toggleShareTotemData == ShareMode.ON)
+                        if(fishhelper.data.toggleShareTotemDataMode == ShareMode.ON)
                             ApiRequestManager.updateTotemSkill();
                     }
                 }

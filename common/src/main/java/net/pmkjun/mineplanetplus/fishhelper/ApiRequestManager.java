@@ -1,7 +1,6 @@
 package net.pmkjun.mineplanetplus.fishhelper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
 
 import java.net.URI;
@@ -50,7 +49,7 @@ public class ApiRequestManager {
 
         HttpRequest request;
 
-        if(client.data.toggleShareTotemData == ShareMode.ON) { // ShareMode.ON
+        if(client.data.toggleShareTotemDataMode == ShareMode.ON) { // ShareMode.ON
             request = HttpRequest.newBuilder()
                     .GET()
                     .uri(URI.create(URL + "?username=" + username

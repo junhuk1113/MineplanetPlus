@@ -1,9 +1,6 @@
 package net.pmkjun.mineplanetplus.mixin;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.pmkjun.mineplanetplus.fishhelper.ApiRequestManager;
@@ -47,7 +44,7 @@ public abstract class FishingMixin {
                     //LOGGER.info("fish caught!"+FishHelperClient.getInstance().getUsername());
                     client.data.lastTotemCooldownTime -= client.data.valueCooldownReduction;
                     if (client.data.valueCooldownReduction > 0 &&
-                            (client.data.toggleShareTotemData == ShareMode.LIMIT || client.data.toggleShareTotemData == ShareMode.ON)) {
+                            (client.data.toggleShareTotemDataMode == ShareMode.LIMIT || client.data.toggleShareTotemDataMode == ShareMode.ON)) {
                         ApiRequestManager.reduceTotemCooldown();
                     }
                     client.configManage.save();

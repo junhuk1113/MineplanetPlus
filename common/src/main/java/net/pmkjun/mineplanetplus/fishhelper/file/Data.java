@@ -31,7 +31,7 @@ public class Data{
     public boolean toggleLog = false;
     public FishCounterMode toggleCounterMode = FishCounterMode.PERCENTAGE;
     public boolean toggleDeliveryHelper = true;
-    public ShareMode toggleShareTotemData = ShareMode.ON;
+    public ShareMode toggleShareTotemDataMode = ShareMode.ON;
     public boolean toggleViewRemoteTotemData = true;
 
     public int Timer_xpos = 1000;

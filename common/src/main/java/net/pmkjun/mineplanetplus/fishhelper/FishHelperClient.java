@@ -176,7 +176,7 @@ public class FishHelperClient {
         totemSharePercentage = (int)(this.fishing_level / 15) * 5 + 7.5D;
         this.data.shareTotemPercentage = String.format("%.1f",totemSharePercentage);
         this.configManage.save();
-        if(this.data.toggleShareTotemData == ShareMode.ON)
+        if(this.data.toggleShareTotemDataMode == ShareMode.ON)
             ApiRequestManager.updateShareTotemPercentage();
     }
 
