@@ -173,7 +173,7 @@ public class FishHelperClient {
         comboCatcher.setMaxComboCount(maxComboCount);
 
         double totemSharePercentage;
-        totemSharePercentage = (int)(this.fishing_level / 15) * 5 + 7.5D;
+        totemSharePercentage = (int)(this.fishing_level / 15) * 5 + 7.5D > 100 ? 100 : (int)(this.fishing_level / 15) * 5 + 7.5D;
         this.data.shareTotemPercentage = String.format("%.1f",totemSharePercentage);
         this.configManage.save();
         if(this.data.toggleShareTotemDataMode == ShareMode.ON)
