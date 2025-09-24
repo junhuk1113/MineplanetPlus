@@ -17,6 +17,8 @@ import net.pmkjun.mineplanetplus.fabric.input.KeyMappings;
 import net.pmkjun.mineplanetplus.fabric.planetskilltimer.PlanetSkillTimerFabric;
 import net.pmkjun.mineplanetplus.fishhelper.util.TotemCMD;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtility;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
+import net.pmkjun.mineplanetplus.serverutility.util.DivingCMD;
 import net.pmkjun.mineplanetplus.serverutility.util.FeeCalculator;
 
 public final class MineplanetPlusFabric implements ModInitializer {
@@ -62,6 +64,20 @@ public final class MineplanetPlusFabric implements ModInitializer {
             );
         });
 
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(ClientCommandManager.literal("잠수탐사골드").then(ClientCommandManager.argument("골드 입력", LongArgumentType.longArg(0))
+                            .executes(MineplanetPlusFabric::setTargetDivingMoney)
+                    ).executes(MineplanetPlusFabric::setTargetDivingMoney_noArg)
+            );
+        });
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(ClientCommandManager.literal("잠수탐사실링").then(ClientCommandManager.argument("실링 입력", IntegerArgumentType.integer(0))
+                            .executes(MineplanetPlusFabric::setTargetDivingShilling)
+                    ).executes(MineplanetPlusFabric::setTargetDivingShilling_noArg)
+            );
+        });
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ApiRefreshManager.onClientTick();
         });
@@ -103,6 +119,27 @@ public final class MineplanetPlusFabric implements ModInitializer {
         context.getSource().sendFeedback(Component.literal("↓ 주변에 있는 토템 ↓ ").withStyle(Style.EMPTY.withColor(0x84CA77))
                         .append(Component.literal("(마우스를 올려 토템 스펙 확인)\n").withStyle(Style.EMPTY.withColor(0xCAD1E0)))
                 .append(TotemCMD.getComponent()));
+        return 1;
+    }
+
+    private static int setTargetDivingMoney(CommandContext<FabricClientCommandSource> context){
+        long value2 = LongArgumentType.getLong(context, "골드 입력");
+        ServerUtilityClient.getInstance().setDivingTargetMoney(value2);
+        context.getSource().sendFeedback(Component.literal("골드 목표치 설정 완료"));
+        return 1;
+    }
+    private static int setTargetDivingMoney_noArg(CommandContext<FabricClientCommandSource> context){
+        context.getSource().sendFeedback(DivingCMD.getMoneyDescriptionMessage());
+        return 1;
+    }
+    private static int setTargetDivingShilling(CommandContext<FabricClientCommandSource> context){
+        int shilling = IntegerArgumentType.getInteger(context, "실링 입력");
+        ServerUtilityClient.getInstance().setDivingTargetShilling(shilling);
+        context.getSource().sendFeedback(Component.literal("실링 목표치 설정 완료"));
+        return 1;
+    }
+    private static int setTargetDivingShilling_noArg(CommandContext<FabricClientCommandSource> context){
+        context.getSource().sendFeedback(DivingCMD.getShillingDescriptionMessage());
         return 1;
     }
 }

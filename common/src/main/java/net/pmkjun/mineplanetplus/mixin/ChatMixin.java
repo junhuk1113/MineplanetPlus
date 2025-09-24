@@ -4,16 +4,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
 import net.pmkjun.mineplanetplus.planetskilltimer.file.Skill;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -145,6 +142,11 @@ public abstract class ChatMixin {
                 } catch (NullPointerException e) {
                     mc.player.displayClientMessage(Component.literal("확성기 타이머 : NullPointerException!"), false);
                 }
+            }
+            if (message.getString().contains("\uE2F8 500\uE1BE이 지급되었습니다.") && serverutility.isDiving()){
+                serverutility.divingCounter.addEarnedMoney(500);
+                serverutility.divingCounter.addEarnedShilling(4);
+                serverutility.divingCounter.update();
             }
 
             if (serverutility.data.toggleFeeCalcalator) {

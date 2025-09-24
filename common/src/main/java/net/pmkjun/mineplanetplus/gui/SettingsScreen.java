@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.pmkjun.mineplanetplus.dungeonhelper.gui.screen.DungeonHelperSettingsScreen;
 import net.pmkjun.mineplanetplus.fishhelper.gui.screen.FishHelperConfigScreen;
 import net.pmkjun.mineplanetplus.planetskilltimer.config.SkillTimerConfigScreen;
-import net.pmkjun.mineplanetplus.serverutility.gui.ServerUtilityConfigScreen;
+import net.pmkjun.mineplanetplus.serverutility.gui.screen.ServerUtilityConfigScreen;
 
 public class SettingsScreen extends Screen {
     private final Minecraft mc;

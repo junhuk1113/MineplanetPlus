@@ -17,4 +17,7 @@ public class Data{
 
     public boolean toggleFeeCalcalator = true;
     public boolean toggleForceModEnable = false;
+
+    public long targetMoney = 10000;
+    public int targetShilling = 2000;
 }

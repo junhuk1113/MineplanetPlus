@@ -1,4 +1,4 @@
-package net.pmkjun.mineplanetplus.serverutility.gui;
+package net.pmkjun.mineplanetplus.serverutility.gui.screen;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -12,80 +12,105 @@ import net.pmkjun.mineplanetplus.gui.StretchableBackground;
 import net.pmkjun.mineplanetplus.gui.components.Slider;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
 
-public class MegaphoneTimerConfigScreen extends Screen{
+public class CurrencyHudConfigScreen extends Screen{
     private final Minecraft mc;
     private final ServerUtilityClient client;
     private final StretchableBackground background = new StretchableBackground();
     private final Screen parentScreen;
-    
-    private Button toggleMegaphonetimerButton;
-    private Button toggleAlertSoundButton;
-    private Button openPosScreenButton;
+
+    private Button toggleCurrencyDisplayButton;
+    private Button toggleCurrencyDisplayCustomposButton;
 
     private Slider XPosSlider;
     private Slider YPosSlider;
     private final int width, height;
 
-    public MegaphoneTimerConfigScreen(Screen parentScreen){
-        super(Component.literal("확성기 타이머 설정"));
+    public CurrencyHudConfigScreen(Screen parentScreen){
+        super(Component.literal("재화 표시 설정"));
         this.parentScreen = parentScreen;
         this.mc = Minecraft.getInstance();
         this.client = ServerUtilityClient.getInstance();
 
         this.width = 147;
-        this.height = 8 + (20+2) * 5;
+        this.height = 8 + (20+2) * 4;
     }
 
     @Override
     protected void init(){
-        toggleMegaphonetimerButton = Button.builder(Component.empty(),button -> {
-            toggleMegaphonetimer();
-        }).pos(5+getRegularX(), 5+getRegularY())
-                .size(137, 20)
-                .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.megaphonetimer.tooltip")))
-                .build();
-        setToggleMegaphonetimerButtonText();
-        this.addRenderableWidget(toggleMegaphonetimerButton);
-
-        toggleAlertSoundButton = Button.builder(Component.empty(),button -> {
-            toggleAlertSound();
-        }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
+        toggleCurrencyDisplayButton = Button.builder(Component.empty(), button -> {
+                    toggleCurrencyDisplay();
+                }).pos(5+getRegularX(),5+getRegularY()+(20+2)*0)
                 .size(137,20)
-                .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.sound.tooltip")))
+                .tooltip(Tooltip.create(Component.translatable("serverutility.currency_display.main.tooltip")))
                 .build();
-        setToggleAlertSoundButtonText();
-        this.addRenderableWidget(toggleAlertSoundButton);
+        setToggleCurrencyDisplayButtonText();
+        this.addRenderableWidget(toggleCurrencyDisplayButton);
+
+        toggleCurrencyDisplayCustomposButton = Button.builder(Component.empty(), button -> {
+                    toggleCurrencyDisplayCustompos();
+                }).pos(5+getRegularX(),5+getRegularY()+(20+2)*1)
+                .size(137,20)
+                .tooltip(Tooltip.create(Component.translatable("serverutility.currency_display.customguipos.tooltip")))
+                .build();
+        setToggleCurrencyDisplayCustomposButtonText();
+        this.addRenderableWidget(toggleCurrencyDisplayCustomposButton);
 
         Button exitButton = Button.builder(Component.translatable("planetskilltimer.config.exit"), button -> {
             mc.setScreen(parentScreen);
         }).pos(mc.getWindow().getGuiScaledWidth() / 2 - 35, mc.getWindow().getGuiScaledHeight() - 22).size(70, 20).build();
         this.addRenderableWidget(exitButton);
 
-        XPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*2,137,20,Component.literal("X : "),Component.literal(""),0,1000,this.client.data.MegaphonetimerXpos,true){
+        XPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*2,137,20,Component.literal("X : "),Component.literal(""),0,1000,this.client.data.CurrencyDisplayXpos,true){
             @Override
             protected void applyValue() {
-                client.data.MegaphonetimerXpos = this.getValueInt();
+                client.data.CurrencyDisplayXpos = this.getValueInt();
                 client.settings.save();
             }
         };
         XPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
         this.addRenderableWidget(XPosSlider);
-        YPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*3,137,20,Component.literal("Y : "),Component.literal(""),0,1000,this.client.data.MegaphonetimerYpos,true){
+        YPosSlider = new Slider(5+getRegularX(), 5+getRegularY()+(20+2)*3,137,20,Component.literal("Y : "),Component.literal(""),0,1000,this.client.data.CurrencyDisplayYpos,true){
             @Override
             protected void applyValue() {
-                client.data.MegaphonetimerYpos = this.getValueInt();
+                client.data.CurrencyDisplayYpos = this.getValueInt();
+
                 client.settings.save();
             }
         };
         YPosSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
         this.addRenderableWidget(YPosSlider);
-        openPosScreenButton = Button.builder(Component.translatable("megaphonetimer.config.movepos"), button -> {
-            mc.setScreen(new AdjustMegaphoneTimerPosScreen(mc.screen));
-        }).pos(5+getRegularX(), 5+getRegularY()+(20+2)*4)
-                .size(137, 20)
-                .tooltip(Tooltip.create(Component.translatable("megaphonetimer.config.movepos.tooltip")))
-                .build();
-        this.addRenderableWidget(openPosScreenButton);
+    }
+
+    private void toggleCurrencyDisplay(){
+        client.data.toggleCurrencyDisplay = !client.data.toggleCurrencyDisplay;
+        setToggleCurrencyDisplayButtonText();
+        client.settings.save();
+    }
+    private void setToggleCurrencyDisplayButtonText(){
+        if(client.data.toggleCurrencyDisplay){
+            toggleCurrencyDisplayButton.setMessage( Component.translatable("serverutility.currency_display.main").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
+        }
+        else{
+            toggleCurrencyDisplayButton.setMessage(Component.translatable("serverutility.currency_display.main").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+        }
+    }
+
+    private void toggleCurrencyDisplayCustompos(){
+        client.data.toggleCurrencyDisplayCustompos = !client.data.toggleCurrencyDisplayCustompos;
+        setToggleCurrencyDisplayCustomposButtonText();
+        client.settings.save();
+    }
+    private void setToggleCurrencyDisplayCustomposButtonText(){
+        if(client.data.toggleCurrencyDisplayCustompos){
+            toggleCurrencyDisplayCustomposButton.setMessage(Component.translatable("serverutility.currency_display.customguipos").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
+        }
+        else{
+            toggleCurrencyDisplayCustomposButton.setMessage(Component.translatable("serverutility.currency_display.customguipos").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+        }
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
@@ -93,38 +118,6 @@ public class MegaphoneTimerConfigScreen extends Screen{
         XPosSlider.render(guiGraphics,mouseX,mouseY,delta);
         YPosSlider.render(guiGraphics,mouseX,mouseY,delta);
         super.render(guiGraphics, mouseX, mouseY, delta);
-    }
-
-    private void toggleMegaphonetimer(){
-        client.data.toggleMegaphonetimer = !client.data.toggleMegaphonetimer;
-        setToggleMegaphonetimerButtonText();
-        client.settings.save();
-    }
-    private void setToggleMegaphonetimerButtonText(){
-        if(client.data.toggleMegaphonetimer){
-            toggleMegaphonetimerButton.setMessage(Component.translatable("megaphonetimer.config.megaphonetimer").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-        }
-        else{
-            toggleMegaphonetimerButton.setMessage(Component.translatable("megaphonetimer.config.megaphonetimer").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-        }
-    }
-
-    private void toggleAlertSound(){
-        client.data.toggleAlertSound = !client.data.toggleAlertSound;
-        setToggleAlertSoundButtonText();
-        client.settings.save();
-    }
-    private void setToggleAlertSoundButtonText(){
-        if(client.data.toggleAlertSound){
-            toggleAlertSoundButton.setMessage(Component.translatable("megaphonetimer.config.sound").append(
-                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
-        }
-        else{
-            toggleAlertSoundButton.setMessage(Component.translatable("megaphonetimer.config.sound").append(
-                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
-        }
     }
 
     int getRegularX() {

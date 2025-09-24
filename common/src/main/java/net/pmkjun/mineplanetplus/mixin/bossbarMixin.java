@@ -31,7 +31,7 @@ public class bossbarMixin {
     @Shadow
     protected Component name;
 
-    @Inject(method = "setName(Lnet/minecraft/network/chat/Component;)V",at = {@At("RETURN")},cancellable = true)
+    @Inject(method = "setName(Lnet/minecraft/network/chat/Component;)V",at = {@At("RETURN")})
     private void BossBarOverlayMixin(Component bossbarComponent, CallbackInfo cir){
         if(serverUtilityClient.isHereMineplanet()) {
             String[] mana;
@@ -90,11 +90,13 @@ public class bossbarMixin {
                     client.updateLeftUltimateTime(Float.parseFloat(text.getString()));
                     isSlot5Updated = true;
                 } else if (text.getStyle().getFont().getPath().equals("layout/status/fonts/status/money") && !text.getString().equals(" ")) {
-                    serverUtilityClient.money = text;
+                    //serverUtilityClient.money_component = text;
+                    serverUtilityClient.setMoneyComponent(text);
                 } else if (text.getStyle().getFont().getPath().equals("layout/status/fonts/status/coin") && !text.getString().equals(" ")) {
-                    serverUtilityClient.coin = text;
+                    //serverUtilityClient.coin_component = text;
+                    serverUtilityClient.setCoinComponent(text);
                 } else if (text.getStyle().getFont().getPath().equals("layout/status/fonts/status/credit") && !text.getString().equals(" ")) {
-                    serverUtilityClient.credit = text;
+                    serverUtilityClient.credit_component = text;
                 }
 
                 else if(text.getStyle().getFont().getPath().equals("layout/hud_dungeon/textures") && text.getString().equals("\uE05E")){
@@ -115,6 +117,9 @@ public class bossbarMixin {
                 }
                 else if (text.getStyle().getFont().getPath().equals("layout/top_survival/fonts/region_survival/region")){
                     fishHelperClient.setCurrentWorld(text.getString());
+                    if(text.getString().contains("잠수탐사") != serverUtilityClient.isDiving()){
+                        serverUtilityClient.setDiving();
+                    }
                 }
 
             }
