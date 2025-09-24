@@ -10,6 +10,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.pmkjun.mineplanetplus.fishhelper.util.TotemCMD;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
+import net.pmkjun.mineplanetplus.serverutility.util.DivingCMD;
 import net.pmkjun.mineplanetplus.serverutility.util.FeeCalculator;
 
 public class MineplanetplusCommand {
@@ -27,6 +29,14 @@ public class MineplanetplusCommand {
                         .executes(MineplanetplusCommand::executeCreditSellFee)));
 
         dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("토템찾기").executes(MineplanetplusCommand::loadNearTotem));
+
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("잠수탐사골드").executes(MineplanetplusCommand::setTargetDivingMoney_noArg)
+                .then(Commands.argument("골드 입력", LongArgumentType.longArg(0))
+                        .executes(MineplanetplusCommand::setTargetDivingMoney)));
+
+        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("잠수탐사실링").executes(MineplanetplusCommand::setTargetDivingShilling_noArg)
+                .then(Commands.argument("실링 입력", IntegerArgumentType.integer(0))
+                        .executes(MineplanetplusCommand::setTargetDivingShilling)));
     }
 
     private static int executeSendFee_noArg(CommandContext<CommandSourceStack> context) {
@@ -63,6 +73,27 @@ public class MineplanetplusCommand {
         context.getSource().sendSystemMessage(Component.literal("↓ 주변에 있는 토템 ↓ ").withStyle(Style.EMPTY.withColor(0x84CA77))
                 .append(Component.literal("(마우스를 올려 토템 스펙 확인)\n").withStyle(Style.EMPTY.withColor(0xCAD1E0)))
                 .append(TotemCMD.getComponent()));
+        return 1;
+    }
+
+    private static int setTargetDivingMoney(CommandContext<CommandSourceStack> context){
+        long value2 = LongArgumentType.getLong(context, "골드 입력");
+        ServerUtilityClient.getInstance().setDivingTargetMoney(value2);
+        context.getSource().sendSystemMessage(Component.literal("골드 목표치 설정 완료"));
+        return 1;
+    }
+    private static int setTargetDivingMoney_noArg(CommandContext<CommandSourceStack> context){
+        context.getSource().sendSystemMessage(DivingCMD.getMoneyDescriptionMessage());
+        return 1;
+    }
+    private static int setTargetDivingShilling(CommandContext<CommandSourceStack> context){
+        int shilling = IntegerArgumentType.getInteger(context, "실링 입력");
+        ServerUtilityClient.getInstance().setDivingTargetShilling(shilling);
+        context.getSource().sendSystemMessage(Component.literal("실링 목표치 설정 완료"));
+        return 1;
+    }
+    private static int setTargetDivingShilling_noArg(CommandContext<CommandSourceStack> context){
+        context.getSource().sendSystemMessage(DivingCMD.getShillingDescriptionMessage());
         return 1;
     }
 }

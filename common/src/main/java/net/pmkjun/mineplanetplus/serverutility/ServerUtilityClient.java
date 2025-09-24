@@ -79,7 +79,7 @@ public class ServerUtilityClient {
             +divingCounter.getEarnedShilling()+"\uE3B7"),false);
             divingCounter = null;
         }
-        mc.player.displayClientMessage(Component.literal("잠수탐사 상태 : " + this.isDiving), false);
+        //mc.player.displayClientMessage(Component.literal("잠수탐사 상태 : " + this.isDiving), false);
 
     }
 

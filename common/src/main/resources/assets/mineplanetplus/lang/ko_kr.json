@@ -162,6 +162,8 @@
   "megaphonetimer.config.sound.tooltip" : "쿨타임이 다 돈 후에 소리로 알려줍니다.",
   "megaphonetimer.config.movepos" : "위치 이동",
   "megaphonetimer.config.movepos.tooltip" : "확성기 타이머 아이콘을 마우스로 드래그해서 위치를 설정할 수 있습니다.",
+  "serverutility.diving_counter" : "잠수탐사 카운터 : ",
+  "serverutility.diving_counter.tooltip" : "잠수 상태일 때 다음 획득까지 남은 시간, 획득한 골드 실링을 카운트합니다.",
 
   "mineplanetplus.key.category" : "마인플래닛+",
   "mineplanetplus.key.open_settings" : "* 마인플래닛+ 설정",

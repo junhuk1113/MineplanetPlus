@@ -61,7 +61,7 @@ public class DivingCounterGui {
         renderList.add(Component.literal("현재 획득량 : " + client.divingCounter.getEarnedMoney() +
                 "\uE1BE, "+ client.divingCounter.getEarnedShilling()+"\uE3B7"));
         renderList.add(Component.literal(""));
-        renderList.add(Component.literal("/잠사탐수골드, /잠사탐수실링 [금액]"));
+        renderList.add(Component.literal("/잠사탐사골드, /잠사탐사실링 [금액]"));
         renderList.add(Component.literal("명령어로 목표치를 설정하세요."));
 
         int length = maxFontLength(renderList);
