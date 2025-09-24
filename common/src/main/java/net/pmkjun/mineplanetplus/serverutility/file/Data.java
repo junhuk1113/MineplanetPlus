@@ -18,6 +18,7 @@ public class Data{
     public boolean toggleFeeCalcalator = true;
     public boolean toggleForceModEnable = false;
 
-    public long targetMoney = 10000;
+    public long targetMoney = 250000;
     public int targetShilling = 2000;
+    public boolean toggleDivingCounter = true;
 }

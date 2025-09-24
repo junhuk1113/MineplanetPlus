@@ -19,6 +19,7 @@ public class ServerUtilityConfigScreen extends Screen{
 
     private Button toggleCurrencyDisplayButton;
     private Button toggleFeeCalculatorButton;
+    private Button toggleDivingCounterButton;
     private Button toggleForceModEnableButton;
 
     private final int width, height;
@@ -30,7 +31,7 @@ public class ServerUtilityConfigScreen extends Screen{
         this.client = ServerUtilityClient.getInstance();
 
         this.width = 147;
-        this.height = 8 + (20+2) * 4;
+        this.height = 8 + (20+2) * 5;
     }
 
     @Override
@@ -56,9 +57,18 @@ public class ServerUtilityConfigScreen extends Screen{
         setToggleFeeCalculatorButtonText();
         this.addRenderableWidget(toggleFeeCalculatorButton);
 
+        toggleDivingCounterButton = Button.builder(Component.empty(), button -> {
+            toggleDivingCounter();
+        }).pos(5+getRegularX(),5+getRegularY()+(20+2)*3)
+                .size(137,20)
+                .tooltip(Tooltip.create(Component.translatable("serverutility.diving_counter.tooltip")))
+                .build();
+        setToggleDivingCounterButtonText();
+        this.addRenderableWidget(toggleDivingCounterButton);
+
         toggleForceModEnableButton = Button.builder(Component.empty(), button -> {
                     toggleForceModEnable();
-                }).pos(5+getRegularX(),5+getRegularY()+(20+2)*3)
+                }).pos(5+getRegularX(),5+getRegularY()+(20+2)*4)
                 .size(137,20)
                 .tooltip(Tooltip.create(Component.translatable("serverutility.forcemodenable.tooltip")))
                 .build();
@@ -89,6 +99,22 @@ public class ServerUtilityConfigScreen extends Screen{
         }
         else{
             toggleFeeCalculatorButton.setMessage(Component.translatable("serverutility.fee_calculator").append(
+                    Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
+        }
+    }
+
+    private void toggleDivingCounter(){
+        client.data.toggleDivingCounter = !client.data.toggleDivingCounter;
+        setToggleDivingCounterButtonText();
+        client.settings.save();
+    }
+    private void setToggleDivingCounterButtonText(){
+        if(client.data.toggleDivingCounter){
+            toggleDivingCounterButton.setMessage( Component.translatable("serverutility.diving_counter").append(
+                    Component.translatable("megaphonetimer.config.enable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.GREEN).withBold(true))));
+        }
+        else{
+            toggleDivingCounterButton.setMessage(Component.translatable("serverutility.diving_counter").append(
                     Component.translatable("megaphonetimer.config.disable").withStyle(Style.EMPTY.applyFormat(ChatFormatting.RED).withBold(true))));
         }
     }

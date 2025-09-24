@@ -35,9 +35,8 @@ public class DivingCounterGui {
 
         String timeUntilReward_String = String.format("%02d:%02d", minutes, seconds);
 
-
-
-        render(guiGraphics, timeUntilReward_String, timer, x, y);
+        if(client.data.toggleDivingCounter)
+            render(guiGraphics, timeUntilReward_String, timer, x, y);
     }
 
     private void render(GuiGraphics guiGraphics, String timeUntilReward, Timer timer, int x, int y){
@@ -50,9 +49,9 @@ public class DivingCounterGui {
 
         if(client.divingCounter.isFirstTime) {
             renderList.add(Component.literal("다음 획득까지 약 " + timeUntilReward+" 남음"));
+            renderList.add(Component.literal("(첫 잠수보상 획득은 5~10분 소요)"));
             renderList.add(Component.literal(client.divingCounter.getTargetMoney()+"\uE1BE"+"도달까지 약 "+timeMoneyReward+" 남음"));
             renderList.add(Component.literal(client.divingCounter.getTargetShilling()+"\uE3B7"+"도달까지 약 "+timeShillingReward+" 남음"));
-            renderList.add(Component.literal("(첫 잠수보상 획득은 5~10분 소요)"));
         }
         else{
             renderList.add(Component.literal("다음 획득까지 " + timeUntilReward+" 남음"));
