@@ -3,6 +3,7 @@ package net.pmkjun.mineplanetplus.fishhelper.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishType;
 
@@ -31,7 +32,7 @@ public class FishCache {
         // 경과 시간이 설정된 타임아웃을 초과하면 캐시를 초기화
         if (tick_count >=2) {
             //System.out.println("FishCache 타임아웃! 캐시를 비웁니다."); // 디버깅용 메시지
-            mc.player.displayClientMessage(Component.literal("FishCache 타임아웃! 캐시를 비웁니다."),false);
+            //mc.player.displayClientMessage(Component.literal("FishCache 타임아웃! 캐시를 비웁니다."),false);
             this.clearCache();
         }
         tick_count++;
@@ -90,7 +91,10 @@ public class FishCache {
         int LEGENDARY = 4;
         int MYTHIC = 5;
         FishHelperClient fishhelper = FishHelperClient.getInstance();
-        mc.player.displayClientMessage(Component.literal("디바인이 적용되었습니다!"),false);
+
+        FishHelperMod.LOGGER.info("디바인 저지먼트 적용 감지!");
+        if(fishhelper.data.toggleDivineMessage)
+            mc.player.displayClientMessage(Component.literal("디바인이 적용되었습니다!"),false);
 
         FishType fishType = FishItemList.getFishType(fishname);
 

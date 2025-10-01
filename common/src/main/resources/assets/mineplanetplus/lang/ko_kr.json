@@ -117,7 +117,9 @@
   "fishhelper.config.combocounter.enable.tooltip" : "콤보 카운터가 켜졌습니다. 낚시 스킬 창을 열면 자동으로 최대 콤보가 입력됩니다. 버튼을 눌러 자동 모드로 변경하세요.",
   "fishhelper.config.combocounter.disable.tooltip" : "콤보 카운터가 꺼졌습니다. 버튼을 눌러 켜짐으로 설정하세요.",
   "fishhelper.config.combocounter.onfishing.tooltip" : "콤보 카운터가 자동으로 설정되었습니다. 낚시대를 들었을 때 콤보 카운터가 켜집니다. 낚시 스킬 창을 열면 자동으로 최대 콤보가 입력됩니다. 버튼을 눌러 꺼짐으로 설정하세요.",
-
+  "fishhelper.config.divinemessage.enable" : "디바인 메시지 : 켜짐",
+  "fishhelper.config.divinemessage.disable" : "디바인 메시지 : 꺼짐",
+  "fishhelper.config.divinemessage.tooltip" : "디바인 저지먼트(물고기 두 배 버프) 적용 시 채팅 창에 메시지를 출력합니다.",
 
   "fishhelper.key.category" : "피시 헬퍼",
   "fishhelper.key.open_settings" : "피시 헬퍼 설정열기",

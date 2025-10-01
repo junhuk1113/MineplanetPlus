@@ -77,7 +77,7 @@ public class ApiRefreshManager {
                     });
                 })
                 .exceptionally(error -> {
-                    System.err.println("요청 실패: " + error.getMessage());
+                    //System.err.println("요청 실패: " + error.getMessage());
                     return null;
                 });
     }

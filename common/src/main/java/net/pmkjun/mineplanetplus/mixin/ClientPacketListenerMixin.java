@@ -5,9 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.*;
-import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -16,10 +14,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.TpsTracker;
 import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
-import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
 import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -35,10 +31,6 @@ public abstract class ClientPacketListenerMixin {
 
     @Shadow
     private ClientLevel level;
-
-    @Shadow @Final private UUID id;
-
-    @Shadow public abstract void handleMapItemData(ClientboundMapItemDataPacket packet);
 
     @Inject(at = @At("TAIL"), method = "handleLogin")
     private void triggerJoinEvent(ClientboundLoginPacket packet, CallbackInfo info) {
@@ -138,7 +130,7 @@ public abstract class ClientPacketListenerMixin {
                     if (FishItemList.getFishType(itemStack.getHoverName())!=null && itemStack.getComponents().has(DataComponents.CUSTOM_MODEL_DATA)) {
                         System.out.println("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")");
                         if(itemEntity.position().distanceToSqr(mc.player.position())<1.6) {
-                            mc.player.displayClientMessage(Component.literal("물고기 드랍 감지 : " + itemStack.getHoverName().getString() + "(" + itemStack.getCount() + ")"), false);
+                            //mc.player.displayClientMessage(Component.literal("물고기 드랍 감지 : " + itemStack.getHoverName().getString() + "(" + itemStack.getCount() + ")"), false);
                             fishhelper.fishCache.catchFish(itemStack.getHoverName().getString(), itemStack.getCount());
                         }
 

@@ -53,4 +53,6 @@ public class Data{
     public boolean isTreasureHunterActive = false;
     public boolean isEntropyHoarder = false;
     public String totemSlotString;
+
+    public boolean toggleDivineMessage = false;
 }

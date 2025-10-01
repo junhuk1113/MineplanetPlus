@@ -19,6 +19,7 @@ public class FishHelperConfigScreen extends Screen{
     private final int height;
     private Button toggleCustomTextureButton;
     private Button toggleDeliveryHelperButton;
+    private Button toggleDivineMessageButton;
 
     public FishHelperConfigScreen(Screen parentScreen){
         super(Component.translatable("fishhelper.config.title"));
@@ -27,7 +28,7 @@ public class FishHelperConfigScreen extends Screen{
         this.client = FishHelperClient.getInstance();
 
         width = 147;
-        height = 8 + 22*5;
+        height = 8 + 22*6;
     }
 
     protected void init(){
@@ -66,6 +67,15 @@ public class FishHelperConfigScreen extends Screen{
                 .build();
         setDeliveryHelperButtonText();
         addRenderableWidget(toggleDeliveryHelperButton);
+
+        toggleDivineMessageButton = Button.builder(Component.empty(), btn ->{
+            onDivineMessagePress();
+        }).pos(getRegularX() + 5, getRegularY() + 5 + (20 + 2) * 5)
+                .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.divinemessage.tooltip")))
+                .build();
+        setDivineMessageButtonText();
+        addRenderableWidget(toggleDivineMessageButton);
 
         this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
             mc.setScreen(parentScreen);
@@ -121,6 +131,21 @@ public class FishHelperConfigScreen extends Screen{
         }
         else{
             toggleDeliveryHelperButton.setMessage(Component.translatable("fishhelper.config.deliveryhelper_disable"));
+        }
+    }
+
+    private void onDivineMessagePress(){
+        client.data.toggleDivineMessage = !client.data.toggleDivineMessage;
+        setDivineMessageButtonText();
+        client.configManage.save();
+    }
+
+    private void setDivineMessageButtonText(){
+        if(client.data.toggleDivineMessage){
+            toggleDivineMessageButton.setMessage(Component.translatable("fishhelper.config.divinemessage.enable"));
+        }
+        else{
+            toggleDivineMessageButton.setMessage(Component.translatable("fishhelper.config.divinemessage.disable"));
         }
     }
 
