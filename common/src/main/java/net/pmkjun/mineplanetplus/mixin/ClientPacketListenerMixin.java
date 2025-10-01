@@ -1,28 +1,45 @@
 package net.pmkjun.mineplanetplus.mixin;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundLoginPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.protocol.PacketUtils;
+import net.minecraft.network.protocol.game.*;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
-import net.pmkjun.mineplanetplus.dungeonhelper.util.ClassCategory;
 import net.pmkjun.mineplanetplus.dungeonhelper.util.TpsTracker;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperMod;
+import net.pmkjun.mineplanetplus.fishhelper.item.FishItemList;
 import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
+    private ArrayList<Integer> entityids = new ArrayList<>();
+
+    @Shadow
+    private ClientLevel level;
+
+    @Shadow @Final private UUID id;
+
+    @Shadow public abstract void handleMapItemData(ClientboundMapItemDataPacket packet);
+
     @Inject(at = @At("TAIL"), method = "handleLogin")
     private void triggerJoinEvent(ClientboundLoginPacket packet, CallbackInfo info) {
         Minecraft mc = Minecraft.getInstance();
@@ -78,5 +95,77 @@ public abstract class ClientPacketListenerMixin {
 
 
         return !dungeonhelper.data.toggleDefaultWeaponSound && isHoldingDungeonWeapon && dungeonhelper.ishereDungeon;
+    }
+
+    @Inject(method = "handleContainerSetSlot",at = {@At("HEAD")})
+    public void handleContainerSetSlot(ClientboundContainerSetSlotPacket packet, CallbackInfo ci){
+        Minecraft mc = Minecraft.getInstance();
+        FishHelperClient fishhelper = FishHelperClient.getInstance();
+
+        if(packet.getContainerId() == 0 && mc.isSameThread()) {//netty io 실행 시 실행하지 않음
+            ItemStack itemStack = packet.getItem();
+            try {
+                int current_count = mc.player.containerMenu.getSlot(packet.getSlot()).getItem().getCount();
+
+                //System.out.println("Container Set Slot : " + itemStack.getHoverName().getString() + "(" + current_count + ">>" + itemStack.getCount() + ")");
+                if (FishItemList.getFishType(itemStack.getHoverName())!=null && itemStack.getComponents().has(DataComponents.CUSTOM_MODEL_DATA)) {
+                    if (itemStack.getCount() != current_count){
+                        //mc.player.displayClientMessage(Component.literal("물고기 감지 : " + itemStack.getHoverName().getString() + "(" + current_count + ">>" + itemStack.getCount() + ")"), false);
+                        fishhelper.fishCache.catchFish(itemStack.getHoverName().getString(), current_count, itemStack.getCount());
+                    }
+
+
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    @Inject(method = "handleSetEntityData(Lnet/minecraft/network/protocol/game/ClientboundSetEntityDataPacket;)V", at = {@At("TAIL")})
+    public void handleSetEntityData(ClientboundSetEntityDataPacket clientboundSetEntityDataPacket, CallbackInfo info){
+        Minecraft mc = Minecraft.getInstance();
+        FishHelperClient fishhelper = FishHelperClient.getInstance();
+
+        int index;
+        if(entityids.contains(clientboundSetEntityDataPacket.id()))
+        {
+            index = entityids.indexOf(clientboundSetEntityDataPacket.id());
+            Entity entity = this.level.getEntity(clientboundSetEntityDataPacket.id());
+            if(entity instanceof ItemEntity itemEntity){
+                try{
+                    ItemStack itemStack = itemEntity.getItem();
+                    //mc.player.displayClientMessage(Component.literal("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")"),false);
+                    //System.out.println("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")");
+                    if (FishItemList.getFishType(itemStack.getHoverName())!=null && itemStack.getComponents().has(DataComponents.CUSTOM_MODEL_DATA)) {
+                        System.out.println("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")");
+                        if(itemEntity.position().distanceToSqr(mc.player.position())<1.6) {
+                            mc.player.displayClientMessage(Component.literal("물고기 드랍 감지 : " + itemStack.getHoverName().getString() + "(" + itemStack.getCount() + ")"), false);
+                            fishhelper.fishCache.catchFish(itemStack.getHoverName().getString(), itemStack.getCount());
+                        }
+
+                    }
+                    entityids.remove(index);
+                }
+                catch(NullPointerException e){
+                    //System.out.println("null!");
+                    entityids.remove(index);
+                }
+            }
+
+        }
+    }
+
+    @Inject(method = "handleAddEntity(Lnet/minecraft/network/protocol/game/ClientboundAddEntityPacket;)V", at = {@At("RETURN")})
+    public void handleAddEntity(ClientboundAddEntityPacket clientboundAddEntityPacket, CallbackInfo info){
+        Entity entity = this.level.getEntity(clientboundAddEntityPacket.getId());
+        if(entity == null) return;
+
+        if(entity instanceof ItemEntity){
+            //System.out.println("item entity added");
+            try{
+                entityids.add(clientboundAddEntityPacket.getId());
+            }
+            catch(NullPointerException e){
+            }
+        }
     }
 }

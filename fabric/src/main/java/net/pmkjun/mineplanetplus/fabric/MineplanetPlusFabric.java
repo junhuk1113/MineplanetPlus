@@ -78,6 +78,7 @@ public final class MineplanetPlusFabric implements ModInitializer {
             );
         });
 
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ApiRefreshManager.onClientTick();
         });

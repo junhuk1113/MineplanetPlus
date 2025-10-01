@@ -44,12 +44,14 @@ public abstract class ChatMixin {
 
             if ((message.getString().contains("\uE2F8 ") && (message.getString().contains("을(를) 낚았습니다.") || message.getString().contains("You caught a"))) ||
                     (message.getString().contains("\uE2F8 ") && message.getString().contains("로 변환되었습니다."))) {
+                String fishname ="";
                 FISH:
                 {
                     for (String fishName : FishItemList.MYTHIC_FISH_LIST) {
                         if (message.getString().contains(fishName)) {
                             this.fishhelper.data.fish_Count[MYTHIC]++;
                             this.fishhelper.configManage.save();
+                            fishname = fishName;
                             break FISH;
                         }
                     }
@@ -57,6 +59,7 @@ public abstract class ChatMixin {
                         if (message.getString().contains(fishName)) {
                             this.fishhelper.data.fish_Count[LEGENDARY]++;
                             this.fishhelper.configManage.save();
+                            fishname = fishName;
                             break FISH;
                         }
                     }
@@ -64,6 +67,7 @@ public abstract class ChatMixin {
                         if (message.getString().contains(fishName)) {
                             this.fishhelper.data.fish_Count[EPIC]++;
                             this.fishhelper.configManage.save();
+                            fishname = fishName;
                             break FISH;
                         }
                     }
@@ -71,6 +75,7 @@ public abstract class ChatMixin {
                         if (message.getString().contains(fishName)) {
                             this.fishhelper.data.fish_Count[RARE]++;
                             this.fishhelper.configManage.save();
+                            fishname = fishName;
                             break FISH;
                         }
                     }
@@ -78,6 +83,7 @@ public abstract class ChatMixin {
                         if (message.getString().contains(fishName)) {
                             this.fishhelper.data.fish_Count[UNCOMMON]++;
                             this.fishhelper.configManage.save();
+                            fishname = fishName;
                             break FISH;
                         }
                     }
@@ -85,9 +91,11 @@ public abstract class ChatMixin {
                         if (message.getString().contains(fishName)) {
                             this.fishhelper.data.fish_Count[COMMON]++;
                             this.fishhelper.configManage.save();
+                            fishname = fishName;
                         }
                     }
                 }
+                fishhelper.fishCache.addFish(fishname);
             }
             if (message.getString().contains("\uE2F8 You do not have enough fish for this delivery.")){
                 this.fishhelper.deliveryQuests.pushQuestData();

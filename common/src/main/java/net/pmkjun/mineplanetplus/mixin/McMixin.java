@@ -25,11 +25,9 @@ public class McMixin {
         Level level = mc.level;
         HitResult hit = mc.hitResult;
 
-        // 시선이 블록에 닿았는지 확인합니다.
         if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
             BlockHitResult blockHit = (BlockHitResult) hit;
 
-            // 해당 좌표의 블록이 다이아몬드 블록인지 확인합니다.
             if (level != null && level.getBlockState(blockHit.getBlockPos()).getBlock() == Blocks.OBSERVER) {
 
                 if (mc.player != null && mc.player.getMainHandItem().getItem() == Items.FISHING_ROD) {
@@ -39,7 +37,6 @@ public class McMixin {
                     client.setTotempos(blockHit.getBlockPos().getX(), blockHit.getBlockPos().getZ());
                 }
 
-                // (선택 사항) 원래의 우클릭 동작을 취소하고 싶을 경우 주석을 해제합니다.
                 // ci.cancel();
             }
         }

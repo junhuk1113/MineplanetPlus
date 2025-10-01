@@ -8,10 +8,7 @@ import net.pmkjun.mineplanetplus.fishhelper.file.TotemData;
 import net.pmkjun.mineplanetplus.fishhelper.gui.ComboCatcherGui;
 import net.pmkjun.mineplanetplus.fishhelper.gui.FishCounterGui;
 import net.pmkjun.mineplanetplus.fishhelper.gui.totemCooltimeGui;
-import net.pmkjun.mineplanetplus.fishhelper.util.ComboCatcher;
-import net.pmkjun.mineplanetplus.fishhelper.util.DeliveryQuest;
-import net.pmkjun.mineplanetplus.fishhelper.util.ShareMode;
-import net.pmkjun.mineplanetplus.fishhelper.util.Timer;
+import net.pmkjun.mineplanetplus.fishhelper.util.*;
 
 import java.util.ArrayList;
 
@@ -38,6 +35,9 @@ public class FishHelperClient {
 
     public ComboCatcher comboCatcher;
     private boolean isHoldingFishingRod = false;
+
+    public FishCache fishCache = new FishCache();
+
 
     public FishHelperClient(){
         this.mc = Minecraft.getInstance();
