@@ -103,6 +103,7 @@ public abstract class ClientPacketListenerMixin {
                 if (FishItemList.getFishType(itemStack.getHoverName())!=null && itemStack.getComponents().has(DataComponents.CUSTOM_MODEL_DATA)) {
                     if (itemStack.getCount() != current_count){
                         //mc.player.displayClientMessage(Component.literal("물고기 감지 : " + itemStack.getHoverName().getString() + "(" + current_count + ">>" + itemStack.getCount() + ")"), false);
+                        System.out.println("물고기 감지 : " + itemStack.getHoverName().getString() + "(" + current_count + ">>" + itemStack.getCount() + ")");
                         fishhelper.fishCache.catchFish(itemStack.getHoverName().getString(), current_count, itemStack.getCount());
                     }
 
@@ -128,9 +129,10 @@ public abstract class ClientPacketListenerMixin {
                     //mc.player.displayClientMessage(Component.literal("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")"),false);
                     //System.out.println("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")");
                     if (FishItemList.getFishType(itemStack.getHoverName())!=null && itemStack.getComponents().has(DataComponents.CUSTOM_MODEL_DATA)) {
-                        System.out.println("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")");
+                        //System.out.println("item entity added : "+ itemEntity.getItem().getHoverName().getString() + "("+itemEntity.position().distanceToSqr(mc.player.position())+")");
                         if(itemEntity.position().distanceToSqr(mc.player.position())<1.6) {
                             //mc.player.displayClientMessage(Component.literal("물고기 드랍 감지 : " + itemStack.getHoverName().getString() + "(" + itemStack.getCount() + ")"), false);
+                            System.out.println("물고기 드랍 감지 : " + itemStack.getHoverName().getString() + "(" + itemStack.getCount() + ")");
                             fishhelper.fishCache.catchFish(itemStack.getHoverName().getString(), itemStack.getCount());
                         }
 
