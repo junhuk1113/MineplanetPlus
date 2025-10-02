@@ -77,11 +77,6 @@ public final class MineplanetPlusFabric implements ModInitializer {
                     ).executes(MineplanetPlusFabric::setTargetDivingShilling_noArg)
             );
         });
-
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            ApiRefreshManager.onClientTick();
-        });
     }
     private static int executeSendFee_noArg(CommandContext<FabricClientCommandSource> context) {
         context.getSource().sendFeedback(FeeCalculator.getSendFeeDescriptionMessage());

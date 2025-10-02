@@ -14,7 +14,6 @@ public class ModCommandRegister {
     }
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        ApiRequestManager.onClientTick();
         FishHelperClient.getInstance().fishCache.tick();
     }
 }

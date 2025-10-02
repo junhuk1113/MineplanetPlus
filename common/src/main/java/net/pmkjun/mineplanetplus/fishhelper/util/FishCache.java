@@ -74,6 +74,7 @@ public class FishCache {
             }
             else if(fish_count == 2){
                 addFishCount(fishname);
+                clearCache();
             }
         }
     }
