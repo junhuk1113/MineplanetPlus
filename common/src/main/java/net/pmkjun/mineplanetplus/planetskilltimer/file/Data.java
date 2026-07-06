@@ -1,0 +1,12 @@
+package net.pmkjun.mineplanetplus.planetskilltimer.file;
+
+public class Data {
+    public long[] lastSkillTime = new long[4];
+    public boolean toggleSkilltimer = true;
+    public boolean[] toggleSkills = { true, true, true, true };
+    public int SkillTimerXpos = 0;
+    public int SkillTimerYpos = 1000;
+
+    public boolean toggleAlertSound = true;
+    public boolean toggleTpsCorrection = true;
+}

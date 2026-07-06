@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.pmkjun.mineplanetplus.MineplanetPlus"
+            "net.pmkjun.mineplanetplus.MineplanetPlusFabric"
         ]
     },
     "mixins": [

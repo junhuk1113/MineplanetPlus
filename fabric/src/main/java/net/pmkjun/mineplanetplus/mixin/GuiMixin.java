@@ -1,0 +1,47 @@
+package net.pmkjun.mineplanetplus.mixin;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphicsExtractor; // 26.1: GuiGraphics ➔ GuiGraphicsExtractor
+import net.minecraft.network.chat.Component;
+import net.pmkjun.mineplanetplus.dungeonhelper.DungeonHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.planetskilltimer.PlanetSkillTimerClient;
+import net.pmkjun.mineplanetplus.serverutility.ServerUtilityClient;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Environment(EnvType.CLIENT)
+@Mixin(Gui.class)
+public class GuiMixin {
+
+    @Shadow
+    private Component title;
+
+    @Shadow
+    private Component overlayMessageString;
+
+    private Minecraft minecraft = Minecraft.getInstance();
+    DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
+    FishHelperClient fishhelper = FishHelperClient.getInstance();
+    PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
+    ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
+
+    // 26.1: render ➔ extractRenderState
+    @Inject(method = "extractRenderState", at = {@At("RETURN")})
+    private void renderMixin(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
+        if(!minecraft.options.hideGui && serverutility.isHereMineplanet()) {
+            // 앞서 수정한 extractRenderEvent 호출
+            dungeonhelper.extractRenderEvent(guiGraphics, title, overlayMessageString);
+            fishhelper.extractRenderEvent(guiGraphics);
+            skilltimer.extractRenderEvent(guiGraphics);
+            serverutility.extractRenderEvent(guiGraphics);
+        }
+    }
+}

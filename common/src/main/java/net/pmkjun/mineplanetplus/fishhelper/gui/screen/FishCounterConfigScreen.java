@@ -1,0 +1,197 @@
+package net.pmkjun.mineplanetplus.fishhelper.gui.screen;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.pmkjun.mineplanetplus.fishhelper.FishHelperClient;
+import net.pmkjun.mineplanetplus.fishhelper.util.FishCounterMode;
+import net.pmkjun.mineplanetplus.gui.StretchableBackground;
+import net.pmkjun.mineplanetplus.gui.components.Slider;
+
+public class FishCounterConfigScreen extends Screen{
+    private final Minecraft mc;
+    private final FishHelperClient client;
+    private final StretchableBackground background = new StretchableBackground();
+    private final Screen parentScreen;
+    private Button toggleFishCounterButton;
+    private Button toggleCounterModeButton;
+    private Button toggleEarningCalculatorButton;
+
+    private Slider counterXSlider;
+    private Slider counterYSlider;
+
+    // 변수 섀도잉 방지
+    private final int bgWidth;
+    private final int bgHeight;
+
+    String toggleFishCounter, toggleCounterMode, toggleEarningCalculator;
+
+    public FishCounterConfigScreen(Screen parentScreen) {
+        super(Component.translatable("fishhelper.config.title"));
+        this.parentScreen = parentScreen;
+        this.mc = Minecraft.getInstance();
+        this.client = FishHelperClient.getInstance();
+
+        this.bgWidth = 147;
+        this.bgHeight = 162;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        initButtonkey();
+
+        toggleFishCounterButton = Button.builder(Component.translatable(toggleFishCounter),button -> {
+                    toggleFishCounter();
+                }).pos(getRegularX() + 5, 5+getRegularY())
+                .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.tooltip")))
+                .build();
+        this.addRenderableWidget(toggleFishCounterButton);
+
+        toggleCounterModeButton = Button.builder(Component.translatable(toggleCounterMode),button -> {
+                    toggleCounterMode();
+                }).pos(getRegularX() + 5, 5+getRegularY()+(20+2))
+                .size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.mode.tooltip")))
+                .build();
+        this.addRenderableWidget(toggleCounterModeButton);
+
+        toggleEarningCalculatorButton = Button.builder(Component.translatable(toggleEarningCalculator), button ->{
+                    toggleEarningCalculator();
+                }).pos(getRegularX()+5,5+getRegularY()+(20+2)*2)
+                .size(137,20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter.toggleEarningCalculator.tooltip")))
+                .build();
+        this.addRenderableWidget(toggleEarningCalculatorButton);
+
+        this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.fishcounter_reset"), button ->{
+                    client.resetFishCounter();
+                }).pos(getRegularX()+5, 5+getRegularY()+(20+2)*3).size(137, 20)
+                .tooltip(Tooltip.create(Component.translatable("fishhelper.config.fishcounter_reset.tooltip")))
+                .build());
+
+        counterXSlider = new Slider(getRegularX() + 5, 5+getRegularY()+(20+2)*5, 137, 20, Component.literal("X : "),Component.literal(""),1,1000,this.client.data.Counter_xpos,true){
+            @Override
+            protected void applyValue() {
+                client.data.Counter_xpos = getValueInt();
+                client.configManage.save();
+            }
+        };
+        counterXSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.xslider.tooltip")));
+        this.addRenderableWidget(counterXSlider);
+
+        counterYSlider = new Slider(getRegularX() + 5, 5+getRegularY()+(20+2)*6, 137, 20, Component.literal("Y : "),Component.literal(""),1,1000,this.client.data.Counter_ypos,true){
+            @Override
+            protected void applyValue() {
+                client.data.Counter_ypos = getValueInt();
+                client.configManage.save();
+            }
+        };
+        counterYSlider.setTooltip(Tooltip.create(Component.translatable("mineplanetplus.config.yslider.tooltip")));
+        this.addRenderableWidget(counterYSlider);
+
+        this.addRenderableWidget(Button.builder(Component.translatable("fishhelper.config.backbutton"),button -> {
+            mc.setScreen(parentScreen);
+        }).pos(this.width / 2 - 25, this.height - 30).size(50,20).build());
+    }
+
+    // 26.1: render -> extractRenderState
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick); // 위젯들 자동 추출
+
+        // 26.1: drawString -> text
+        guiGraphics.text(this.font, Component.translatable("fishhelper.config.changepos"), getRegularX() + 5, 4+getRegularY()+(20 + 2)*5-10, 0xFFFFFF);
+    }
+
+    private void toggleFishCounter(){
+        if(client.data.toggleFishCounter){
+            toggleFishCounterButton.setMessage(Component.translatable("fishhelper.config.fishcounter_disable"));
+            client.data.toggleFishCounter = false;
+        } else{
+            toggleFishCounterButton.setMessage(Component.translatable("fishhelper.config.fishcounter_enable"));
+            client.data.toggleFishCounter = true;
+        }
+        client.configManage.save();
+    }
+
+    private void toggleCounterMode(){
+        if(client.data.toggleCounterMode == FishCounterMode.PERCENTAGE){
+            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.count"));
+            client.data.toggleCounterMode = FishCounterMode.COUNT;
+        } else if(client.data.toggleCounterMode == FishCounterMode.COUNT){
+            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.all"));
+            client.data.toggleCounterMode = FishCounterMode.ALL;
+        } else if(client.data.toggleCounterMode == FishCounterMode.ALL){
+            toggleCounterModeButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.mode.percentage"));
+            client.data.toggleCounterMode = FishCounterMode.PERCENTAGE;
+        }
+        client.configManage.save();
+    }
+
+    private void toggleEarningCalculator(){
+        if(client.data.toggleEarningCalculator){
+            toggleEarningCalculatorButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.toggleEarningCalculator_disable"));
+            client.data.toggleEarningCalculator = false;
+        } else{
+            toggleEarningCalculatorButton.setMessage(Component.translatable("fishhelper.config.fishcounter_setting.toggleEarningCalculator_enable"));
+            client.data.toggleEarningCalculator = true;
+        }
+        client.configManage.save();
+    }
+
+    void initButtonkey(){
+        if(client.data.toggleFishCounter){
+            toggleFishCounter = "fishhelper.config.fishcounter_enable";
+        } else {
+            toggleFishCounter = "fishhelper.config.fishcounter_disable";
+        }
+
+        if(client.data.toggleCounterMode == FishCounterMode.PERCENTAGE){
+            toggleCounterMode = "fishhelper.config.fishcounter_setting.mode.percentage";
+        } else if(client.data.toggleCounterMode == FishCounterMode.COUNT){
+            toggleCounterMode = "fishhelper.config.fishcounter_setting.mode.count";
+        } else{
+            toggleCounterMode = "fishhelper.config.fishcounter_setting.mode.all";
+        }
+
+        if(client.data.toggleEarningCalculator){
+            toggleEarningCalculator = "fishhelper.config.fishcounter_setting.toggleEarningCalculator_enable";
+        } else{
+            toggleEarningCalculator = "fishhelper.config.fishcounter_setting.toggleEarningCalculator_disable";
+        }
+    }
+
+    int getRegularX() {
+        return this.width / 2 - this.bgWidth / 2;
+    }
+
+    int getRegularY() {
+        return this.height / 2 - this.bgHeight / 2;
+    }
+
+    @Override
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(mc.level == null) {
+            super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
+        }
+        background.setSize(this.bgWidth, this.bgHeight);
+        background.setPosition(getRegularX(), getRegularY());
+        background.extractRenderState(guiGraphics); // 이전에 수정한 메서드 명칭 반영
+    }
+
+    @Override
+    protected void extractBlurredBackground(GuiGraphicsExtractor guiGraphics) {
+        //pass
+    }
+
+    @Override
+    public void onClose() {
+        this.mc.setScreen(parentScreen);
+    }
+}

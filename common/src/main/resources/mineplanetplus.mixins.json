@@ -5,7 +5,14 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [],
   "client": [
-    "MixinMinecraft"
+    "BossBarHudAccessor",
+    "bossbarMixin",
+    "bossHealthOverlayMixin",
+    "ChatMixin",
+    "ClientPacketListenerMixin",
+    "FishingMixin",
+    "ItemPickupMixin",
+    "ChestMenuMixin"
   ],
   "server": [],
   "injectors": {
