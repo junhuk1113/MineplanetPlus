@@ -23,7 +23,7 @@ import java.util.List;
 @Mixin(BossEvent.class)
 public class bossbarMixin {
     Minecraft mc = Minecraft.getInstance();
-    DungeonHelperClient client = DungeonHelperClient.getInstance();
+    //DungeonHelperClient client = DungeonHelperClient.getInstance();
     ServerUtilityClient serverUtilityClient = ServerUtilityClient.getInstance();
 
     @Shadow
@@ -41,7 +41,7 @@ public class bossbarMixin {
 
             List<Component> actionbarTextList = bossbarComponent.toFlatList();
 
-            for (Component component : actionbarTextList) {
+            /*for (Component component : actionbarTextList) {
                 text = component;
                 FontDescription fontDesc = text.getStyle().getFont();
 
@@ -188,7 +188,7 @@ public class bossbarMixin {
                 }
                 bossbarComponent.copy().append(mergedComponent).setStyle(bossbarComponent.getStyle());
                 name = mergedComponent;
-            }
+            }*/
         }
     }
 }

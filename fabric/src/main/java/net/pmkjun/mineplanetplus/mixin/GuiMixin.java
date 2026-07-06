@@ -28,7 +28,7 @@ public class GuiMixin {
     private Component overlayMessageString;
 
     private Minecraft minecraft = Minecraft.getInstance();
-    DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
+    //DungeonHelperClient dungeonhelper = DungeonHelperClient.getInstance();
     FishHelperClient fishhelper = FishHelperClient.getInstance();
     PlanetSkillTimerClient skilltimer = PlanetSkillTimerClient.getInstance();
     ServerUtilityClient serverutility = ServerUtilityClient.getInstance();
@@ -38,7 +38,7 @@ public class GuiMixin {
     private void renderMixin(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
         if(!minecraft.options.hideGui && serverutility.isHereMineplanet()) {
             // 앞서 수정한 extractRenderEvent 호출
-            dungeonhelper.extractRenderEvent(guiGraphics, title, overlayMessageString);
+            //dungeonhelper.extractRenderEvent(guiGraphics, title, overlayMessageString);
             fishhelper.extractRenderEvent(guiGraphics);
             skilltimer.extractRenderEvent(guiGraphics);
             serverutility.extractRenderEvent(guiGraphics);

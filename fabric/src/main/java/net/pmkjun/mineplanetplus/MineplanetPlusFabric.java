@@ -18,7 +18,7 @@ public class MineplanetPlusFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        DungeonHelper dungeonhelper = new DungeonHelper();
+        //DungeonHelper dungeonhelper = new DungeonHelper();
         FishHelperFabric fishhelper = new FishHelperFabric();
         PlanetSkillTimerFabric skilltimer = new PlanetSkillTimerFabric();
 
@@ -26,7 +26,7 @@ public class MineplanetPlusFabric implements ModInitializer {
         keyMappings.register();
 
         MineplanetPlus.init();
-        dungeonhelper.init();
+        //dungeonhelper.init();
         fishhelper.init();
         skilltimer.init();
         ServerUtility.init();
